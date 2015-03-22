@@ -1,7 +1,6 @@
 == README
 
-This application is intended to provide for storage, management, and reporting
-of municipal codes and individual local laws in New York State.
+This application is intended to provide for storage, management, and reporting of municipal codes and individual local laws in New York State.
 
 == Core Functionality
 
@@ -16,8 +15,20 @@ For town clerk:
   * enable user to edit proposed legislation online or to check it out with
     git and edit it locally
   * enable user to pull a proposed law
-  
+
+== Architectural Overview
+
+The application consists of a client application and backend API.
+The client utilizes AngularJS, Bootstrap, and related javascript tools to provide a responsive user interface.
+
+The backend is a Rails-based service through which legislation is maintained.
+Structured metadata regarding legislation and legislative transactions is stored in a Postgres database, with the legislation itself maintained in git repositories.  Legislation is marked up in AsciiDoc.
+
 == Related Services
 
 * https://data.ny.gov/api/views/55k6-h6qq/rows.json is the source for localities
   that might own codes
+  
+== Inspiration
+
+Gitbook

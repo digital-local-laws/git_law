@@ -1,0 +1,19 @@
+%pagination{ ng: { model: "list.page", change: "setPage(list.page)" },
+  total: { items: "list.totalPages" }, items: { per: { page: "list.perPage" } } }
+%table.table.table-striped
+  %thead
+    %tr
+      %th Name
+      %th{ colspan: 2 } Controls
+  %tbody
+    %tr{ ng: { repeat: "code in list.codes" } }
+      %td {{code.name}}
+      %td
+        %a.btn.btn-default{ ng: { click: 'editCode(code)' } }
+          %span.glyphicon.glyphicon-wrench
+          Settings
+      %td
+        %a.btn.btn-danger{ ng: { click: 'destroyCode(code)' } }
+          %span.glyphicon.glyphicon-remove
+          Remove
+

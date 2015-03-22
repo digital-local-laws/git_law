@@ -1,0 +1,25 @@
+.modal-body
+  %alert{ ng: { repeat: "alert in alerts" }, type: "{{alert.type}}",
+    close:"closeAlert($index)" }= "{{alert.msg}}"
+  %form{ name: "codeForm" }
+    .form-group.has-feedback{ ng: { class: "{'has-error': errors.name || codeForm.name.$invalid, 'has-success': code.name && !errors.name && codeForm.name.$valid }" } }
+      %label.control-label{ for: "name" } Name
+      %input.form-control{ type: 'text', id: "name", name: "name",
+        ng: { model: 'code.name', required: 'true' } }
+      %span.glyphicon.glyphicon-ok.form-control-feedback{ ng: { show: "code.name && !errors.name && !codeForm.name.$invalid" } }
+      %span.glyphicon.glyphicon-remove.form-control-feedback{ ng: { show: "errors.name || codeForm.name.$invalid" } }
+      %span.help-block{ ng: { show: "codeForm.name.$error.required" } }
+        is required
+        %br
+      %span.help-block{ ng: { repeat: "error in errors.name" } }
+        {{error}}
+        %br
+.modal-footer
+  %button.btn.btn-primary{ type: "button", ng: { click: "save(code)",
+  disabled: "codeForm.$invalid" } }
+    %span.glyphicon.glyphicon-ok
+    {{code.id ? 'Update Code Settings' : 'Add Code'}}
+  %button.btn.btn-default{ type: "button", ng: { click: "cancel()" } }
+    %span.glyphicon.glyphicon-remove
+    Cancel
+

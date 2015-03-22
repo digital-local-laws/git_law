@@ -1,0 +1,12 @@
+!!!
+%html
+  %head
+    %title= "Git Law"
+    %base{ href: ( ENV["RAILS_RELATIVE_URL_ROOT"].present? ? ENV["RAILS_RELATIVE_URL_ROOT"] : "/" ) }
+    = stylesheet_link_tag 'application', media: 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+    = favicon_link_tag
+  %body{"ng-app" => "gitLaw"}
+    = yield
+

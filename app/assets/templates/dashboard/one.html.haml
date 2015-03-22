@@ -1,0 +1,42 @@
+%h2= "Transactions"
+.col-lg-8
+  %div{ google: { chart: "" }, chart: "chartObject", style: "LineChart" }
+  %h3= "Number of Transactions"
+  %chartist.ct-chart{ chartist: { data: "countChartData", chart: { type: "Line" } } }
+  %hr
+  %h3= "Average Days to Complete"
+  %chartist.ct-chart{ chartist: { data: "averageChartData", chart: { type: "Line" } } }  
+.col-lg-4
+  %p
+    The chart to the left depicts data.
+    .form-group
+      %label{ for: 'type' }= "Type of License"
+      %select.form-control{ id: 'type', ng: { model: 'type',
+        change: 'refreshData()' } }
+        %option= "A"
+        %option= "AE"
+        %option= "ALARM"
+        %option= "BARBER"
+        %option= "HAB"
+        %option= "HAD"
+        %option= "HI"
+        %option= "HOME INSP"
+        %option= "NOTARY"
+        %option= "PI"
+        %option= "RE"
+        %option= "REA"
+        %option= "REB"
+        %option= "WGP"
+    .form-group
+      %label{ for: 'start' }= "Start From"
+      %input.form-control{ id: 'start', type: 'date', ng: { model: 'start',
+        change: 'refreshData()' } }
+    .form-group
+      %label{ for: 'slices' }= "Number of Weeks"
+      %input.form-control{ id: 'slices', type: 'number', ng: { model: 'slices',
+        change: 'refreshData()' } }
+    .btn-group
+      %a.btn.btn-primary{ ng: { click: 'refreshData()', disabled: "personnelTransactionForm.$invalid" } }
+        Refresh Charts
+        %span.glyphicon.glyphicon-circle-arrow-right
+

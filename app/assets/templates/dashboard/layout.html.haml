@@ -1,0 +1,15 @@
+.container
+  .row
+  .col-sm-3.dashboard-navigation
+    %h4= "Dashboard Navigation"
+    %ul.nav.nav-pills.nav-stacked
+      %li
+        %a{"ui-sref" => "dashboard.one"}= "One"
+      %li
+        %a{"ui-sref" => "dashboard.two"}= "Two"
+      %li
+        %a{"ui-sref" => "dashboard.three"}= "Three"
+  .col-sm-9
+    .dashboard-view-container
+      .dashboard-ui-view{"ui-view" => ""}
+        

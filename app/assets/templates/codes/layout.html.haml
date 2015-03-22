@@ -1,0 +1,14 @@
+.container
+  .row
+    .col-lg-8
+      %h2= "Codes"
+    .col-lg-4
+      %a.btn.btn-primary{ ng: { click: 'newCode()' } }
+        %span.glyphicon.glyphicon-plus
+        Add Code
+  .col-lg-12
+    %alert{ ng: { repeat: "alert in alerts" }, type: "{{alert.type}}",
+      close:"closeAlert($index)" }= "{{alert.msg}}"
+  .codes-view-container.col-lg-12
+    .codes-ui-view{"ui-view" => ""}
+        

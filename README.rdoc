@@ -1,0 +1,23 @@
+== README
+
+This application is intended to provide for storage, management, and reporting
+of municipal codes and individual local laws in New York State.
+
+== Core Functionality
+
+For town clerk:
+
+* extract municipal code from common existing source formats
+* upload municipal code
+* expose current code as 
+* propose local legislation
+  * automatically generate proper identifiers (session/unique identifier)
+  * generate a branch from the current code
+  * enable user to edit proposed legislation online or to check it out with
+    git and edit it locally
+  * enable user to pull a proposed law
+  
+== Related Services
+
+* https://data.ny.gov/api/views/55k6-h6qq/rows.json is the source for localities
+  that might own codes

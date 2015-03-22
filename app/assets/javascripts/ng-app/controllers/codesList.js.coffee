@@ -19,7 +19,7 @@ angular
           ( (code) ->
             $scope.alerts.push( {
               type: 'success',
-              msg: "Code was updated." } )
+              msg: "Code settings were updated." } )
             $scope.reloadList() ),
           ( () -> false ) )
       $scope.destroyCode = (code) ->

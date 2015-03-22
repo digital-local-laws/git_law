@@ -32,19 +32,22 @@ Then(/^I should see the code was removed$/) do
   expect( page ).to have_text "Code was removed."
 end
 
-When(/^I edit the code$/) do
-  find(:xpath,'//a[contains(.,"Edit")]').click
+When(/^I edit the code settings$/) do
+  find(:xpath,'//a[contains(.,"Settings")]').click
   within(".modal-body") do
     fill_in "Name", with: "Tompkins County Code"
-    find(:xpath,'//button[contains(.,"Update code settings")]').click
+    find(:xpath,'//button[contains(.,"Update Code Settings")]').click
   end
 end
 
-Then(/^I should see the code was updated$/) do
-  expect( page ).to have_text "Code was updated."
+Then(/^I should see the code settings were updated$/) do
+  expect( page ).to have_text "Code settings were updated."
 end
 
-Then(/^the code should be updated$/) do
-  # TODO check for updated title in web page and database
+Then(/^the code settings should be updated$/) do
+  within("tbody") do
+    expect( page ).to have_text "Tompkins County Code"
+    expect( Code.first.name ).to eql "Tompkins County Code"
+  end
 end
 

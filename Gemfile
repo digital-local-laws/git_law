@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 gem 'rails', '4.2.0'
 gem 'pg'
 gem 'sass-rails', '~> 5.0'
@@ -38,7 +37,8 @@ group :development, :test do
   gem 'debugger'
   gem 'web-console', '~> 2.0'
   gem 'spring'
-  gem 'rspec-rails', require: false
+  gem 'rspec'
+  gem 'rspec-rails'
   gem 'cucumber-rails', require: false
   gem 'selenium-webdriver', require: false
   gem 'poltergeist', require: false

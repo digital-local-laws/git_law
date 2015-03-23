@@ -1,7 +1,7 @@
 Feature: Uploading codes
-  In order to get data into the dashboards
-  As a data preparer
-  I want to upload data
+  In order to house local laws
+  As a local law repositary
+  I want to set up and manage code spaces
   @javascript
   Scenario: Add code
     Given I add a code

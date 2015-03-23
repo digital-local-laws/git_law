@@ -5,7 +5,7 @@ class Code < ActiveRecord::Base
   before_validation :set_file_name
     
   def self.repo_root
-    "#{::Rails.root}/#{::Rails.env}/codes"
+    "#{::Rails.root}/db/#{::Rails.env}/codes"
   end
   
   def repo_path
@@ -15,7 +15,7 @@ class Code < ActiveRecord::Base
   
   def working_directory_path
     raise "Code not yet persisted" unless persisted?
-    "#{::Rails.root}/#{::Rails.env}/codes_working/#{id}.git"
+    "#{::Rails.root}/db/#{::Rails.env}/codes_working/#{id}.git"
   end
   
   private

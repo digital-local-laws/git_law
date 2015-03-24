@@ -19,7 +19,7 @@ class Code < ActiveRecord::Base
   
   def working_directory_path
     raise "Code not yet persisted" unless persisted?
-    "#{Code.repos_root}/codes_working/#{id}.git"
+    "#{Code.repos_root}/codes_working/#{id}"
   end
   
   # Returns reference to canonical repository for the code
@@ -45,16 +45,16 @@ class Code < ActiveRecord::Base
     FileUtils.mkdir_p path
     @working_directory = Git.init path
     repo
-    working_directory.add_remote repo_path, 'origin'
+    working_directory.add_remote 'origin', repo_path
     # Try to fast-forward to origin/master
-    origin_master = working_directory.branches.remote[:master]
-    if origin_master
-      working_directory.pull origin_master
+    if working_directory.branches['origin/master']
+      working_directory.pull 'origin', 'master'
     # Otherwise, make stub commit and push to origin/master
     else
       FileUtils.cp_r "#{::Rails.root}/lib/assets/code", path
       working_directory.add '.'
       working_directory.commit 'Set up initial stub for legislation.'
+      working_directory.push 'origin', 'master'
     end
     working_directory
   end

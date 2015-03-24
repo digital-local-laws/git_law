@@ -22,3 +22,5 @@
 /db/*.zip
 /db/asc-dump
 /db/dump
+/db/development
+/db/test

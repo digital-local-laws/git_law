@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Code, type: :model do
-  context "basic" do
+  context "validation" do
     it "should not save without a name" do
       code = build(:code, name: nil)
       expect( code.save ).to be false
@@ -16,6 +16,14 @@ RSpec.describe Code, type: :model do
     it "should properly format a file_name" do
       code = create(:code, name: " Tompkins  County Code ")
       expect( code.file_name ).to eq "tompkins-county-code"
+    end
+  end
+  context "repositories" do
+    let(:code) { create :code }
+    it "should initialize a canonical repo with repo()" do
+      expect( File.exist?(code.repo_path) ).to be false
+      code.repo
+      expect( File.exist?(code.repo_path) ).to be true
     end
   end
 end

@@ -3,9 +3,13 @@ class Code < ActiveRecord::Base
   validates :file_name, presence: true, uniqueness: true
   
   before_validation :set_file_name
-    
+  
+  def self.repos_root
+    "#{::Rails.root}/db/#{::Rails.env}"
+  end
+  
   def self.repo_root
-    "#{::Rails.root}/db/#{::Rails.env}/codes"
+    "#{repos_root}/codes"
   end
   
   def repo_path
@@ -15,15 +19,7 @@ class Code < ActiveRecord::Base
   
   def working_directory_path
     raise "Code not yet persisted" unless persisted?
-    "#{::Rails.root}/db/#{::Rails.env}/codes_working/#{id}.git"
-  end
-  
-  private
-  
-  def set_file_name
-    return unless name
-    self.file_name = name.downcase.gsub(/[^a-z0-9]/,'-').squeeze('-').
-      gsub(/^-/,'').gsub(/-$/,'')
+    "#{Code.repos_root}/codes_working/#{id}.git"
   end
   
   # Returns reference to canonical repository for the code
@@ -34,7 +30,7 @@ class Code < ActiveRecord::Base
     path = repo_path
     return @repo = Git.open( path ) if File.exist? path
     # Otherwise, we need to create the repo
-    mkdir_p Code.repo_root
+    FileUtils.mkdir_p Code.repo_root
     @repo = Git.init path, bare: true
   end
   
@@ -62,4 +58,12 @@ class Code < ActiveRecord::Base
     end
     working_directory
   end
+
+  private
+  
+  def set_file_name
+    return unless name
+    self.file_name = name.downcase.gsub(/[^a-z0-9]/,'-').squeeze('-').
+      gsub(/^-/,'').gsub(/-$/,'')
+  end  
 end

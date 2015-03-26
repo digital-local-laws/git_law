@@ -8,24 +8,34 @@ angular
     $stateProvider
       .state 'home', {
         url: '/',
-        templateUrl: 'home.html',
-        controller: 'HomeCtrl'
+        views:
+          "navigation":
+            templateUrl: 'navbar.html'
+            controller: 'NavigationCtrl'
+          "content":
+            templateUrl: 'home.html'
+            controller: 'HomeCtrl'
       }
-      .state 'dashboard', {
-        abstract: true,
-        url: '/dashboard',
-        templateUrl: 'dashboard/layout.html'
-      }
-      .state 'dashboard.one', {
-        url: '',
-        templateUrl: 'dashboard/one.html',
-        controller: 'DashboardCtrl'
+      .state 'signin', {
+        url: '/sign-in',
+        views:
+          "navigation":
+            templateUrl: 'navbar.html'
+            controller: 'NavigationCtrl'
+          "content":
+            templateUrl: 'userSession/new.html'
+            controller: 'UserSessionCtrl'
       }
       .state 'codes', {
         abstract: true,
         url: '/codes',
-        templateUrl: 'codes/layout.html',
-        controller: 'CodesCtrl'
+        views:
+          "navigation":
+            templateUrl: 'navbar.html'
+            controller: 'NavigationCtrl'
+          "content":
+            templateUrl: 'codes/layout.html'
+            controller: 'CodesCtrl'
       }
       .state 'codes.one', {
         url: '',

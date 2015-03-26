@@ -31,6 +31,7 @@ gem 'statsample-optimization'
 gem 'git'
 gem 'asciidoctor'
 gem 'api-pagination'
+gem 'omniauth'
 group :development, :test do
   gem 'teaspoon'
   gem 'phantomjs'
@@ -40,6 +41,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'cucumber-rails', require: false
+  gem 'spring-commands-cucumber'
   gem 'selenium-webdriver', require: false
   gem 'poltergeist', require: false
   gem 'factory_girl_rails'

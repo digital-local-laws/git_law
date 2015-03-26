@@ -1,5 +1,5 @@
 !!!
-%html
+%html{ ng: { app: "gitLaw" } }
   %head
     %title= "Git Law"
     %base{ href: ( ENV["RAILS_RELATIVE_URL_ROOT"].present? ? ENV["RAILS_RELATIVE_URL_ROOT"] : "/" ) }
@@ -7,6 +7,6 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
     = favicon_link_tag
-  %body{"ng-app" => "gitLaw"}
+  %body
     = yield
 

@@ -1,4 +1,5 @@
 .container
   %h1= "NYS Department of State Performance Management Dashboard"
+  {{$root.currentUser.id}}
   %ul
     %li{"ng-repeat" => "thing in things"}= "{{thing}}"

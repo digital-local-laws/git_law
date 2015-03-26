@@ -4,8 +4,9 @@ Rails.application.routes.draw do
     match "/codes/page/:page(.:format)", to: "codes#index", via: :get,
       constraints: { page: /[0-9]+/ }
   end
-#  devise_for :users, ActiveAdmin::Devise.config
-#  ActiveAdmin.routes(self)
+  get "/user_session(.:format)", to: "user_session#show"
+  delete "/user_session(.:format)", to: "user_session#destroy"
+  post '/auth/:provider/callback', to: "user_session#create"
   root 'application#index'
   get '*path' => 'application#index'
 end

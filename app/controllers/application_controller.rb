@@ -8,12 +8,20 @@ class ApplicationController < ActionController::Base
   
   after_filter :set_csrf_cookie_for_ng
   
-  helper_method :camel?
+  helper_method :camel?, :current_user
   
   def index
   end
   
   protected
+  
+  def current_user=(user)
+    session[:current_user_id] = user.id
+  end
+  
+  def current_user
+    @current_user ||= session[:current_user_id] && User.find( session[:current_user_id] )
+  end
   
   # Pass XSS token for angular application
   def set_csrf_cookie_for_ng

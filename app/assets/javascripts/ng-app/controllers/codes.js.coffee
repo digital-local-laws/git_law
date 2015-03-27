@@ -19,8 +19,8 @@ angular
         $scope.alerts.splice index, 1
       $scope.newCode = ->
         modalInstance = $modal.open( {
-          templateUrl: 'code/new.html',
-          controller: 'CodeCtrl',
+          templateUrl: 'codeSettings/new.html',
+          controller: 'CodeSettingsCtrl',
           resolve: {
             code: ( -> new Code ) } } )
         modalInstance.result.then(

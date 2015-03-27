@@ -1,0 +1,27 @@
+.modal-body
+  %alert{ ng: { repeat: "alert in alerts" }, type: "{{alert.type}}",
+    close:"closeAlert($index)" }= "{{alert.msg}}"
+  %form{ name: "proposedLawForm" }
+    .form-group.has-feedback{ ng: { class: "{'has-error': errors.description || proposedLawForm.description.$invalid, 'has-success': proposedLaw.description && !errors.description && proposedLawForm.description.$valid }" } }
+      %label.control-label{ for: "description" } Description
+      %input.form-control{ type: 'text', id: "description", name: "description",
+        ng: { model: 'proposedLaw.description', required: 'true' } }
+      %span.glyphicon.glyphicon-ok.form-control-feedback{ ng: { show: "proposedLaw.description && !errors.description && !proposedLawForm.description.$invalid" } }
+      %span.glyphicon.glyphicon-remove.form-control-feedback{ ng: { show: "errors.description || proposedLawForm.description.$invalid" } }
+      %span.help-block
+        Briefly describe to purpose and effect of the proposed law.
+      %span.help-block{ ng: { show: "proposedLawForm.description.$error.required" } }
+        is required
+        %br
+      %span.help-block{ ng: { repeat: "error in errors.description" } }
+        {{error}}
+        %br
+.modal-footer
+  %button.btn.btn-primary{ type: "button", ng: { click: "save(proposedLaw)",
+  disabled: "proposedLawForm.$invalid" } }
+    %span.glyphicon.glyphicon-ok
+    {{proposedLaw.id ? 'Update Proposed Law Settings' : 'Add Proposed Law'}}
+  %button.btn.btn-default{ type: "button", ng: { click: "cancel()" } }
+    %span.glyphicon.glyphicon-remove
+    Cancel
+

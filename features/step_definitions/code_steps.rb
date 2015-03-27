@@ -51,3 +51,6 @@ Then(/^the code settings should be updated$/) do
   end
 end
 
+Given(/^a code exists$/) do
+  @code = create(:code)
+end

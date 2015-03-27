@@ -1,0 +1,12 @@
+.container
+  %h3.col-lg-6
+    Proposed Laws
+  .col-lg-2
+    %a.btn.btn-primary{ ng: { click: 'proposeLaw(code)' } }
+      %span.glyphicon.glyphicon-plus{ aria: { hidden: true } }
+      Propose a Law
+.container
+  %alert{ ng: { repeat: "alert in alerts" }, type: "{{alert.type}}",
+    close:"closeAlert($index)" }= "{{alert.msg}}"
+%div{ ui: { view: true } }
+

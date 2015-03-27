@@ -11,8 +11,8 @@ angular
               $scope.list.perPage = r['x-per-page'] ) )
       $scope.editCode = (code) ->
         modalInstance = $modal.open( {
-          templateUrl: 'code/edit.html',
-          controller: 'CodeCtrl',
+          templateUrl: 'codeSettings/edit.html',
+          controller: 'CodeSettingsCtrl',
           resolve: {
             code: ( -> code ) } } )
         modalInstance.result.then(

@@ -3,19 +3,18 @@
 %table.table.table-striped
   %thead
     %tr
-      %th Name
+      %th Description
       %th{ colspan: 2 } Controls
   %tbody
-    %tr{ ng: { repeat: "code in list.codes" } }
+    %tr{ ng: { repeat: "law in list.proposedLaws" } }
       %td
-        %a{ ui: { sref: "code.proposed.one({codeId: code.id})" } }
-          {{code.name}}
+        {{law.description}}
       %td
-        %a.btn.btn-default{ ng: { click: 'editCode(code)' } }
+        %a.btn.btn-default{ ng: { click: 'editProposedLaw(law)' } }
           %span.glyphicon.glyphicon-wrench
           Settings
       %td
-        %a.btn.btn-danger{ ng: { click: 'destroyCode(code)' } }
+        %a.btn.btn-danger{ ng: { click: 'destroyProposedLaw(law)' } }
           %span.glyphicon.glyphicon-remove
           Remove
 

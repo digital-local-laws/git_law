@@ -1,4 +1,6 @@
 class Code < ActiveRecord::Base
+  has_many :proposed_laws, dependent: :restrict_with_error
+  
   validates :name, presence: true, uniqueness: true
   validates :file_name, presence: true, uniqueness: true
   

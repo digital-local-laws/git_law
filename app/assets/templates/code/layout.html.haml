@@ -1,0 +1,11 @@
+.container
+  %h2.col-lg-9
+    %a{ ui: { sref: "code.show({codeId: code.id})" } }
+      {{code.name}}
+.container
+  .col-lg-9{ ui: { view: "pane" } }
+  %ul.nav.nav-pills.nav-stacked.col-lg-3
+    %li{ ng: { repeat: "tab in tabs" }, ui: { sref: { active: "active" } } }
+      %a{ ui: { sref: ".{{tab[0]}}.one" } }
+        {{tab[1]}}
+

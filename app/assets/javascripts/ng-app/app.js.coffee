@@ -26,6 +26,30 @@ angular
             templateUrl: 'userSession/new.html'
             controller: 'UserSessionCtrl'
       }
+      .state 'code', {
+        abstract: true,
+        url: '/codes/:codeId',
+        views:
+          "navigation":
+            templateUrl: 'navbar.html'
+            controller: 'NavigationCtrl'
+          "content":
+            templateUrl: 'code/layout.html'
+            controller: 'CodeCtrl'
+      }
+      .state 'code.proposed', {
+        abstract: true,
+        url: '',
+        views:
+          "pane":
+            templateUrl: 'code/proposed.html'
+            controller: 'ProposedLawsCtrl'
+      }
+      .state 'code.proposed.one', {
+        url: '',
+        templateUrl: 'code/proposedList.html',
+        controller: 'ProposedLawsListCtrl'
+      }
       .state 'codes', {
         abstract: true,
         url: '/codes',

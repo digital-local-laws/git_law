@@ -1,23 +1,12 @@
 angular
   .module 'gitLaw'
-  .controller 'NavigationCtrl', [ '$scope', '$rootScope', '$http',
-  ($scope, $rootScope, $http) ->
+  .controller 'NavigationCtrl', [ 'session', '$scope',
+  (session, $scope) ->
     $scope.currentUser = ->
-      return $rootScope.currentUser if $rootScope.currentUser
-      $scope.checkSession()
+      session.currentUser()
     $scope.checkSession = ->
-      success = (data) ->
-        $rootScope.currentUser = data
-      error = () ->
-        $rootScope.currentUser = { }
-      $http.get('/user_session.json').success(success).error(error)
+      session.checkSession()
     $scope.signOut = ->
-      console.log "Start"
-      success = () ->
-        $rootScope.currentUser = { }
-      error = () ->
-        false
-      $http.delete('/user_session.json').success(success).error(error)
-      console.log "Finish"
+      session.signOut()
     $scope.checkSession()
   ]

@@ -42,6 +42,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'cucumber-rails', require: false
   gem 'spring-commands-cucumber'
+  gem 'spring-commands-rspec'
+  gem 'guard-rspec'
+  gem 'guard-cucumber'
   gem 'selenium-webdriver', require: false
   gem 'poltergeist', require: false
   gem 'factory_girl_rails'

@@ -9,3 +9,10 @@ Feature: Manage local laws
     And I visit the code's page
     When I propose a law
     Then the proposed law should be added
+  @javascript
+  Scenario: Remove a proposed law
+    Given I proposed a law
+    When I remove the proposed law
+    Then I should see the proposed law was removed
+    And the proposed law should not be recorded in the database
+

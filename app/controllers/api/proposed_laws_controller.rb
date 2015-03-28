@@ -81,7 +81,7 @@ module Api
     
     def proposed_law_params
       @proposed_law_params ||= params.
-        permit(:description)
+        permit(:title)
     end
   end
 end

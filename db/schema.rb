@@ -27,14 +27,15 @@ ActiveRecord::Schema.define(version: 20150327185644) do
   add_index "codes", ["name"], name: "index_codes_on_name", unique: true, using: :btree
 
   create_table "proposed_laws", force: :cascade do |t|
-    t.integer  "code_id",     null: false
-    t.integer  "user_id",     null: false
-    t.string   "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "code_id",    null: false
+    t.integer  "user_id",    null: false
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "proposed_laws", ["code_id"], name: "index_proposed_laws_on_code_id", using: :btree
+  add_index "proposed_laws", ["title"], name: "index_proposed_laws_on_title", using: :btree
   add_index "proposed_laws", ["user_id"], name: "index_proposed_laws_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|

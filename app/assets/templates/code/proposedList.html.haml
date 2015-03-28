@@ -3,12 +3,12 @@
 %table.table.table-striped
   %thead
     %tr
-      %th Description
+      %th Title
       %th{ colspan: 2 } Controls
   %tbody
     %tr{ ng: { repeat: "law in list.proposedLaws" } }
       %td
-        {{law.description}}
+        {{law.title}}
       %td
         %a.btn.btn-default{ ng: { click: 'editProposedLaw(law)' } }
           %span.glyphicon.glyphicon-wrench

@@ -15,4 +15,8 @@ Feature: Manage local laws
     When I remove the proposed law
     Then I should see the proposed law was removed
     And the proposed law should not be recorded in the database
-
+  @selenium
+  Scenario: Modify proposed law settings
+    Given I proposed a law
+    When I edit the proposed law settings
+    Then the proposed law settings should be updated

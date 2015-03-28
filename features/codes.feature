@@ -14,7 +14,7 @@ Feature: Uploading codes
     Then I should see the code was removed
     And the code should not be recorded in the database
   @selenium
-  Scenario: Modify code
+  Scenario: Modify code settings
     Given I added a code
     When I edit the code settings
     Then I should see the code settings were updated

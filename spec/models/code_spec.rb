@@ -25,10 +25,10 @@ RSpec.describe Code, type: :model do
       code.repo
       expect( File.exist?(code.repo_path) ).to be true
     end
-    it "should create a canonical working directory with working_directory()" do
-      expect( File.exist?(code.working_directory_path) ).to be false
-      code.working_directory
-      expect( File.exist?(code.working_directory_path) ).to be true
+    it "should create a canonical working directory with working_repo()" do
+      expect( File.exist?(code.working_repo_path) ).to be false
+      code.working_repo
+      expect( File.exist?(code.working_repo_path) ).to be true
     end
   end
 end

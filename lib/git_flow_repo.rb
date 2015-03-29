@@ -9,8 +9,14 @@ class ActiveRecord::Base
     define_singleton_method(:repo_root) do
       "#{repos_root}/#{repo_root_part}"
     end
+    cattr_accessor :working_repo_root_part
+    self.working_repo_root_part = (options[:working_repo_root_part] ||
+      "working_#{to_s.underscore}")
+    define_singleton_method(:working_repo_root) do
+      "#{repos_root}/#{working_repo_root_part}"
+    end
     include GitFlowRepo
-    define_model_callbacks :create_repo, :create_working_directory
+    define_model_callbacks :create_repo, :create_working_repo
   end
 end
 
@@ -20,9 +26,9 @@ module GitFlowRepo
     "#{self.class.repo_root}/#{id}.git"
   end
   
-  def working_directory_path
+  def working_repo_path
     raise "#{self.class.to_s} not yet persisted" unless persisted?
-    "#{self.class.repos_root}/codes_working/#{id}"
+    "#{self.class.working_repo_root}/#{id}"
   end
   
   # Returns reference to public repository
@@ -37,14 +43,14 @@ module GitFlowRepo
   end
   
   # Returns reference to working repo which tracks the canonical repository
-  def working_directory
-    # Return working_directory reference if already available
-    return @working_directory if @working_directory
-    path = working_directory_path
-    # Instantiate working_directory reference if already exists
-    return @working_directory = Git.open( path ) if File.exist? path
+  def working_repo
+    # Return working_repo reference if already available
+    return @working_repo if @working_repo
+    path = working_repo_path
+    # Instantiate working_repo reference if already exists
+    return @working_repo = Git.open( path ) if File.exist? path
     # Otherwise, we need to create the working directory
-    create_working_directory
+    create_working_repo
   end
   
   private
@@ -56,14 +62,14 @@ module GitFlowRepo
     end
   end
   
-  def create_working_directory
-    run_callbacks :create_working_directory do
-      path = working_directory_path
+  def create_working_repo
+    run_callbacks :create_working_repo do
+      path = working_repo_path
       FileUtils.mkdir_p path
-      @working_directory = Git.init path
+      @working_repo = Git.init path
       repo
-      working_directory.add_remote 'origin', repo_path
-      working_directory
+      working_repo.add_remote 'origin', repo_path
+      working_repo
     end
   end
 end

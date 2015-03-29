@@ -10,21 +10,22 @@ class ActiveRecord::Base
       "#{repos_root}/#{repo_root_part}"
     end
     include GitFlowRepo
+    define_model_callbacks :create_repo, :create_working_directory
   end
 end
 
 module GitFlowRepo
   def repo_path
     raise "#{self.class.to_s} not yet persisted" unless persisted?
-    "#{Code.repo_root}/#{id}.git"
+    "#{self.class.repo_root}/#{id}.git"
   end
   
   def working_directory_path
     raise "#{self.class.to_s} not yet persisted" unless persisted?
-    "#{Code.repos_root}/codes_working/#{id}"
+    "#{self.class.repos_root}/codes_working/#{id}"
   end
   
-  # Returns reference to canonical repository for the code
+  # Returns reference to public repository
   def repo
     # Return repo reference if already available
     return @repo if @repo
@@ -32,11 +33,10 @@ module GitFlowRepo
     path = repo_path
     return @repo = Git.open( path ) if File.exist? path
     # Otherwise, we need to create the repo
-    FileUtils.mkdir_p Code.repo_root
-    @repo = Git.init path, bare: true
+    create_repo
   end
   
-  # Returns reference to working directory which tracks the canonical repository
+  # Returns reference to working repo which tracks the canonical repository
   def working_directory
     # Return working_directory reference if already available
     return @working_directory if @working_directory
@@ -44,20 +44,26 @@ module GitFlowRepo
     # Instantiate working_directory reference if already exists
     return @working_directory = Git.open( path ) if File.exist? path
     # Otherwise, we need to create the working directory
-    FileUtils.mkdir_p path
-    @working_directory = Git.init path
-    repo
-    working_directory.add_remote 'origin', repo_path
-    # Try to fast-forward to origin/master
-    if working_directory.branches['origin/master']
-      working_directory.pull 'origin', 'master'
-    # Otherwise, make stub commit and push to origin/master
-    else
-      FileUtils.cp_r "#{::Rails.root}/lib/assets/code", path
-      working_directory.add '.'
-      working_directory.commit 'Set up initial stub for legislation.'
-      working_directory.push 'origin', 'master'
+    create_working_directory
+  end
+  
+  private
+  
+  def create_repo
+    run_callbacks :create_repo do
+      FileUtils.mkdir_p self.class.repo_root
+      @repo = Git.init repo_path, bare: true
     end
-    working_directory
+  end
+  
+  def create_working_directory
+    run_callbacks :create_working_directory do
+      path = working_directory_path
+      FileUtils.mkdir_p path
+      @working_directory = Git.init path
+      repo
+      working_directory.add_remote 'origin', repo_path
+      working_directory
+    end
   end
 end

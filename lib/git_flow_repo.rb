@@ -68,7 +68,6 @@ module GitFlowRepo
       FileUtils.mkdir_p path
       @working_repo = Git.init path
       repo
-      working_repo.add_remote 'origin', repo_path
       working_repo
     end
   end

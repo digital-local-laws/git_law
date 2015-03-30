@@ -14,6 +14,9 @@ class Code < ActiveRecord::Base
   private
   
   def initialize_working_repo
+    # Track the public-facing canonical repo
+    working_repo.add_remote 'origin', repo_path
+    working_repo
     # Try to fast-forward to origin/master
     if working_repo.branches['origin/master']
       working_repo.pull 'origin', 'master'

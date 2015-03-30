@@ -19,4 +19,17 @@ RSpec.describe ProposedLaw, type: :model do
       expect( proposed_law.errors[:code].first ).to include "can't be blank"
     end
   end
+  context "repositories" do
+    let(:proposed_law) { create :proposed_law }
+    it "should initialize a canonical repo with repo()" do
+      expect( File.exist?(proposed_law.repo_path) ).to be false
+      proposed_law.repo
+      expect( File.exist?(proposed_law.repo_path) ).to be true
+    end
+    it "should create a canonical working directory with working_repo()" do
+      expect( File.exist?(proposed_law.working_repo_path) ).to be false
+      proposed_law.working_repo
+      expect( File.exist?(proposed_law.working_repo_path) ).to be true
+    end
+  end
 end

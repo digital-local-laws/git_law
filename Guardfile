@@ -76,11 +76,11 @@ guard :rspec, cmd: "spring rspec" do
   end
 end
 
-guard "cucumber", cmd: "spring cucumber", bundler: false do
-  watch(%r{^features/.+\.feature$})
-  watch(%r{^features/support/.+$})          { "features" }
+#guard "cucumber", cmd: "spring cucumber", bundler: false do
+#  watch(%r{^features/.+\.feature$})
+#  watch(%r{^features/support/.+$})          { "features" }
 
-  watch(%r{^features/step_definitions/(.+)_steps\.rb$}) do |m|
-    Dir[File.join("**/#{m[1]}.feature")][0] || "features"
-  end
-end
+#  watch(%r{^features/step_definitions/(.+)_steps\.rb$}) do |m|
+#    Dir[File.join("**/#{m[1]}.feature")][0] || "features"
+#  end
+#end

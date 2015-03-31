@@ -15,10 +15,12 @@ Then(/^the proposed law should be added$/) do
 end
 
 Given(/^I proposed a law$/) do
-  step "I log in"
   step "a code exists"
+  step "I log in"
   step "I visit the code's page"
   step "I propose a law"
+  expect( page ).to have_text 'Proposed law was added.'
+  @proposed_law = ProposedLaw.first
 end
 
 When(/^I remove the proposed law$/) do
@@ -45,4 +47,16 @@ Then(/^the proposed law settings should be updated$/) do
   expect( ProposedLaw.first.title ).to eq "Authorizing formation of Office of Chief Obstructionist"
 end
 
+When(/^I go to edit the proposed law$/) do
+  click_link "#{@proposed_law.title}"
+end
 
+When(/^I add a section$/) do
+  click_button "Add Section"
+  fill_in "Title", with: "Purpose"
+  click_button "Add Section"
+end
+
+Then(/^the section should be added$/) do
+  expect( page ).to have_text "Section 1. Purpose"
+end

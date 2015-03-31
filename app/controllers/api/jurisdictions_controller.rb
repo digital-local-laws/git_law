@@ -1,9 +1,9 @@
 module Api
-  class CodesController < ApplicationController
+  class JurisdictionsController < ApplicationController
     before_filter :decamelize_params!
-    expose :code
-    expose( :unpaginated_codes ) { Code.order(:name) }
-    helper_method :codes
+    expose :jurisdiction
+    expose( :unpaginated_jurisdictions ) { Jurisdiction.order(:name) }
+    helper_method :jurisdictions
     
     def index
       respond_to do |format|
@@ -18,10 +18,10 @@ module Api
     end
 
     def create
-      code.attributes = code_params
+      jurisdiction.attributes = jurisdiction_params
       respond_to do |format|
         format.json do
-          if code.save
+          if jurisdiction.save
             render 'show', status: 201
           else
             render 'errors', status: 422
@@ -31,10 +31,10 @@ module Api
     end
     
     def update
-      code.attributes = code_params
+      jurisdiction.attributes = jurisdiction_params
       respond_to do |format|
         format.json do
-          if code.save
+          if jurisdiction.save
             render nothing: true, status: 204
           else
             render 'errors', status: 422
@@ -46,7 +46,7 @@ module Api
     def destroy
       respond_to do |format|
         format.json do
-          if code.destroy
+          if jurisdiction.destroy
             render nothing: true, status: 204
           else
             render nothing: true, status: 500
@@ -57,12 +57,12 @@ module Api
         
     private
     
-    def codes
-      @codes ||= paginate unpaginated_codes
+    def jurisdictions
+      @jurisdictions ||= paginate unpaginated_jurisdictions
     end
     
-    def code_params
-      @code_params ||= params.
+    def jurisdiction_params
+      @jurisdiction_params ||= params.
         permit(:name)
     end
   end

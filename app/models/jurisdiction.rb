@@ -1,6 +1,6 @@
-class Code < ActiveRecord::Base
+class Jurisdiction < ActiveRecord::Base
   has_many :proposed_laws, dependent: :restrict_with_error,
-    inverse_of: :code
+    inverse_of: :jurisdiction
   
   validates :name, presence: true, uniqueness: true
   validates :file_name, presence: true, uniqueness: true
@@ -22,7 +22,7 @@ class Code < ActiveRecord::Base
       working_repo.pull 'origin', 'master'
     # Otherwise, make stub commit and push to origin/master
     else
-      FileUtils.cp_r "#{::Rails.root}/lib/assets/code", working_repo_path
+      FileUtils.cp_r "#{::Rails.root}/lib/assets/jurisdiction", working_repo_path
       working_repo.add '.'
       working_repo.commit 'Set up initial stub for legislation.'
       working_repo.push 'origin', 'master'

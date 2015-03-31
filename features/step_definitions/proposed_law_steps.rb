@@ -1,5 +1,5 @@
-Given(/^I visit the code's page$/) do
-  visit "/codes/#{@code.id}"
+Given(/^I visit the jurisdiction's page$/) do
+  visit "/jurisdictions/#{@jurisdiction.id}"
 end
 
 When(/^I propose a law$/) do
@@ -15,9 +15,9 @@ Then(/^the proposed law should be added$/) do
 end
 
 Given(/^I proposed a law$/) do
-  step "a code exists"
+  step "a jurisdiction exists"
   step "I log in"
-  step "I visit the code's page"
+  step "I visit the jurisdiction's page"
   step "I propose a law"
   expect( page ).to have_text 'Proposed law was added.'
   @proposed_law = ProposedLaw.first

@@ -13,10 +13,10 @@ RSpec.describe ProposedLaw, type: :model do
       expect( proposed_law.save ).to be false
       expect( proposed_law.errors[:user].first ).to include "can't be blank"
     end
-    it "should not save without a code" do
-      proposed_law.code = nil
+    it "should not save without a jurisdiction" do
+      proposed_law.jurisdiction = nil
       expect( proposed_law.save ).to be false
-      expect( proposed_law.errors[:code].first ).to include "can't be blank"
+      expect( proposed_law.errors[:jurisdiction].first ).to include "can't be blank"
     end
   end
   context "repositories" do

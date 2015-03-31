@@ -4,9 +4,9 @@ Feature: Manage local laws
   I want to propose, review, and submit local laws
   @javascript
   Scenario: Propose a law
-    Given a code exists
+    Given a jurisdiction exists
     And I log in
-    And I visit the code's page
+    And I visit the jurisdiction's page
     When I propose a law
     Then the proposed law should be added
   @javascript

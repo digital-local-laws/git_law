@@ -7,7 +7,7 @@ angular
           templateUrl: 'proposedLawSettings/edit.html',
           controller: 'ProposedLawSettingsCtrl',
           resolve: {
-            code: ( -> $scope.code )
+            jurisdiction: ( -> $scope.jurisdiction )
             proposedLaw: ( -> proposedLaw ) } } )
         modalInstance.result.then(
           ( (proposedLaw) ->

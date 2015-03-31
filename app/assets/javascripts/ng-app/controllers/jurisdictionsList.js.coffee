@@ -1,39 +1,39 @@
 angular
   .module 'gitLaw'
-  .controller( 'CodesListCtrl', [ '$scope', '$modal', '$stateParams', 'Code',
-    ( $scope, $modal, $stateParams, Code ) ->
+  .controller( 'JurisdictionsListCtrl', [ '$scope', '$modal', '$stateParams', 'Jurisdiction',
+    ( $scope, $modal, $stateParams, Jurisdiction ) ->
       $scope.reloadList = ->
-        $scope.list.codes = Code.query(
+        $scope.list.jurisdictions = Jurisdiction.query(
           { page: $scope.list.page },
-          ( (codes, response) ->
+          ( (jurisdictions, response) ->
               r = response()
               $scope.list.totalPages = r['x-total']
               $scope.list.perPage = r['x-per-page'] ) )
-      $scope.editCode = (code) ->
+      $scope.editJurisdiction = (jurisdiction) ->
         modalInstance = $modal.open( {
-          templateUrl: 'codeSettings/edit.html',
-          controller: 'CodeSettingsCtrl',
+          templateUrl: 'jurisdictionSettings/edit.html',
+          controller: 'JurisdictionSettingsCtrl',
           resolve: {
-            code: ( -> code ) } } )
+            jurisdiction: ( -> jurisdiction ) } } )
         modalInstance.result.then(
-          ( (code) ->
+          ( (jurisdiction) ->
             $scope.alerts.push( {
               type: 'success',
-              msg: "Code settings were updated." } )
+              msg: "Jurisdiction settings were updated." } )
             $scope.reloadList() ),
           ( () -> false ) )
-      $scope.destroyCode = (code) ->
-        code.$delete(
+      $scope.destroyJurisdiction = (jurisdiction) ->
+        jurisdiction.$delete(
           {},
           ( () -> 
               $scope.alerts.push( { 
                 type: 'info'
-                msg: 'Code was removed.'
+                msg: 'Jurisdiction was removed.'
               } )
               $scope.reloadList() ),
           ( () -> $scope.alerts.push( {
             type: 'danger'
-            msg: 'Code could not be removed.'
+            msg: 'Jurisdiction could not be removed.'
           } ) )
         )
       $stateParams.page = 1 unless $stateParams.page

@@ -6,11 +6,11 @@ angular
       { proposedLawId: "@id", format: 'json', camel: 'true' }
       { save: { method: 'PATCH' },
       create: { method: 'POST',
-      url: '/api/codes/:codeId/proposed_laws/:proposedLawId.:format',
-      params: { codeId: "@codeId" } },
-      codeQuery: { method: 'GET',
-      url: '/api/codes/:codeId/proposed_laws/page/:page.:format',
-      params: { codeId: "@codeId", page: "@page" },
+      url: '/api/jurisdictions/:jurisdictionId/proposed_laws/:proposedLawId.:format',
+      params: { jurisdictionId: "@jurisdictionId" } },
+      jurisdictionQuery: { method: 'GET',
+      url: '/api/jurisdictions/:jurisdictionId/proposed_laws/page/:page.:format',
+      params: { jurisdictionId: "@jurisdictionId", page: "@page" },
       isArray: true } } )
   ] )
 

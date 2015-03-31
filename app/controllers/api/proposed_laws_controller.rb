@@ -5,23 +5,23 @@ module Api
       if params[:id]
         ProposedLaw.find params[:id]
       else
-        code.proposed_laws.build( user: current_user )
+        jurisdiction.proposed_laws.build( user: current_user )
       end
     end
-    expose :code do
-      if params[:code_id]
-        Code.find params[:code_id]
+    expose :jurisdiction do
+      if params[:jurisdiction_id]
+        Jurisdiction.find params[:jurisdiction_id]
       end
     end
     expose( :unpaginated_proposed_laws ) do
-      if code
-        code.proposed_laws.all
+      if jurisdiction
+        jurisdiction.proposed_laws.all
       else
         ProposedLaw.all
       end
     end
     helper_method :proposed_laws
-    helper_method :code
+    helper_method :jurisdiction
     
     def index
       respond_to do |format|

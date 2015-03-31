@@ -8,8 +8,8 @@ angular
       page: 1,
       proposedLaws: [] }
     $scope.reloadList = ->
-      $scope.list.proposedLaws = ProposedLaw.codeQuery(
-        { codeId: $stateParams.codeId, page: $scope.list.page },
+      $scope.list.proposedLaws = ProposedLaw.jurisdictionQuery(
+        { jurisdictionId: $stateParams.jurisdictionId, page: $scope.list.page },
         ( (proposedLaws, response) ->
             r = response()
             $scope.list.totalPages = r['x-total']
@@ -18,13 +18,13 @@ angular
       $state.go('.paginated', { page: page })
     $scope.closeAlert = (index) ->
       $scope.alerts.splice index, 1
-    $scope.proposeLaw = (code) ->
+    $scope.proposeLaw = (jurisdiction) ->
       modalInstance = $modal.open( {
         templateUrl: 'proposedLawSettings/new.html',
         controller: 'ProposedLawSettingsCtrl',
         resolve: {
-          code: ( -> $scope.code )
-          proposedLaw: ( -> new ProposedLaw({codeId: $stateParams.codeId}) ) } } )
+          jurisdiction: ( -> $scope.jurisdiction )
+          proposedLaw: ( -> new ProposedLaw({jurisdictionId: $stateParams.jurisdictionId}) ) } } )
       modalInstance.result.then(
         ( (proposedLaw) ->
           $scope.alerts.push( {

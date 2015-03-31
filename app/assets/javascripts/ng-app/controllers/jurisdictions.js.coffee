@@ -1,33 +1,33 @@
 angular
   .module 'gitLaw'
-  .controller( 'CodesCtrl', [ '$scope', '$modal', '$stateParams', '$state', 'Code',
-    ( $scope, $modal, $stateParams, $state, Code ) ->
+  .controller( 'JurisdictionsCtrl', [ '$scope', '$modal', '$stateParams', '$state', 'Jurisdiction',
+    ( $scope, $modal, $stateParams, $state, Jurisdiction ) ->
       $scope.alerts = [ ]
       $scope.list = {
         page: 1,
-        codes: [] }
+        jurisdictions: [] }
       $scope.reloadList = ->
-        $scope.list.codes = Code.query(
+        $scope.list.jurisdictions = Jurisdiction.query(
           { page: $scope.list.page },
-          ( (codes, response) ->
+          ( (jurisdictions, response) ->
               r = response()
               $scope.list.totalPages = r['x-total']
               $scope.list.perPage = r['x-per-page'] ) )
       $scope.setPage = ( page ) ->
-        $state.go('codes.paginated', { page: page })
+        $state.go('jurisdictions.paginated', { page: page })
       $scope.closeAlert = (index) ->
         $scope.alerts.splice index, 1
-      $scope.newCode = ->
+      $scope.newJurisdiction = ->
         modalInstance = $modal.open( {
-          templateUrl: 'codeSettings/new.html',
-          controller: 'CodeSettingsCtrl',
+          templateUrl: 'jurisdictionSettings/new.html',
+          controller: 'JurisdictionSettingsCtrl',
           resolve: {
-            code: ( -> new Code ) } } )
+            jurisdiction: ( -> new Jurisdiction ) } } )
         modalInstance.result.then(
-          ( (code) ->
+          ( (jurisdiction) ->
             $scope.alerts.push( {
               type: 'success',
-              msg: "Code was added." } )
+              msg: "Jurisdiction was added." } )
             $scope.reloadList() ),
           ( () -> false ) )
   ] )

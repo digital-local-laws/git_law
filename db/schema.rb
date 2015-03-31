@@ -16,25 +16,25 @@ ActiveRecord::Schema.define(version: 20150327185644) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "codes", force: :cascade do |t|
+  create_table "jurisdictions", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "file_name",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "codes", ["file_name"], name: "index_codes_on_file_name", unique: true, using: :btree
-  add_index "codes", ["name"], name: "index_codes_on_name", unique: true, using: :btree
+  add_index "jurisdictions", ["file_name"], name: "index_jurisdictions_on_file_name", unique: true, using: :btree
+  add_index "jurisdictions", ["name"], name: "index_jurisdictions_on_name", unique: true, using: :btree
 
   create_table "proposed_laws", force: :cascade do |t|
-    t.integer  "code_id",    null: false
-    t.integer  "user_id",    null: false
+    t.integer  "jurisdiction_id", null: false
+    t.integer  "user_id",         null: false
     t.string   "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
-  add_index "proposed_laws", ["code_id"], name: "index_proposed_laws_on_code_id", using: :btree
+  add_index "proposed_laws", ["jurisdiction_id"], name: "index_proposed_laws_on_jurisdiction_id", using: :btree
   add_index "proposed_laws", ["title"], name: "index_proposed_laws_on_title", using: :btree
   add_index "proposed_laws", ["user_id"], name: "index_proposed_laws_on_user_id", using: :btree
 
@@ -46,6 +46,6 @@ ActiveRecord::Schema.define(version: 20150327185644) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
-  add_foreign_key "proposed_laws", "codes"
+  add_foreign_key "proposed_laws", "jurisdictions"
   add_foreign_key "proposed_laws", "users"
 end

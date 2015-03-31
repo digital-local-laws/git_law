@@ -1,8 +1,8 @@
 class ProposedLaw < ActiveRecord::Base
-  belongs_to :code, inverse_of: :proposed_laws
+  belongs_to :jurisdiction, inverse_of: :proposed_laws
   belongs_to :user, inverse_of: :proposed_laws
   
-  validates :code, presence: true
+  validates :jurisdiction, presence: true
   validates :user, presence: true
   validates :title, presence: true
 
@@ -13,10 +13,10 @@ class ProposedLaw < ActiveRecord::Base
   private
   
   def initialize_working_repo
-    # TODO is this the best way to assure the code has a repo initialized?
-    code.working_repo
+    # TODO is this the best way to assure the jurisdiction has a repo initialized?
+    jurisdiction.working_repo
     # Track the public-facing canonical repo, and pull up to current version
-    working_repo.add_remote 'canonical', code.repo_path
+    working_repo.add_remote 'canonical', jurisdiction.repo_path
     # Master branch of proposed law will track canonical master
     working_repo.pull 'canonical', 'master'
     # TODO: Should this branch include a numerical identifier for proposed law?

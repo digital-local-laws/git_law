@@ -26,50 +26,50 @@ angular
             templateUrl: 'userSession/new.html'
             controller: 'UserSessionCtrl'
       }
-      .state 'code', {
+      .state 'jurisdiction', {
         abstract: true,
-        url: '/codes/:codeId',
+        url: '/jurisdictions/:jurisdictionId',
         views:
           "navigation":
             templateUrl: 'navbar.html'
             controller: 'NavigationCtrl'
           "content":
-            templateUrl: 'code/layout.html'
-            controller: 'CodeCtrl'
+            templateUrl: 'jurisdiction/layout.html'
+            controller: 'JurisdictionCtrl'
       }
-      .state 'code.proposed', {
+      .state 'jurisdiction.proposed', {
         abstract: true,
         url: '',
         views:
           "pane":
-            templateUrl: 'code/proposed.html'
+            templateUrl: 'jurisdiction/proposed.html'
             controller: 'ProposedLawsCtrl'
       }
-      .state 'code.proposed.one', {
+      .state 'jurisdiction.proposed.one', {
         url: '',
-        templateUrl: 'code/proposedList.html',
+        templateUrl: 'jurisdiction/proposedList.html',
         controller: 'ProposedLawsListCtrl'
       }
-      .state 'codes', {
+      .state 'jurisdictions', {
         abstract: true,
-        url: '/codes',
+        url: '/jurisdictions',
         views:
           "navigation":
             templateUrl: 'navbar.html'
             controller: 'NavigationCtrl'
           "content":
-            templateUrl: 'codes/layout.html'
-            controller: 'CodesCtrl'
+            templateUrl: 'jurisdictions/layout.html'
+            controller: 'JurisdictionsCtrl'
       }
-      .state 'codes.one', {
+      .state 'jurisdictions.one', {
         url: '',
-        templateUrl: 'codes/list.html',
-        controller: 'CodesListCtrl'
+        templateUrl: 'jurisdictions/list.html',
+        controller: 'JurisdictionsListCtrl'
       }
-      .state 'codes.paginated', {
+      .state 'jurisdictions.paginated', {
         url: '/page/:page'
-        templateUrl: 'codes/list.html'
-        controller: 'CodesListCtrl'
+        templateUrl: 'jurisdictions/list.html'
+        controller: 'JurisdictionsListCtrl'
       }
     $urlRouterProvider.otherwise '/'
     $locationProvider.html5Mode true

@@ -1,17 +1,17 @@
 Rails.application.routes.draw do
   namespace :api do
     # Resource routes
-    resources :codes, except: [ :new, :edit ] do
+    resources :jurisdictions, except: [ :new, :edit ] do
       resources :proposed_laws, only: [ :index, :create ]
     end
     # Paginated routes
-    match "/codes/page/:page(.:format)", to: "codes#index", via: :get,
+    match "/jurisdictions/page/:page(.:format)", to: "jurisdictions#index", via: :get,
       constraints: { page: /[0-9]+/ }
     resources :proposed_laws, only: [ :index, :show, :update, :destroy ]
     match "/proposed_laws/page/:page(.:format)",
       to: "proposed_laws#index", via: :get, constraints: { page: /[0-9]+/ }
-    match "/codes/:code_id/proposed_laws/page/:page(.:format)",
-      to: "proposed_laws#index", via: :get, constraints: { code_id: /[0-9]+/,
+    match "/jurisdictions/:jurisdiction_id/proposed_laws/page/:page(.:format)",
+      to: "proposed_laws#index", via: :get, constraints: { jurisdiction_id: /[0-9]+/,
         page: /[0-9]+/ }
   end
   get "/user_session(.:format)", to: "user_session#show"

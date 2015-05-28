@@ -18,17 +18,5 @@ RSpec.describe Jurisdiction, type: :model do
       expect( jurisdiction.file_name ).to eq "tompkins-county-jurisdiction"
     end
   end
-  context "repositories" do
-    let(:jurisdiction) { create :jurisdiction }
-    it "should initialize a canonical repo with repo()" do
-      expect( File.exist?(jurisdiction.repo_path) ).to be false
-      jurisdiction.repo
-      expect( File.exist?(jurisdiction.repo_path) ).to be true
-    end
-    it "should create a canonical working directory with working_repo()" do
-      expect( File.exist?(jurisdiction.working_repo_path) ).to be false
-      jurisdiction.working_repo
-      expect( File.exist?(jurisdiction.working_repo_path) ).to be true
-    end
-  end
+  it_should_behave_like "a git flow repo"
 end

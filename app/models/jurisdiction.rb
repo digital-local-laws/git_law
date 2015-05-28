@@ -22,7 +22,7 @@ class Jurisdiction < ActiveRecord::Base
       working_repo.pull 'origin', 'master'
     # Otherwise, make stub commit and push to origin/master
     else
-      FileUtils.cp_r "#{::Rails.root}/lib/assets/jurisdiction", working_repo_path
+      FileUtils.cp_r Dir.glob("#{::Rails.root}/lib/assets/jurisdiction/*"), working_repo_path
       working_repo.add '.'
       working_repo.commit 'Set up initial stub for legislation.'
       working_repo.push 'origin', 'master'

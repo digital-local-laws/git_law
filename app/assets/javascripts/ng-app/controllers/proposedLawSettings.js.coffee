@@ -1,10 +1,11 @@
 angular
   .module 'gitLaw'
   .controller( 'ProposedLawSettingsCtrl', ['$scope', '$modalInstance',
-  '$upload', 'proposedLaw', 'ProposedLaw',
-  ( $scope, $modalInstance, $upload, proposedLaw, ProposedLaw ) ->
+  '$upload', 'proposedLaw', 'ProposedLaw', 'jurisdiction'
+  ( $scope, $modalInstance, $upload, proposedLaw, ProposedLaw, jurisdiction ) ->
     $scope.alerts = [ ]
     $scope.errors = { }
+    $scope.jurisdiction = jurisdiction
     $scope.proposedLaw = proposedLaw
     $scope.save = (proposedLaw) ->
       success = ( proposedLaw ) ->

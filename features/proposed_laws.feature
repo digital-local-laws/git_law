@@ -21,8 +21,8 @@ Feature: Manage local laws
     When I edit the proposed law settings
     Then the proposed law settings should be updated
   @javascript @wip
-  Scenario: Add a section to a proposed law
+  Scenario: Add a code
     Given I proposed a law
-    When I go to edit the proposed law
-    And I add a section
-    Then the section should be added
+    When I go to browse the proposed law
+    And I add a code
+    Then the code should be added

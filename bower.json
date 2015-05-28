@@ -10,18 +10,21 @@
       "angular-sanitize": "~1.2.27", 
       "angular-flash": "~0.1.4",
       "ng-file-upload": "~3.0.7",
+      "ng-context-menu": "~1.0.1",
       "ngUpload": "~0.5.14",
       "angular-bootstrap": "~0.12.0",
       "bootstrap-sass": "~3.3.1",
       "angular-ui-utils": "~0.2.1",
       "angular-bootstrap": "~0.12.0",
       "angular-ui-select": "~0.9.5",
+      "angular-ui-ace": "~0.2.3",
       "angular-google-chart": "~0.0.11",
       "google-chart": "~0.2.1",
       "ng-chartistjs": "~2.0.3",
       "ace": "~1.1.8",
       "d3": "~3.5.5",
-      "angular-paginate-anything": "~4.0.2"
+      "angular-paginate-anything": "~4.0.2",
+      "angular-ui-tree": "~2.1.5"
     }
   },
   "vendor": {

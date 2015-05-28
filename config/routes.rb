@@ -7,7 +7,14 @@ Rails.application.routes.draw do
     # Paginated routes
     match "/jurisdictions/page/:page(.:format)", to: "jurisdictions#index", via: :get,
       constraints: { page: /[0-9]+/ }
-    resources :proposed_laws, only: [ :index, :show, :update, :destroy ]
+    resources :proposed_laws, only: [ :index, :show, :update, :destroy ] do
+      member do
+        get '/tree', to: "proposed_laws#show_node"
+        get '/tree/*path_in_repo', to: "proposed_laws#show_node"
+        post '/tree/*path_in_repo', to: "proposed_laws#create_node"
+        patch '/tree/*path_in_repo', to: "proposed_laws#update_node"
+      end
+    end
     match "/proposed_laws/page/:page(.:format)",
       to: "proposed_laws#index", via: :get, constraints: { page: /[0-9]+/ }
     match "/jurisdictions/:jurisdiction_id/proposed_laws/page/:page(.:format)",
@@ -18,5 +25,5 @@ Rails.application.routes.draw do
   delete "/user_session(.:format)", to: "user_session#destroy"
   post '/auth/:provider/callback', to: "user_session#create"
   root 'application#index'
-  get '*path' => 'application#index'
+  get '*path' => 'application#index', format: "html"
 end

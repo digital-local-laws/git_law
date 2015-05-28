@@ -8,7 +8,8 @@
   %tbody
     %tr{ ng: { repeat: "law in list.proposedLaws" } }
       %td
-        {{law.title}}
+        %a{ ui: { sref: 'proposedLaw.browse({ proposedLawId: law.id })' } }
+          {{law.title}}
       %td
         %a.btn.btn-default{ ng: { click: 'editProposedLaw(law)' } }
           %span.glyphicon.glyphicon-pencil

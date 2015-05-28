@@ -47,16 +47,24 @@ Then(/^the proposed law settings should be updated$/) do
   expect( ProposedLaw.first.title ).to eq "Authorizing formation of Office of Chief Obstructionist"
 end
 
-When(/^I go to edit the proposed law$/) do
-  click_link "#{@proposed_law.title}"
+When(/^I go to browse the proposed law$/) do
+  within(:xpath,"//td[contains(.,\"#{@proposed_law.title}\")]") do
+    find(:xpath,'//a[contains(.,"#{@propose_law.title}")]').click
+  end
 end
 
-When(/^I add a section$/) do
-  click_button "Add Section"
-  fill_in "Title", with: "Purpose"
-  click_button "Add Section"
+When(/^I add a code$/) do
+  find(:xpath,'//button[contains(.,"Add Code")]').click
+  fill_in "Title", with: "Tompkins County Code"
+  within ("//fieldset[contains(./legend,\"0\")]") do
+    fill_in "Name", with: "Chapter"
+    fill_in "Number", with: 1
+    fill_in "Title", with: true
+    click_button "Add Level"
+  end
+  click_button "Add Code"
 end
 
-Then(/^the section should be added$/) do
-  expect( page ).to have_text "Section 1. Purpose"
+Then(/^the code should be added$/) do
+  expect( page ).to have_text "tompkins-county-code"
 end

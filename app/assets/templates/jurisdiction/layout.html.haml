@@ -1,11 +1,12 @@
 .container
-  %h2.col-lg-9
-    %a{ ui: { sref: "jurisdiction.show({jurisdictionId: jurisdiction.id})" } }
+  %h2.col-lg-12
+    %a{ ui: { sref: "jurisdiction.proposedLaws.paginated({page: '1'})" } }
       {{jurisdiction.name}}
 .container
-  .col-lg-9{ ui: { view: "pane" } }
-  %ul.nav.nav-pills.nav-stacked.col-lg-3
-    %li{ ng: { repeat: "tab in tabs" }, ui: { sref: { active: "active" } } }
-      %a{ ui: { sref: ".{{tab[0]}}.one" } }
-        {{tab[1]}}
+  .row
+    .col-lg-11{ style: "height: 100%;", ui: { view: "pane" } }
+    %ul.nav.nav-pills.nav-stacked.col-lg-1{ style: "height: 100%;"}
+      %li{ ng: { repeat: "tab in tabs" }, ui: { sref: { active: "active" } } }
+        %a{ ui: { sref: "{{tab[0]}}" } }
+          {{tab[1]}}
 

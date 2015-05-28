@@ -42,5 +42,7 @@ module GitLaw
     # Minimum Sass number precision required by bootstrap-sass
     ::Sass::Script::Number.precision = [8, ::Sass::Script::Number.precision].max
     config.active_job.queue_adapter = :delayed_job
+    # Autoload classes in lib
+    config.autoload_paths << Rails.root.join('lib')
   end
 end

@@ -4,7 +4,7 @@ angular
   ( $scope, $stateParams, Jurisdiction ) ->
     $scope.jurisdiction = Jurisdiction.get({jurisdictionId: $stateParams.jurisdictionId})
     $scope.tabs = [
-      [ 'proposed', 'Proposed Laws' ]
+      [ '.proposedLaws.paginated({page: 1})', 'Proposed Laws' ]
       [ 'adopted', 'Adopted Laws' ]
     ]
   ] )

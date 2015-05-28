@@ -1,0 +1,25 @@
+{
+  "structure": [
+    { 
+      "name": "Year",
+      "number": "1",
+      "title": false
+    },
+    {
+      "name": "Number",
+      "number": "1",
+      "title": false
+    },
+    {
+      "name": "Section",
+      "number": "1",
+      "title": true
+    },
+    {
+      "name": "Sub-Section",
+      "number": "a",
+      "optional": true,
+      "title": false
+    }
+  ]
+}

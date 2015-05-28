@@ -1,7 +1,11 @@
 angular
   .module 'gitLaw'
-  .controller( 'ProposedLawsListCtrl', [ '$scope', '$modal', '$stateParams', 'ProposedLaw',
-    ( $scope, $modal, $stateParams, ProposedLaw ) ->
+  .controller( 'ProposedLawsListCtrl', [ '$scope', '$modal', '$stateParams',
+    '$state', 'ProposedLaw',
+    ( $scope, $modal, $stateParams, $state, ProposedLaw ) ->
+      $scope.editProposedLaw = (proposedLaw) ->
+        $state.go( 'proposedLaw.sections.show',
+        { proposedLawId: proposedLaw.id } )
       $scope.editProposedLawSettings = (proposedLaw) ->
         modalInstance = $modal.open( {
           templateUrl: 'proposedLawSettings/edit.html',

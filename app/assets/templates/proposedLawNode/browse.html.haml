@@ -1,0 +1,58 @@
+.col-lg-12
+  %h3{ ng: { include: "'proposedLawNode/location.html'" } }
+.row{ style: "height: 100%;" }
+  .col-lg-3
+    %h4
+      Sections
+    %div{ ui: { tree: true } }
+      %ol.nav.nav-pills.nav-stacked{ ui: { tree: { nodes: true } },
+      ng: { model: 'proposedLaw.sections' } }
+        %li{ ng: { repeat: "section in proposedLaw.sections" },
+        ui: { tree: { node: true }, sref: { active: 'active' } } }
+          %a{ ui: { sref: ".({tree: section.tree})" } }
+            %span.glyphicon.glyphicon-move{ ui: { tree: { handle: true } } }
+            Section
+          %ol.nav.nav-pills.nav-stacked{ ui: { tree: { nodes: true } }, ng: { model: 'section.sections' },
+          type: 'a' }
+            %li{ ng: { repeat: "subSection in section.sections" },
+              ui: { tree: { node: true }, sref: { active: 'active' } } }
+              %span.glyphicon.glyphicon-move{ ui: { tree: { handle: true } } }
+              %a{ ui: { sref: ".({tree: subSection.tree})" } }
+                Subsection
+    -# %ul.nav.nav-pills.nav-stacked{ style: "height: 50%;" }
+    -#   %li{ ng: { repeat: "section in proposedLaw.sections" },
+    -#   ui: { sref: { active: 'active' } } }
+    -#     %a{ ui: { sref: ".section({sectionNumber: section.number})" } }
+    -#       {{section.title}}
+    -# TODO: Implement search facility for code/local law sections
+  .col-lg-9{ ng: { switch: "proposedLawNode.type", if: "proposedLawNode" }, style: "height: 100%;" }
+    %div{ ng: { switch: { when: "dir" } } }
+      .row
+        %div.col-lg-9.text-right
+          %button.btn.btn-primary{ ng: { click: "newNode(proposedLawNode)" } }
+            %span.glyphicon.glyphicon-plus
+            Add {{proposedLawNode.childStructure.name}}
+      %table.table.table-striped.table-hover
+        %thead
+          %tr
+            %th= "File"
+            %th= "Actions"
+        %tbody
+          %tr{ ng: { repeat: "file in proposedLawNode.content" } }
+            %td
+              %a{ ui: { sref: "{tree: file.tree}" } }
+                %span.glyphicon.glyphicon-folder-close{ ng: { if: "file.type == 'dir'" } }
+                %span.glyphicon.glyphicon-file{ ng: { if: "file.type != 'dir'" } }
+                {{file.fileName}}
+            %td
+              %button.btn.btn-default
+                %span.glyphicon.glyphicon-pencil
+                Edit
+    %div{ ng: { switch: { default: true } } }
+      %tabset
+        %tab{ heading: 'Browse' }
+          %div{ ui: { ace: "{mode: editorMode(proposedLawNode), onLoad: heightUpdate, useWrapMode: true}" },
+          ng: { model: 'proposedLawNode.content', readonly: "'checked'" } }
+        %tab{ heading: 'Edit' }
+          %div{ ui: { ace: "{mode: editorMode(proposedLawNode), onLoad: heightUpdate, useWrapMode: true}" },
+          ng: { model: 'proposedLawNode.content' } }

@@ -1,0 +1,5 @@
+%div{ ui: { tree: { handle: true } } }
+  {{node.title}}
+%ol{ ui: { tree: { nodes: true } }, ng: { model: "node.nodes" } }
+  %li{ ng: { repeat: "node in node.nodes", include: "proposedLaw/lawNodes.html" },
+  ui: { tree: { node: true } } }

@@ -1,3 +1,4 @@
+#= require ace-builds/src-min-noconflict/ace.js
 #= require angular
 #= require angular-animate
 #= require angular-sanitize/angular-sanitize.min.js
@@ -12,5 +13,7 @@
 # require angular-google-chart/ng-google-chart
 #= require chartist/dist/chartist.js
 #= require ng-chartistjs/dist/ng-chartist.min.js
+#= require angular-ui-tree/dist/angular-ui-tree.js
+#= require angular-ui-ace/ui-ace.js
 #= require_tree ./ng-app
 #= require_tree ../templates

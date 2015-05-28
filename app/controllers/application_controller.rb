@@ -38,6 +38,11 @@ class ApplicationController < ActionController::Base
     params.decamelize! if camel?
   end
   
+  # Conditionally set JSON output to camelize
+  def camelize_output!
+    Jbuilder.key_format( camelize: :lower ) if camel?
+  end
+  
   # Are we in camelCase mode (for interaction with javascript apps)
   def camel?
     return @camel unless @camel.nil?

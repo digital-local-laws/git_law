@@ -4,6 +4,8 @@ angular
   '$modal', '$timeout', 'ProposedLawNode', 'CodeLevel'
   ( $state, $scope, $stateParams, $modal, $timeout, ProposedLawNode,
     CodeLevel ) ->
+    unless $scope.proposedLaw.workingRepoCreated
+      return $state.go('^.initialize')
     onProposedLawNodeLoad = (proposedLawNode) ->
       $scope.proposedLawNode = proposedLawNode
       timeout = null
@@ -14,7 +16,7 @@ angular
       debounceSaveContent = ( newVal, oldVal ) ->
         if newVal != oldVal
           $timeout.cancel( timeout ) if timeout
-        timeout = $timeout( saveContent, 5000 )
+          timeout = $timeout( saveContent, 5000 )
       $scope.$watch('proposedLawNode.content', debounceSaveContent)
     ProposedLawNode.get( {
       proposedLawId: $scope.proposedLaw.id
@@ -42,9 +44,6 @@ angular
       modalInstance.result.then(
         ( (proposedLawNode) ->
           $state.go('.', { tree: proposedLawNode.tree })
-          # $scope.alerts.push( {
-          #   type: 'success',
-          #   msg: structure.name + " was added." } )
         ),
         ( () -> false ) )
     $scope.editorMode = (node) ->

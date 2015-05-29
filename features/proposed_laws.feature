@@ -9,13 +9,13 @@ Feature: Manage local laws
     And I visit the jurisdiction's page
     When I propose a law
     Then the proposed law should be added
-  @javascript
+  @javascript @wip
   Scenario: Remove a proposed law
     Given I proposed a law
     When I remove the proposed law
     Then I should see the proposed law was removed
     And the proposed law should not be recorded in the database
-  @selenium
+  @selenium @wip
   Scenario: Modify proposed law settings
     Given I proposed a law
     When I edit the proposed law settings

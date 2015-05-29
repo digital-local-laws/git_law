@@ -10,16 +10,13 @@ class ProposedLaw < ActiveRecord::Base
 
   after_create_working_repo :initialize_working_repo
 
-  def sections
-    @sections ||= JSON.load( File.open( law_metadata_path ) )["sections"]
-  end
-
   def metadata
+    return @metadata unless @metadata.nil?
+    return @metadata = false unless File.exist? metadata_path
     @metadata ||= JSON.load( File.open( metadata_path ) )
   end
 
   def write_metadata
-    sections.update_metadata
     File.open( metadata_path, 'w' ) do |file|
       file << @metadata.to_json
     end
@@ -27,55 +24,12 @@ class ProposedLaw < ActiveRecord::Base
 
   def reset_metadata
     @metadata = nil
-    sections.reset
   end
 
   private
 
-  class SectionCollection
-    attr_accessor :proposed_law
-    delegate :empty?, :first, :last, :each, :map, :length, to: :sections
-
-    def <<( section )
-      section.root = proposed_law
-      sections << section
-    end
-
-    def initialize( proposed_law )
-      self.proposed_law = proposed_law
-      sections
-    end
-
-    def reset
-      @sections = nil
-    end
-
-    def update_metadata
-      self.metadata = @sections.map do |section|
-        section.to_metadata
-      end
-    end
-
-    private
-
-    def sections
-      @sections ||= metadata.map do |root_section|
-        root_section["root"] = self
-        ProposedLawSection.new( root_section ).persisted!
-      end
-    end
-
-    def metadata
-      proposed_law.metadata["sections"]
-    end
-
-    def metadata=(metadata)
-      proposed_law.metadata["sections"] = metadata
-    end
-  end
-
   def metadata_path
-    "#{working_repo_path}/laws/new/law.json"
+    "#{working_repo_path}/law.json"
   end
 
   def initialize_working_repo

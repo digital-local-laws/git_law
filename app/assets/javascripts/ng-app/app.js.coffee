@@ -92,9 +92,10 @@ angular
       .state 'proposedLaw', {
         abstract: true
         url: '/proposed-laws/:proposedLawId'
-        resolve:
+        resolve: {
           proposedLaw: (ProposedLaw, $stateParams) ->
             ProposedLaw.get({proposedLawId: $stateParams.proposedLawId}).$promise
+        }
         views:
           "navigation":
             templateUrl: 'navbar.html'
@@ -103,30 +104,15 @@ angular
             templateUrl: 'proposedLaw/layout.html'
             controller: 'ProposedLawCtrl'
       }
+      .state 'proposedLaw.initialize', {
+        url: '/initialize'
+        templateUrl: 'proposedLaw/initialize.html'
+        controller: 'ProposedLawInitializeCtrl'
+      }
       .state 'proposedLaw.browse', {
         url: '/browse/{tree:path}'
         templateUrl: 'proposedLawNode/browse.html'
         controller: 'ProposedLawNodeCtrl'
-      }
-      .state 'proposedLaw.sections', {
-        abstract: true
-        url: '/sections'
-        templateUrl: 'proposedLawSections/layout.html'
-        controller: 'ProposedLawSectionsCtrl'
-      }
-      .state 'proposedLaw.sections.show', {
-        url: '/show'
-        templateUrl: 'proposedLawSections/show.html'
-      }
-      .state 'proposedLaw.section', {
-        abstract: true
-        url: '/:sectionNumber'
-        templateUrl: 'proposeLawSection/layout.html'
-        controller: 'ProposedLawSectionCtrl'
-      }
-      .state 'proposedLaw.section.edit', {
-        url: '/edit'
-        templateUrl: 'proposedLawSection/edit.html'
       }
     $urlRouterProvider.otherwise '/'
     $locationProvider.html5Mode true

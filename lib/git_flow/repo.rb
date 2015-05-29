@@ -34,12 +34,13 @@ module GitFlow
     # Returns reference to working repo which tracks the canonical repository
     def working_repo
       # Return working_repo reference if already available
-      return @working_repo if @working_repo
+      return @working_repo unless @working_repo.nil?
       path = working_repo_path
       # Instantiate working_repo reference if already exists
       return @working_repo = Git.open( path ) if File.exist? path
       # Otherwise, we need to create the working directory
       create_working_repo
+      @working_repo
     end
 
     # Gets path to file in working repo
@@ -71,6 +72,7 @@ module GitFlow
       run_callbacks :create_repo do
         FileUtils.mkdir_p self.class.repo_root
         @repo = Git.init repo_path, bare: true
+        update_column :repo_created, true
       end
     end
 
@@ -79,8 +81,8 @@ module GitFlow
         path = working_repo_path
         FileUtils.mkdir_p path
         @working_repo = Git.init path
+        update_column :working_repo_created, true
         repo
-        working_repo
       end
     end
   end

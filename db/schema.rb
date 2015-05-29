@@ -33,21 +33,25 @@ ActiveRecord::Schema.define(version: 20150413174715) do
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "jurisdictions", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.string   "file_name",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",                                 null: false
+    t.string   "file_name",                            null: false
+    t.boolean  "repo_created",         default: false, null: false
+    t.boolean  "working_repo_created", default: false, null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
 
   add_index "jurisdictions", ["file_name"], name: "index_jurisdictions_on_file_name", unique: true, using: :btree
   add_index "jurisdictions", ["name"], name: "index_jurisdictions_on_name", unique: true, using: :btree
 
   create_table "proposed_laws", force: :cascade do |t|
-    t.integer  "jurisdiction_id", null: false
-    t.integer  "user_id",         null: false
+    t.integer  "jurisdiction_id",                      null: false
+    t.integer  "user_id",                              null: false
     t.string   "title"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.boolean  "repo_created",         default: false, null: false
+    t.boolean  "working_repo_created", default: false, null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
 
   add_index "proposed_laws", ["jurisdiction_id"], name: "index_proposed_laws_on_jurisdiction_id", using: :btree

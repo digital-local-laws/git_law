@@ -5,4 +5,5 @@ json.updated_at proposed_law.updated_at
 json.jurisdiction do
   json.partial! 'api/jurisdictions/jurisdiction', jurisdiction: proposed_law.jurisdiction
 end
-json.sections proposed_law.sections
+json.working_repo_created proposed_law.working_repo_created
+json.sections proposed_law.metadata["sections"] if proposed_law.metadata

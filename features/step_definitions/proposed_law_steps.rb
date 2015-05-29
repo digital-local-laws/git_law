@@ -9,8 +9,11 @@ When(/^I propose a law$/) do
 end
 
 Then(/^the proposed law should be added$/) do
-  expect( page ).to have_text "Proposed law was added."
   expect( page ).to have_text "Authorizing formation of Office of Chief Innovation Officer"
+  expect( page ).to have_text "Please wait while the proposed law is initialized."
+  step "all jobs have run"
+  sleep 2
+  expect( current_url ).to match /\/browse\/$/
   expect( ProposedLaw.count ).to eq 1
 end
 
@@ -19,11 +22,14 @@ Given(/^I proposed a law$/) do
   step "I log in"
   step "I visit the jurisdiction's page"
   step "I propose a law"
-  expect( page ).to have_text 'Proposed law was added.'
   @proposed_law = ProposedLaw.first
+  expect( page ).to have_text "Please wait while the proposed law is initialized."
+  step "all jobs have run"
+  sleep 2
 end
 
 When(/^I remove the proposed law$/) do
+  click_link @proposed_law.jurisdiction.name
   find(:xpath,'//a[contains(.,"Remove")]').click
 end
 
@@ -36,6 +42,7 @@ Then(/^the proposed law should not be recorded in the database$/) do
 end
 
 When(/^I edit the proposed law settings$/) do
+  click_link @proposed_law.jurisdiction.name
   find(:xpath,'//a[contains(.,"Settings")]').click
   fill_in "Title", with: "Authorizing formation of Office of Chief Obstructionist"
   find(:xpath,'//button[contains(.,"Update Proposed Law Settings")]').click

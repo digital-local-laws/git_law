@@ -23,7 +23,7 @@ test: &test
 
 production:
   <<: *default
-  database: git_law_test
+  database: git_law
 
 cucumber:
   <<: *test

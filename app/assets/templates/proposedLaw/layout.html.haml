@@ -2,5 +2,5 @@
   %h2.col-lg-12
     %a{ href: "/jurisdictions/{{jurisdiction.id}}" }= "{{jurisdiction.name}}"
     \/
-    %a{ href: "/proposed-laws/{{proposedLaw.id}}" }= "{{proposedLaw.title}}"
+    %a{ ui: { sref: 'proposedLaw.browse({proposedLawId:proposedLaw.id,tree:\'\'})' } }= "{{proposedLaw.title}}"
   %div{ ui: { view: true } }

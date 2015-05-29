@@ -27,9 +27,6 @@ angular
           proposedLaw: ( -> new ProposedLaw({jurisdictionId: $stateParams.jurisdictionId}) ) } } )
       modalInstance.result.then(
         ( (proposedLaw) ->
-          $scope.alerts.push( {
-            type: 'success',
-            msg: "Proposed law was added." } )
-          $scope.reloadList() ),
+          $state.go('proposedLaw.initialize',{proposedLawId:proposedLaw.id}) ),
         ( () -> false ) )
   ] )

@@ -22,10 +22,10 @@ Given(/^I proposed a law$/) do
   step "I log in"
   step "I visit the jurisdiction's page"
   step "I propose a law"
-  @proposed_law = ProposedLaw.first
   expect( page ).to have_text "Please wait while the proposed law is initialized."
   step "all jobs have run"
-  sleep 2
+  @proposed_law = ProposedLaw.first
+  click_link @proposed_law.jurisdiction.name
 end
 
 When(/^I remove the proposed law$/) do

@@ -44,12 +44,14 @@
       %span.help-block{ ng: { repeat: "error in errors.fileName" } }
         {{error}}
         %br
+    %button.btn.btn-default{ ng: { click: "addLevel(0)" } }
+      %span.glyphicon.glyphicon-plus
+      Add Level
     %fieldset{ ng: { if: "proposedLawNode.metadata.structure && parentNode.ancestors.length == 1",
     repeat: "level in proposedLawNode.metadata.structure",
     init: "levelI = $index", form: "levelForm" } }
       %legend
         Level {{$index + 1}}
-      {{level}}
       .text-right{ ng: { if: "proposedLawNode.metadata.structure.length > 1" } }
         %button.btn.btn-danger{ ng: { click: "removeLevel($index)" } }
           %span.glyphicon.glyphicon-remove
@@ -94,10 +96,10 @@
           Is required.
         %span.help-block
           Specify whether segments at this level are optional.
-      %button.btn.btn-default{ ng: { click: "addLevel($index)" } }
+      %button.btn.btn-default{ ng: { click: "addLevel(levelI + 1)" } }
         %span.glyphicon.glyphicon-plus
         Add Level
-          
+
 
 .modal-footer
   %button.btn.btn-primary{ type: "button", ng: { click: "save(proposedLawNode)",
@@ -107,4 +109,3 @@
   %button.btn.btn-default{ type: "button", ng: { click: "cancel()" } }
     %span.glyphicon.glyphicon-remove
     Cancel
-

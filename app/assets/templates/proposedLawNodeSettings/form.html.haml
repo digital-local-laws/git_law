@@ -67,7 +67,8 @@
           Use singular form and capitalize appropriately.
       .form-group
         %label.control-label{ for: "number" } Number
-        %select.form-control{ ng: { model: "proposedLawNode.metadata.structure[$index].number" } }
+        %select.form-control{ ng: { model: "proposedLawNode.metadata.structure[$index].number" },
+        name: "number", id: "number" }
           %option{ ng: { repeat: "option in numberOptions" }, value: "{{option[0]}}" }
             {{option[1]}}
       .form-group{ ng: { class: "{'has-error': levelForm.title.$invalid, 'has-success': !levelForm.title.$invalid && proposedLawNode.metadata.structure[$index].title, 'has-feedback': true}" } }
@@ -105,7 +106,7 @@
   %button.btn.btn-primary{ type: "button", ng: { click: "save(proposedLawNode)",
   disabled: "proposedLawNodeForm.$invalid" } }
     %span.glyphicon.glyphicon-ok
-    {{proposedLawNode.id ? 'Update ' + structure.name + ' Settings' : 'Add ' + structure.name}}
+    {{proposedLawNode.id ? 'Update ' + structure.name + ' Settings' : 'Add ' + parentNode.childStructure.name}}
   %button.btn.btn-default{ type: "button", ng: { click: "cancel()" } }
     %span.glyphicon.glyphicon-remove
     Cancel

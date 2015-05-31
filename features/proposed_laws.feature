@@ -20,7 +20,7 @@ Feature: Manage local laws
     Given I proposed a law
     When I edit the proposed law settings
     Then the proposed law settings should be updated
-  @javascript @wip
+  @javascript
   Scenario: Add a code
     Given I proposed a law
     When I go to browse the proposed law

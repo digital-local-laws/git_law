@@ -9,10 +9,10 @@ When(/^I propose a law$/) do
 end
 
 Then(/^the proposed law should be added$/) do
-  expect( page ).to have_text "Authorizing formation of Office of Chief Innovation Officer"
-  expect( page ).to have_text "Please wait while the proposed law is initialized."
+  # TODO how do we see what's going on while timeout loop is running?
+  # expect( page ).to have_text "Authorizing formation of Office of Chief Innovation Officer"
+  # expect( page ).to have_text "Please wait while the proposed law is initialized."
   step "all jobs have run"
-  sleep 2
   expect( current_url ).to match /\/browse\/$/
   expect( ProposedLaw.count ).to eq 1
 end
@@ -22,7 +22,8 @@ Given(/^I proposed a law$/) do
   step "I log in"
   step "I visit the jurisdiction's page"
   step "I propose a law"
-  expect( page ).to have_text "Please wait while the proposed law is initialized."
+  # TODO how to detect intermediate state when angular is unresolved because of timeout loop?
+  # expect( page ).to have_text "Please wait while the proposed law is initialized."
   step "all jobs have run"
   @proposed_law = ProposedLaw.first
   click_link @proposed_law.jurisdiction.name
@@ -56,20 +57,22 @@ end
 
 When(/^I go to browse the proposed law$/) do
   within(:xpath,"//td[contains(.,\"#{@proposed_law.title}\")]") do
-    find(:xpath,'//a[contains(.,"#{@propose_law.title}")]').click
+    find(:xpath,"//a[contains(.,\"#{@proposed_law.title}\")]").click
   end
 end
 
 When(/^I add a code$/) do
-  find(:xpath,'//button[contains(.,"Add Code")]').click
+  find( :xpath, '//button[contains(.,"Add Code")]' ).click
   fill_in "Title", with: "Tompkins County Code"
-  within ("//fieldset[contains(./legend,\"0\")]") do
-    fill_in "Name", with: "Chapter"
-    fill_in "Number", with: 1
-    fill_in "Title", with: true
-    click_button "Add Level"
+  within( :xpath, "//fieldset[contains(./legend,\"Level 1\")]" ) do
+    fill_in "Name", with: "Part"
+    select "Upper case roman (I, II, ...)", from: "Number"
+    find( :xpath, '//label[contains(.,"Allow Title")]' ).click
+    find( :xpath, '//label[contains(.,"Is Not Optional")]' ).click
   end
-  click_button "Add Code"
+  within(".modal-footer") do
+    click_button "Add Code"
+  end
 end
 
 Then(/^the code should be added$/) do

@@ -13,7 +13,7 @@ Feature: Uploading jurisdictions
     When I remove the jurisdiction
     Then I should see the jurisdiction was removed
     And the jurisdiction should not be recorded in the database
-  @selenium
+  @javascript
   Scenario: Modify jurisdiction settings
     Given I added a jurisdiction
     When I edit the jurisdiction settings

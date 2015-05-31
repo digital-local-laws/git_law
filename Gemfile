@@ -50,7 +50,8 @@ group :development, :test do
   gem 'poltergeist', require: false
   gem 'factory_girl_rails'
   gem 'capybara-screenshot', require: false
-  gem 'capybara-webkit', require: false
+  # gem 'capybara-webkit', require: false
+  gem 'capybara-angular', require: false
+  gem 'capybara-ng'
   gem 'database_cleaner'
 end
-

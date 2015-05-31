@@ -15,12 +15,12 @@ Feature: Manage local laws
     When I remove the proposed law
     Then I should see the proposed law was removed
     And the proposed law should not be recorded in the database
-  @javascript @wip
+  @javascript
   Scenario: Modify proposed law settings
     Given I proposed a law
     When I edit the proposed law settings
     Then the proposed law settings should be updated
-  @javascript
+  @javascript @wip
   Scenario: Add a code
     Given I proposed a law
     When I go to browse the proposed law

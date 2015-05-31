@@ -3,11 +3,14 @@ angular
   .controller( 'ProposedLawInitializeCtrl', ['$scope', '$state', '$timeout',
   'ProposedLaw'
   ( $scope, $state, $timeout, ProposedLaw ) ->
-    # $scope.$watch 'proposedLaw.workingRepoCreated', (newVal, oldVal) ->
-    #   return goBrowse() if newVal
+    timeout = null
     reloadProposedLaw = ->
       ProposedLaw.get({proposedLawId:$scope.proposedLaw.id},$scope.onProposedLawLoad)
-      return $state.go('^.browse') if $scope.proposedLaw.workingRepoCreated
-      $timeout( reloadProposedLaw, 1000 ) unless $scope.proposedLaw.workingRepoCreated
-    reloadProposedLaw()
+    debounceReloadProposedLaw = (newVal, oldVal)->
+      $timeout.cancel( timeout ) if timeout
+      if newVal
+        $state.go('proposedLaw.browse',{proposedLawId:$scope.proposedLaw.id})
+      else
+        timeout = $timeout( reloadProposedLaw, 1000 )
+    $scope.$watch('proposedLaw.workingRepoCreated', debounceReloadProposedLaw)
   ] )

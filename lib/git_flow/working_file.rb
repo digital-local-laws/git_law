@@ -210,7 +210,17 @@ module GitFlow
 
     def metadata_path
       @metadata_path ||= File.join( File.dirname( absolute_path ),
-        File.basename( absolute_path, File.extname(absolute_path) ) + ".json" )
+        metadata_file_name )
+    end
+
+    def metadata_path_in_repo
+      @metadata_path_in_repo ||= File.join( File.dirname( path_in_repo ),
+        metadata_file_name )
+    end
+
+    def metadata_file_name
+      @metadata_file_name ||=
+        File.basename( path_in_repo, File.extname( path_in_repo ) ) + ".json"
     end
 
     # Gets structure applicable for a child of this node
@@ -288,7 +298,19 @@ module GitFlow
       @absolute_path ||= git_flow_repo.working_file_path path_in_repo
     end
 
+    def status_file
+      repo.status.map(&:last).select { |f| f.path == path_in_repo }
+    end
+
+    def metadata_status_file
+      repo.status.map(&:last).select { |f| f.path == metadata_path_in_repo }
+    end
+
     private
+
+    def repo
+      git_flow_repo.repo
+    end
 
     def git_flow_repo; @git_flow_repo; end
   end

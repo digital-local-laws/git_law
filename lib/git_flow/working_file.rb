@@ -36,8 +36,9 @@ module GitFlow
     # Add and commit file and any changes to metadata
     def create
       run_callbacks :create do
-        git_flow_repo.working_repo.commit "Add #{path_in_repo}"
-        git_flow_repo.working_repo.push
+        initialize_node
+        # git_flow_repo.working_repo.commit "Add #{path_in_repo}"
+        # git_flow_repo.working_repo.push
         true
       end
     end
@@ -77,8 +78,8 @@ module GitFlow
     def destroy
       run_callbacks :destroy do
         prepare_for_destroy
-        git_flow_repo.working_repo.commit "Remove #{path_in_repo}"
-        git_flow_repo.working_repo.push
+        # git_flow_repo.working_repo.commit "Remove #{path_in_repo}"
+        # git_flow_repo.working_repo.push
         true
       end
     end

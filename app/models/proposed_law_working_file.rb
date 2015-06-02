@@ -1,4 +1,5 @@
 class ProposedLawWorkingFile < GitFlow::WorkingFile
+  include GitFlow::LegalWorkingFile
   after_initialize_file :add_to_law_metadata
   after_prepare_for_destroy :remove_from_law_metadata
 

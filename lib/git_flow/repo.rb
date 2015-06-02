@@ -49,12 +49,7 @@ module GitFlow
     end
 
     def working_file(file)
-      GitFlow::WorkingFile.new self, file
-    end
-
-    # Path to metadata for law
-    def law_metadata_path
-      working_file_path 'law.json'
+      self.class.const_get(:WORKING_FILE_CLASS).new( self, file )
     end
 
     private

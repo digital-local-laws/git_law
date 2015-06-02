@@ -10,7 +10,8 @@ module GitFlow
       array_nl: "\n"
     }
 
-    define_model_callbacks :create, :update
+    define_model_callbacks :create, :initialize_node, :initialize_dir,
+      :initialize_file, :destroy, :prepare_for_destroy, :update
 
     def initialize(git_flow_repo, path_in_repo)
       @git_flow_repo = git_flow_repo
@@ -32,28 +33,66 @@ module GitFlow
     end
 
     # Initialize the file
+    # Add and commit file and any changes to metadata
     def create
       run_callbacks :create do
-        if structure["dir"]
-          FileUtils.mkdir absolute_path
-        else
-          FileUtils.touch absolute_path
-          law_metadata["sections"] << {
-            "tree" => path_in_repo,
-            "sections" => []
-          }
-          write_law_metadata!
-        end
-        write_metadata!
+        git_flow_repo.working_repo.commit "Add #{path_in_repo}"
+        git_flow_repo.working_repo.push
         true
+      end
+    end
+
+    def initialize_node
+      run_callbacks :initialize_node do
+        if structure["dir"]
+          initialize_dir
+        else
+          initialize_file
+        end
+        initialize_metadata
+      end
+    end
+
+    def initialize_metadata
+      write_metadata!
+      add_metadata!
+    end
+
+    def initialize_dir
+      run_callbacks :initialize_dir do
+        FileUtils.mkdir absolute_path
+      end
+    end
+
+    def initialize_file
+      run_callbacks :initialize_file do
+        FileUtils.touch absolute_path
+        add_content!
+      end
+    end
+
+    # Remove the node and its children
+    # Remove the metadata file, reference in law metadata
+    # Commit changes
+    def destroy
+      run_callbacks :destroy do
+        prepare_for_destroy
+        git_flow_repo.working_repo.commit "Remove #{path_in_repo}"
+        git_flow_repo.working_repo.push
+        true
+      end
+    end
+
+    def prepare_for_destroy
+      run_callbacks :prepare_for_destroy do
+        git_flow_repo.working_repo.remove absolute_path, recursive: true
+        remove_metadata
       end
     end
 
     def update
       run_callbacks :update do
-        Rails.logger.info "In update"
         unless File.directory?( absolute_path ) || File.binary?( absolute_path )
-          Rails.logger.info "Saving content"
           write_content!
         end
         write_metadata! unless is_metadata?
@@ -69,6 +108,10 @@ module GitFlow
       end
     end
 
+    def add_content!
+      git_flow_repo.working_repo.add absolute_path
+    end
+
     def write_metadata!
       raise "Cannot write metadata for a file that is metadata." if is_metadata?
       File.open(metadata_path, 'w') do |f|
@@ -76,10 +119,13 @@ module GitFlow
       end
     end
 
-    def write_law_metadata!
-      File.open(git_flow_repo.law_metadata_path, 'w') do |f|
-        f.write( JSON.generate( law_metadata, JSON_WRITE_OPTIONS ) )
-      end
+    def add_metadata!
+      git_flow_repo.working_repo.add metadata_path
+    end
+
+    # Remove the metadata file associated with the node
+    def remove_metadata
+      git_flow_repo.working_repo.remove( metadata_path ) if File.exist? metadata_path
     end
 
     # Modifies content of the file
@@ -127,12 +173,6 @@ module GitFlow
     # Is this a metadata file?
     def is_metadata?
       type == '.json'
-    end
-
-    # Returns metadata about the law to which this file belongs
-    def law_metadata
-      return @law_metadata unless @law_metadata.nil?
-      @law_metadata = JSON.parse( File.read( git_flow_repo.law_metadata_path ) )
     end
 
     # Retrieve metadata for the specified file in working directory

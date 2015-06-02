@@ -41,7 +41,7 @@ RSpec.shared_examples "a git flow repo" do
       expect( file.type ).to eq 'dir'
       expect( file.content.class ).to be Array
       file.content.each do |entry|
-        expect( entry.class ).to be GitFlow::WorkingFile
+        expect( entry.class ).to be repo.class.const_get(:WORKING_FILE_CLASS)
       end
       expect( file.metadata ).to be false
       expect( file.ancestors.length ).to eq 1

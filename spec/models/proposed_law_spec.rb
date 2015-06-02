@@ -24,21 +24,7 @@ RSpec.describe ProposedLaw, type: :model do
     let(:proposed_law) { create :proposed_law }
     before(:each) { proposed_law.working_repo }
     it "should have basic metadata" do
-      expect( proposed_law.metadata.keys ).to eq( [ "structure", "sections" ] )
-    end
-    it "should have no sections" do
-      expect( proposed_law.sections ).to be_empty
-    end
-    it "should write a properly inserted root section" do
-      proposed_law.sections << ProposedLawSection.new(
-        prefix: "section",
-        number: "1",
-        title: "Statement of Purpose"
-      )
-      proposed_law.write_metadata
-      proposed_law.reset_metadata
-      expect( proposed_law.sections.length ).to eq 1
-      expect( proposed_law.sections.first.title ).to eq "Statement of Purpose"
+      expect( proposed_law.metadata.keys ).to eq( [ "sections" ] )
     end
   end
 end

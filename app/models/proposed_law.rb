@@ -6,7 +6,7 @@ class ProposedLaw < ActiveRecord::Base
   validates :user, presence: true
   validates :title, presence: true
 
-  acts_as_git_flow_repo
+  acts_as_git_flow_repo working_file_class: ProposedLawWorkingFile
 
   after_create_working_repo :initialize_working_repo
 
@@ -24,6 +24,11 @@ class ProposedLaw < ActiveRecord::Base
 
   def reset_metadata
     @metadata = nil
+  end
+
+  # Path to metadata for law
+  def law_metadata_path
+    working_file_path 'law.json'
   end
 
   private

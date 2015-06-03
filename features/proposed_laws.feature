@@ -23,6 +23,5 @@ Feature: Manage local laws
   @javascript
   Scenario: Add a code
     Given I proposed a law
-    When I go to browse the proposed law
-    And I add a code
+    When I add a code
     Then the code should be added

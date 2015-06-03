@@ -1,0 +1,21 @@
+pagination( ng-model="list.page" ng-change="setPage(list.page)"
+total-items="list.totalPages" items-per-page="list.perPage" )
+table.table.table-striped
+  thead
+    tr
+      th Name
+      th  colspan=2 Controls
+  tbody
+    tr  ng-repeat="jurisdiction in list.jurisdictions"
+      td
+        a( ui-sref="jurisdiction.proposedLaws.paginated({jurisdictionId: \
+        jurisdiction.id, page: 1})" )
+          | {{jurisdiction.name}}
+      td
+        a.btn.btn-default  ng-click='editJurisdiction(jurisdiction)'  
+          span.glyphicon.glyphicon-wrench
+          | Settings
+      td
+        a.btn.btn-danger  ng-click='destroyJurisdiction(jurisdiction)'
+          span.glyphicon.glyphicon-remove
+          | Remove

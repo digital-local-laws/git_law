@@ -1,0 +1,8 @@
+.container-fluid
+  h2.col-lg-12
+    a  href="/jurisdictions/{{jurisdiction.id}}"
+      | {{jurisdiction.name}}
+    | &nbsp;/&nbsp;
+    a  ui-sref="proposedLaw.browse({proposedLawId:proposedLaw.id,tree:''})"
+      | {{proposedLaw.title}}
+  div ui-view=true

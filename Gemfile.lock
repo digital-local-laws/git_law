@@ -160,8 +160,6 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    haml (4.0.6)
-      tilt
     hashie (3.4.0)
     hike (1.2.3)
     hitimes (1.2.2)
@@ -296,6 +294,15 @@ GEM
       rubyzip (~> 1.0)
       websocket (~> 1.0)
     shellany (0.0.1)
+    slim (3.0.4)
+      temple (~> 0.7.3)
+      tilt (>= 1.3.3, < 2.1)
+    slim-rails (3.0.1)
+      actionmailer (>= 3.1, < 5.0)
+      actionpack (>= 3.1, < 5.0)
+      activesupport (>= 3.1, < 5.0)
+      railties (>= 3.1, < 5.0)
+      slim (~> 3.0)
     slop (3.6.0)
     spring (1.3.3)
     spring-commands-cucumber (1.0.1)
@@ -313,6 +320,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
     teaspoon (0.9.1)
       railties (>= 3.2.5, < 5)
+    temple (0.7.5)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
@@ -367,7 +375,6 @@ DEPENDENCIES
   git
   guard-cucumber
   guard-rspec
-  haml
   jbuilder (~> 2.0)
   jquery-rails
   kaminari
@@ -382,6 +389,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   selenium-webdriver
+  slim-rails
   spring
   spring-commands-cucumber
   spring-commands-rspec

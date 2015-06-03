@@ -26,8 +26,9 @@ Given(/^I proposed a law$/) do
   # TODO how to detect intermediate state when angular is unresolved because of timeout loop?
   # expect( page ).to have_text "Please wait while the proposed law is initialized."
   step "all jobs have run"
+  # TODO we need time to pass to assure intermediate steps are completed
+  sleep 4
   @proposed_law = ProposedLaw.first
-  click_link @proposed_law.jurisdiction.name
 end
 
 When(/^I remove the proposed law$/) do
@@ -54,12 +55,6 @@ Then(/^the proposed law settings should be updated$/) do
   expect( page ).to have_text "Proposed law settings were updated."
   expect( page ).to have_text "Authorizing formation of Office of Chief Obstructionist"
   expect( ProposedLaw.first.title ).to eq "Authorizing formation of Office of Chief Obstructionist"
-end
-
-When(/^I go to browse the proposed law$/) do
-  within(:xpath,"//td[contains(.,\"#{@proposed_law.title}\")]") do
-    find(:xpath,"//a[contains(.,\"#{@proposed_law.title}\")]").click
-  end
 end
 
 When(/^I add a code$/) do

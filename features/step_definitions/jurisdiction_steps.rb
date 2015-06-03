@@ -7,7 +7,7 @@ end
 When(/^I add(?:ed)? a jurisdiction$/) do
   step %{I go to add a jurisdiction}
   within(".modal-body") do
-    fill_in :name, with: "Tompkins"
+    fill_in 'Name', with: "Tompkins County"
     find(:xpath,'//button[contains(.,"Add Jurisdiction")]').click
   end
 end
@@ -16,7 +16,7 @@ Then(/^I should see the jurisdiction was added$/) do
   expect( page ).to have_text "Jurisdiction was added."
   within(:xpath,'//tbody/tr/td[position()=1]') do
     # TODO - how do we want to identify these jurisdictions?
-    expect(page).to have_text "Tompkins"
+    expect(page).to have_text "Tompkins County"
   end
 end
 

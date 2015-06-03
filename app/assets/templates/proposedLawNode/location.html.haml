@@ -1,4 +1,0 @@
-%span{ ng: { repeat: "node in proposedLawNode.ancestors" } }
-  %a{ ui: { sref: "{tree: node.tree}" } }
-    {{node.fileName ? node.fileName : '/'}}
-  %span{ ng: { if: "node.type == 'dir'" } }= "/"

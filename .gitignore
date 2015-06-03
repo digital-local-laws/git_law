@@ -24,3 +24,4 @@
 /db/dump
 /db/development
 /db/test
+npm-debug.log

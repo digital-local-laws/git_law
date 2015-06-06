@@ -9,9 +9,8 @@ When(/^I propose a law$/) do
 end
 
 Then(/^the proposed law should be added$/) do
-  # TODO how do we see what's going on while timeout loop is running?
-  # expect( page ).to have_text "Authorizing formation of Office of Chief Innovation Officer"
-  # expect( page ).to have_text "Please wait while the proposed law is initialized."
+  expect( Capybara.current_session ).to have_text "Authorizing formation of Office of Chief Innovation Officer"
+  expect( Capybara.current_session ).to have_text "Please wait while the proposed law is initialized."
   step "all jobs have run"
   sleep 2
   expect( current_url ).to match /\/browse\/$/

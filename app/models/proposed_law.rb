@@ -26,17 +26,20 @@ class ProposedLaw < ActiveRecord::Base
     @metadata = nil
   end
 
-  # Path to metadata for law
-  def law_metadata_path
-    working_file_path 'law.json'
+  def metadata_path
+    working_file_path metadata_path_in_repo
+  end
+
+  def metadata_path_in_repo
+    'law.json'
   end
 
   private
 
-  def metadata_path
-    "#{working_repo_path}/law.json"
-  end
-
+  # def metadata_path
+  #   "#{working_repo_path}/law.json"
+  # end
+  #
   def initialize_working_repo
     # TODO is this the best way to assure the jurisdiction has a repo initialized?
     jurisdiction.working_repo

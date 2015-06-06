@@ -28,18 +28,18 @@ class ProposedLawWorkingFile < GitFlow::WorkingFile
   end
 
   def write_law_metadata!
-    File.open(git_flow_repo.law_metadata_path, 'w') do |f|
+    File.open(git_flow_repo.metadata_path, 'w') do |f|
       f.write( JSON.generate( law_metadata, JSON_WRITE_OPTIONS ) )
     end
   end
 
   def add_law_metadata!
-    working_repo.add git_flow_repo.law_metadata_path
+    # repo.add git_flow_repo.metadata_path_in_repo
   end
 
   # Returns metadata about the law to which this file belongs
   def law_metadata
     return @law_metadata unless @law_metadata.nil?
-    @law_metadata = JSON.parse( File.read( git_flow_repo.law_metadata_path ) )
+    @law_metadata = JSON.parse( File.read( git_flow_repo.metadata_path ) )
   end
 end

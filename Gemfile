@@ -30,6 +30,7 @@ gem 'asciidoctor'
 gem 'api-pagination'
 gem 'omniauth'
 gem 'ruby-filemagic', require: 'filemagic'
+gem 'octokit'
 group :development, :test do
   gem 'therubyracer'
   gem 'teaspoon'

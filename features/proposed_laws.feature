@@ -51,5 +51,6 @@ Feature: Manage local laws
       | 1     | chapter | arabic      | yes   | no    | no       |
       | 2     | section | arabic      | yes   | yes   | no       |
     And I add a section to the chapter in the code
+    And the section should be added to the chapter in the code
     When I edit the text of the section
     Then the section should should be changed

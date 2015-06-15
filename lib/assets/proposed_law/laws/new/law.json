@@ -1,8 +1,0 @@
-{
-  "structure": [
-    [ "section", "§", "[0-9]+", true ],
-    [ "subsection", "subsection", "[a-z]+", false ]
-  ],
-  "sections": {
-  }
-}

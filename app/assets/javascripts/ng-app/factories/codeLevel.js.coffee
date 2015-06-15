@@ -1,9 +1,9 @@
 angular
   .module 'gitLaw'
-  .factory( 'CodeLevel', () -> 
+  .factory( 'CodeLevel', () ->
     () -> {
-      name: ''
+      label: ''
       number: 1
-      title: false
-      optional: false } )
-
+      optional: false
+      text: false
+      title: false } )

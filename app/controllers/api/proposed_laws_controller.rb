@@ -20,10 +20,6 @@ module Api
         ProposedLaw.all
       end
     end
-    expose :working_file do
-      path = params[:path_in_repo].is_a?(String) ? params[:path_in_repo] : ""
-      proposed_law.working_file path
-    end
     helper_method :proposed_laws
     helper_method :jurisdiction
 
@@ -36,44 +32,6 @@ module Api
     def show
       respond_to do |format|
         format.json { render 'show', status: 200 }
-      end
-    end
-
-    def show_node
-      respond_to do |format|
-        format.json do
-          if working_file.exists?
-            render 'show_node', status: 200
-          else
-            render nothing: true, status: 404
-          end
-        end
-      end
-    end
-
-    def create_node
-      working_file.attributes = proposed_law_node_params
-      respond_to do |format|
-        format.json do
-          if working_file.create
-            render 'show_node', status: 201
-          else
-            render 'errors', status: 422
-          end
-        end
-      end
-    end
-
-    def update_node
-      working_file.attributes = proposed_law_node_params
-      respond_to do |format|
-        format.json do
-          if working_file.update
-            render nothing: true, status: 204
-          else
-            render 'errors', status: 422
-          end
-        end
       end
     end
 

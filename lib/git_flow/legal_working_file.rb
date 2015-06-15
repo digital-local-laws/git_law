@@ -1,9 +1,19 @@
 module GitFlow
   module LegalWorkingFile
     def self.included(base)
+      base.send :before_initialize_node, :initialize_legal_node
       base.send :after_initialize_node, :initialize_metadata
       base.send :after_prepare_for_destroy, :remove_metadata
       base.send :after_update, :update_metadata
+    end
+
+    # Correctly decide whether to initialize directory or file
+    def initialize_legal_node
+      if structure["dir"]
+        initialize_dir
+      else
+        initialize_file
+      end
     end
 
     def update_metadata
@@ -42,14 +52,18 @@ module GitFlow
       return @metadata unless @metadata.nil?
       # Root and JSON file have no metadata
       if File.basename(path_in_repo).empty? || is_metadata?
+        Rails.logger.info "Metadata do not exist"
         @metadata = false
       # Otherwise, check for metadata file
       else
+        Rails.logger.info "Metadata path: #{metadata_path}"
         # Load metadata file if it exists
         if File.exist? metadata_path
+          Rails.logger.info "Metadata found"
           @metadata = JSON.parse File.read metadata_path
         # Otherwise, there is no metadata
         else
+          Rails.logger.info "Metadata not found"
           @metadata = false
         end
       end
@@ -66,19 +80,24 @@ module GitFlow
     # Returns false if the node cannot have children
     def child_structure
       return @child_structure unless @child_structure.nil?
-      # If this is the root node, contained structures are Codes
+      Rails.logger.info "Child structure of: #{path_in_repo}"
+      # If this is the root node, contained structures are codes
       @child_structure = if ancestors.first == self
-        { "name" => "Code",
+        { "name" => "code",
           "number" => false,
           "dir" => true,
           "file" => false }
       # If no structure is defined
       elsif ancestors[1].metadata === false
+        Rails.logger.info "My metadata are #{metadata}"
+        Rails.logger.info "No structure spec for this code"
         false
       # Find the appropriate child structure from the code's structure metadata
       else
         structure = ancestors[1].metadata["structure"]
+        Rails.logger.info "Structure: #{structure}"
         p = ancestors.length - 2
+        Rails.logger.info "p = #{p}"
         s = structure[p]
         return @child_structure = false if s.nil?
         # Can be a directory if it is not the last node

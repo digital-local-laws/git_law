@@ -1,20 +1,51 @@
 angular.module('lawNodeFilters',[]).
-filter('lawNodeFilename', ->
-  (node,parentNode) ->
-    name = if parentNode.childStructure
-      parentNode.childStructure.name.toString()
+filter('capitalizeFirst', ->
+  (string) ->
+    return string unless string.length > 0
+    string.charAt(0).toUpperCase() + string.slice(1) ).
+filter('lawNodeNameParts', (capitalizeFirstFilter) ->
+  (node) ->
+    label:
+      if node.nodeType
+      then capitalizeFirstFilter(node.nodeType.label.toString())
+      else ''
+    number:
+      if node.attributes.number
+      then node.attributes.number.toString()
+      else ''
+    title:
+      if node.attributes.title
+      then node.attributes.title.toString()
+      else ''
+).
+filter('lawNodeTitle', (lawNodeNamePartsFilter) ->
+  (node) ->
+    parts = lawNodeNamePartsFilter node
+    text = if parts.label && parts.number
+      parts.label + ' ' + parts.number + '.'
     else
       ''
-    number = if node.metadata.number
-      node.metadata.number.toString()
+    if parts.title
+      text = if text then text + ' ' + parts.title else parts.title
+    text
+).
+filter('lawNodeShortTitle', (lawNodeNamePartsFilter) ->
+  (node) ->
+    parts = lawNodeNamePartsFilter node
+    text = if parts.label && parts.number
+      parts.label + ' ' + parts.number
     else
-      ''
-    title = if node.metadata.title
-      node.metadata.title.toString()
+      parts.title
+    text
+).
+filter('lawNodeFilename', (lawNodeNamePartsFilter) ->
+  (node) ->
+    parts = lawNodeNamePartsFilter node
+    text = if parts.number
+      ( parts.label.toLowerCase() + '-' + parts.number )
     else
-      ''
-    text = if number
-      ( name.toLowerCase() + '-' + number )
+      parts.title.toLowerCase().replace(/[^a-z]/g,'-')
+    if text
+      text.replace(/^\-*/,'').replace(/\-*$/,'').replace(/\-+/,'-') + '.json'
     else
-      title.toLowerCase().replace(/[^a-z]/g,'-')
-    text.replace(/^\-*/,'').replace(/\-*$/,'').replace(/\-+/,'-') )
+      '' )

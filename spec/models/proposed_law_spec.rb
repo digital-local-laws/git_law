@@ -20,6 +20,7 @@ RSpec.describe ProposedLaw, type: :model do
     end
   end
   it_should_behave_like "a git flow repo"
+  it_should_behave_like "a git flow node repo"
   context "law metadata" do
     let(:proposed_law) { create :proposed_law }
     before(:each) { proposed_law.working_repo }

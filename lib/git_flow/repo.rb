@@ -48,8 +48,9 @@ module GitFlow
       File.join working_repo_path, file
     end
 
-    def working_file(file)
-      self.class.const_get(:WORKING_FILE_CLASS).new( self, file )
+    def working_file(tree)
+      # self.class.const_get(:WORKING_FILE_CLASS).new( self, file )
+      GitFlow::WorkingFile.new self, tree
     end
 
     private

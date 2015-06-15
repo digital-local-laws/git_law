@@ -2,7 +2,7 @@ angular
   .module 'gitLaw', [ 'angularFileUpload', 'ngAnimate', 'ngSanitize',
      'ui.select', 'ui.router', 'ngResource', 'templates', 'ui.utils',
     'ui.bootstrap', 'angular-chartist', 'ui.tree', 'lawNodeFilters',
-    'ui.ace' ]
+    'ui.ace', 'glFileContentDirective', 'glNodeLocationDirective' ]
   .config ($stateProvider, $urlRouterProvider, $locationProvider,
     $urlMatcherFactoryProvider, uiSelectConfig ) ->
     uiSelectConfig.theme = 'bootstrap'
@@ -11,9 +11,13 @@ angular
     $urlRouterProvider.when('/jurisdictions/:jurisdictionId/proposed-laws',
       '/jurisdictions/:jurisdictionId/proposed-laws/page/1')
     $urlRouterProvider.when('/proposed-laws/:proposedLawId',
-      '/proposed-laws/:proposedLawId/browse/')
-    $urlRouterProvider.when('/proposed-laws/:proposedLawId/browse',
-      '/proposed-laws/:proposedLawId/browse/')
+      '/proposed-laws/:proposedLawId/nodes/')
+    $urlRouterProvider.when('/proposed-laws/:proposedLawId/nodes',
+      '/proposed-laws/:proposedLawId/nodes/')
+    # $urlRouterProvider.when('/proposed-laws/:proposedLawId',
+    #   '/proposed-laws/:proposedLawId/browse/')
+    # $urlRouterProvider.when('/proposed-laws/:proposedLawId/browse',
+    #   '/proposed-laws/:proposedLawId/browse/')
     $urlMatcherFactoryProvider
       .type('path', {
         is: (val) ->
@@ -109,10 +113,20 @@ angular
         templateUrl: 'proposedLaw/initialize.html'
         controller: 'ProposedLawInitializeCtrl'
       }
-      .state 'proposedLaw.browse', {
-        url: '/browse/{tree:path}'
-        templateUrl: 'proposedLawNode/browse.html'
-        controller: 'ProposedLawNodeCtrl'
+      .state 'proposedLaw.nodes', {
+        url: '/nodes/{tree:path}'
+        templateUrl: 'proposedLawNode/nodes.html'
+        controller: 'ProposedLawNodesCtrl'
       }
+      .state 'proposedLaw.node', {
+        url: '/node/{tree:path}'
+        templateUrl: 'proposedLawNode/node.html'
+        controller: 'ProposedLawNodeTextCtrl'
+      }
+      # .state 'proposedLaw.browse', {
+      #   url: '/browse/{tree:path}'
+      #   templateUrl: 'proposedLawNode/browse.html'
+      #   controller: 'ProposedLawNodeCtrl'
+      # }
     $urlRouterProvider.otherwise '/'
     $locationProvider.html5Mode true

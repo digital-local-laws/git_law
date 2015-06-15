@@ -25,3 +25,31 @@ Feature: Manage local laws
     Given I proposed a law
     When I add a code
     Then the code should be added
+  @javascript
+  Scenario Outline: Add a structured code
+    Given I proposed a law
+    And I added a structured code:
+      | level | label   | number      | title | text  | optional |
+      | 1     | part    | upper roman | yes   | no    | no       |
+      | 2     | chapter | arabic      | yes   | no    | no       |
+      | 3     | article | lower roman | yes   | no    | yes      |
+      | 4     | section | arabic      | yes   | yes   | no       |
+    When I add a <child> to the <parent> in the code
+    Then the <child> should be added to the <parent> in the code
+    Examples:
+      | child   | parent  |
+      | part    | root    |
+      | chapter | part    |
+      | article | chapter |
+      | section | chapter |
+      | section | article |
+  @javascript @wip
+  Scenario: Add textual content to a structured code
+    Given I proposed a law
+    And I added a structured code:
+      | level | label   | number      | title | text  | optional |
+      | 1     | chapter | arabic      | yes   | no    | no       |
+      | 2     | section | arabic      | yes   | yes   | no       |
+    And I add a section to the chapter in the code
+    When I edit the text of the section
+    Then the section should should be changed

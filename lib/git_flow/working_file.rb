@@ -3,28 +3,17 @@ module GitFlow
     include Comparable
     extend ActiveModel::Callbacks
 
-    JSON_WRITE_OPTIONS = {
-      indent: '  ',
-      space: ' ',
-      object_nl: "\n",
-      array_nl: "\n"
-    }
+    define_model_callbacks :create, :update, :destroy
 
-    define_model_callbacks :create, :initialize_node, :initialize_dir,
-      :initialize_file, :destroy, :prepare_for_destroy, :update
-
-    def initialize(git_flow_repo, path_in_repo)
+    def initialize(git_flow_repo, tree)
       @git_flow_repo = git_flow_repo
-      @path_in_repo = path_in_repo.gsub /^[\.\/]*/, ''
+      @tree = tree.gsub /^[\.\/]*/, ''
       super()
     end
 
-    # Comparison
-    # Show directories first, then sort by name
+    # Comparison by file name
     def <=>( other )
-      return -1 if directory?  && !other.directory?
-      return 1 if !directory? && other.directory?
-      file_name <=> other.file_name
+      tree <=> other.tree
     end
 
     # Check whether the file exists
@@ -32,39 +21,83 @@ module GitFlow
       File.exist? absolute_path
     end
 
+    # Retrieves the children of this folder, if it is a directory
+    # Children are instantiated as working files
+    # Returns false if it is not a directory
+    def children
+      return @children unless @children.nil?
+      @children = if exists? && directory?
+        Dir.glob( File.join(absolute_path,'*') ).sort.map do |entry|
+          git_flow_repo.working_file(
+            entry.gsub( /^#{Regexp.escape absolute_path}/, tree )
+          )
+        end
+      else
+        false
+      end
+    end
+
+    def is_node?
+      file_name =~ /\.json$/
+    end
+
+    # Instantiates a node object for this file, if it is a node file
+    def node
+      if root?
+        GitFlow::Node.new git_flow_repo, tree
+      elsif is_node?
+        GitFlow::Node.new git_flow_repo, tree
+      else
+        false
+      end
+    end
+
+    # Save the file
+    def save
+      if exists?
+        update
+      else
+        create
+      end
+    end
+
     # Initialize the file
-    # Add and commit file
-    def create
+    def create( directory = false )
       run_callbacks :create do
-        initialize_node
-        # git_flow_repo.working_repo.commit "Add #{path_in_repo}"
-        # git_flow_repo.working_repo.push
+        if directory
+          FileUtils.mkdir absolute_path
+        else
+          write_content
+        end
         true
       end
     end
 
-    def initialize_node
-      run_callbacks :initialize_node do
-        # TODO structure is a property of only some nodes -- how do we generalize
-        # TODO should nodes be able to be both a directory and a file with extension?
-        if structure["dir"]
-          initialize_dir
-        else
-          initialize_file
-        end
+    # Write content to the file
+    def write_content
+      File.open(absolute_path,'w') do |file|
+        file << content if content
       end
     end
 
-    def initialize_dir
-      run_callbacks :initialize_dir do
-        FileUtils.mkdir absolute_path
+    # Set content to be stored in the file
+    def content=(v)
+      @content = v
+    end
+
+    # Access content from file
+    def content
+      return @content unless @content.nil?
+      @content = if exists?
+        File.read absolute_path
+      else
+        false
       end
     end
 
-    def initialize_file
-      run_callbacks :initialize_file do
-        FileUtils.touch absolute_path
-        add_content!
+    def update
+      run_callbacks :update do
+        write_content
       end
     end
 
@@ -72,64 +105,8 @@ module GitFlow
     # Commit changes
     def destroy
       run_callbacks :destroy do
-        prepare_for_destroy
-        # git_flow_repo.working_repo.commit "Remove #{path_in_repo}"
-        # git_flow_repo.working_repo.push
+        # TODO
         true
-      end
-    end
-
-    def prepare_for_destroy
-      run_callbacks :prepare_for_destroy do
-        git_flow_repo.working_repo.remove absolute_path, recursive: true
-      end
-    end
-
-    def update
-      run_callbacks :update do
-        unless File.directory?( absolute_path ) || File.binary?( absolute_path )
-          write_content!
-        end
-        true
-      end
-    end
-
-    def write_content!
-      raise "Cannot write content for directory." if File.directory? absolute_path
-      raise "Cannot write content for binary file." if File.binary? absolute_path
-      File.open(absolute_path,'w') do |f|
-        f << content
-      end
-    end
-
-    def add_content!
-      git_flow_repo.working_repo.add absolute_path
-    end
-
-    # Modifies content of the file
-    # This will only work for regular text files
-    def content=(newContent)
-      @content = newContent
-    end
-
-    # Returns content of file
-    # * array of file contents if directory
-    # * actual content of text file
-    # * false if binary file
-    def content
-      @content ||= if File.directory? absolute_path
-        Dir.glob( File.join(absolute_path,'*') ).map { |entry|
-          path = if File.basename(path_in_repo) == ''
-            File.basename(entry)
-          else
-            File.join( path_in_repo, File.basename(entry) )
-          end
-          git_flow_repo.working_file path
-        }.sort
-      elsif File.binary? absolute_path
-        false
-      else
-        File.open( absolute_path ).read || ""
       end
     end
 
@@ -139,54 +116,43 @@ module GitFlow
       @directory = File.directory? absolute_path
     end
 
-    # Returns the file extension or 'dir' if directory
-    def type
-      @type ||= if directory?
-        'dir'
-      else
-        File.extname path_in_repo
-      end
-    end
-
-    def attributes=(values)
-      self.content = values["content"] if values["content"]
-      self.metadata = values["metadata"] if values["metadata"]
-    end
-
     # Instantiate ordered list of ancestor nodes
     def ancestors
       return @ancestors unless @ancestors.nil?
       # Stop if this is already the root node
-      return @ancestors = [self] if File.basename(path_in_repo).empty?
+      return @ancestors = [self] if File.basename(tree).empty?
       # Path for parent is blank if parent is root node
-      parent_path = if File.dirname(path_in_repo) == '.'
+      parent_path = if File.dirname(tree) == '.'
         ""
       # Otherwise it is the directory in which this node is located
       else
-        File.dirname path_in_repo
+        File.dirname tree
       end
       parent = git_flow_repo.working_file parent_path
       @ancestors = parent.ancestors + [ self ]
     end
 
-    # Return the path of the ancestor node
-    def base_path
-      ancestors.last.path_in_repo
-    end
-
     # Return just the name of the file or blank if at repo root
     def file_name
-      @file_name ||= File.basename path_in_repo
+      @file_name ||= File.basename tree
     end
 
-    def path_in_repo; @path_in_repo; end
+    def file_name_extension
+      File.extname tree
+    end
+
+    def tree; @tree; end
 
     def absolute_path
-      @absolute_path ||= git_flow_repo.working_file_path path_in_repo
+      @absolute_path ||= git_flow_repo.working_file_path tree
     end
 
     def status_file
-      repo.status.map(&:last).select { |f| f.path == path_in_repo }
+      repo.status.map(&:last).select { |f| f.path == tree }
+    end
+
+    def root?
+      tree == ''
     end
 
     private

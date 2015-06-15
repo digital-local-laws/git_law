@@ -1,0 +1,23 @@
+div  ng-if="repo.workingRepoCreated"
+  h3.col-lg-12
+    span ng-if="node" ng-repeat="aNode in node.ancestorNodes"
+      a  ui-sref="{tree: aNode.tree}"  
+        | {{aNode | lawNodeShortTitle}}
+      span  ng-if="aNode.childNodesAllowed"
+        | &nbsp;/&nbsp;
+  .row  style="height: 100%;"
+    .col-lg-3
+      h4
+        | Sections
+      div  ui-tree=true
+        ol.nav.nav-pills.nav-stacked  ui-tree-nodes=true ng-model="repo.sections"
+          li  ng-repeat="section in repo.sections" ui-tree-node=true ui-sref-active='active'
+            a  ui-sref="^.node({tree: section.tree})"  
+              span.glyphicon.glyphicon-move  ui-tree-handle=true
+              | {{section | lawNodeShortTitle}}
+            ol.nav.nav-pills.nav-stacked  ui-tree-nodes=true ng-model="section.sections" type='a'
+              li  ng-repeat="subSection in section.sections" ui-tree-node=true ui-sref-active='active'
+                span.glyphicon.glyphicon-move  ui-tree-handle=true
+                a  ui-sref=".({tree: subSection.tree})"
+                  | {{subSection | lawNodeShortTitle}}
+    .col-lg-9 ng-transclude=true style="height: 100%;"  

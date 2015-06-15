@@ -1,8 +1,8 @@
 angular
   .module 'gitLaw'
-  .factory( 'ProposedLawNode', ['$resource', ($resource) ->
+  .factory( 'ProposedLawFile', ['$resource', ($resource) ->
     return $resource(
-      '/api/proposed_laws/:proposedLawId/node/:tree.:format'
+      '/api/proposed_laws/:proposedLawId/file/:tree.:format'
       {
         proposedLawId: "@proposedLawId"
         tree: "@tree"
@@ -13,9 +13,9 @@ angular
         query:
           method: 'GET'
           isArray: true
-          url: '/api/proposed_laws/:proposedLawId/nodes/:tree.:format'
+          url: '/api/proposed_laws/:proposedLawId/files/:tree.:format'
         save:
-          method: 'PATCH'
+          method: 'PUT'
         create:
           method: 'POST'
       } )

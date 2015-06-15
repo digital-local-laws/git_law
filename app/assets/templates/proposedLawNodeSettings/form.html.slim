@@ -4,13 +4,13 @@
   form  name="proposedLawNodeForm"  
     .form-group.has-feedback( ng-class="{'has-error': errors.title || \
     proposedLawNodeForm.title.$invalid, 'has-success': \
-    proposedLawNode.metadata.title && !errors.title && \
+    proposedLawNode.attributes.title && !errors.title && \
     proposedLawNodeForm.title.$valid }" )
       label.control-label  for="title"   Title
       input.form-control( type='text' id="title" name="title" 
-      ng-model="proposedLawNode.metadata.title" )
+      ng-model="proposedLawNode.attributes.title" )
       span.glyphicon.glyphicon-ok.form-control-feedback(
-      ng-show="proposedLawNode.metadata.title && !errors.title \
+      ng-show="proposedLawNode.attributes.title && !errors.title \
       && !proposedLawNodeForm.title.$invalid" )
       span.glyphicon.glyphicon-remove.form-control-feedback(
       ng-show="errors.title || proposedLawNodeForm.title.$invalid" )
@@ -19,38 +19,20 @@
         br
     .form-group.has-feedback( ng-class="{'has-error': errors.number || \
     proposedLawNodeForm.number.$invalid, 'has-success': \
-    proposedLawNode.metadata.number && !errors.number && \
+    proposedLawNode.attributes.number && !errors.number && \
     proposedLawNodeForm.number.$valid }" \
-    ng-if="parentNode.childStructure.number" )
+    ng-if="proposedLawNode.nodeType.number" )
       label.control-label  for="number"   Number
       input.form-control( type='text' id="number" name="number"
-      ng-model="proposedLawNode.metadata.number" )
+      ng-model="proposedLawNode.attributes.number" )
       span.glyphicon.glyphicon-ok.form-control-feedback(
-      ng-show="proposedLawNode.metadata.number && !errors.number \
+      ng-show="proposedLawNode.attributes.number && !errors.number \
       && !proposedLawNodeForm.number.$invalid" )
       span.glyphicon.glyphicon-remove.form-control-feedback(
       ng-show="errors.number || proposedLawNodeForm.number.$invalid"  
       span.help-block  ng-repeat="error in errors.number" )
         | {{error}}
         br
-    .form-group( ng-class="{'has-error': proposedLawNodeForm.type.$invalid, \
-    'has-success': !proposedLawNodeForm.type.$invalid && \
-    proposedLawNode.type, 'has-feedback': true}" ng-if='types.length > 1' )
-      label.col-sm-2.control-label  for="type"  Type
-      .col-sm-7
-        .btn-group  data-toggle='buttons'
-          label.btn.btn-info( ng-repeat="type in types" ng-class="{'active': \
-          proposedLawNode.type == type[0] }" ng-click="setType( type[0] )" )
-            input  type="radio" name="type"  
-            | {{type[1]}}
-        span.glyphicon.glyphicon-ok.form-control-feedback(
-        ng-show="!proposedLawNodeForm.type.$invalid && proposedLawNode.type" )
-        span.glyphicon.glyphicon-remove.form-control-feedback(
-        ng-show="proposedLawNodeForm.type.$invalid" )
-        span.help-block  ng-show="proposedLawNodeForm.type.$error.required"  
-          | Is required.
-        span.help-block
-          | Specify whether this is a text item or a container for additional items.
     .form-group.has-feedback( ng-class="{'has-error': errors.fileName || \
     proposedLawNodeForm.fileName.$invalid, 'has-success': \
     proposedLawNode.fileName && !errors.fileName && \
@@ -69,69 +51,86 @@
     button.btn.btn-default  ng-click="addLevel(0)"
       span.glyphicon.glyphicon-plus
       | Add Level
-    fieldset( ng-if="proposedLawNode.metadata.structure && \
-    parentNode.ancestors.length == 1"
-    ng-repeat="level in proposedLawNode.metadata.structure"
+    fieldset( ng-if="proposedLawNode.attributes.structure"
+    ng-repeat="level in proposedLawNode.attributes.structure"
     ng-init="levelI = $index" ng-form="levelForm" )
       legend
         | Level {{$index + 1}}
-      .text-right  ng-if="proposedLawNode.metadata.structure.length > 1"  
+      .text-right  ng-if="proposedLawNode.attributes.structure.length > 1"  
         button.btn.btn-danger  ng-click="removeLevel($index)"
           span.glyphicon.glyphicon-remove
           | Remove Level
       .form-group.has-feedback( ng-class="{'has-error': \
-      levelForm.name.$invalid, 'has-success': \
-      proposedLawNode.metadata.structure[$index].name && \
-      levelForm.name.$valid }" )
-        label.control-label  for="name"   Name
-        input.form-control( type='text' id="name" name="name"
-        ng-model="proposedLawNode.metadata.structure[$index].name" )
+      levelForm.label.$invalid, 'has-success': \
+      proposedLawNode.attributes.structure[$index].label && \
+      levelForm.label.$valid }" )
+        label.control-label  for="label"   Label
+        input.form-control( type='text' id="label" name="label"
+        ng-model="proposedLawNode.attributes.structure[$index].label" )
         span.glyphicon.glyphicon-ok.form-control-feedback(
-        ng-show="proposedLawNode.metadata.structure[$index].name && \
-        !levelForm.name.$invalid" )
+        ng-show="proposedLawNode.attributes.structure[$index].label && \
+        !levelForm.label.$invalid" )
         span.glyphicon.glyphicon-remove.form-control-feedback(
-        ng-show="levelForm.name.$invalid" )
+        ng-show="levelForm.label.$invalid" )
         span.help-block
           | What are the segments of the code that appears at this level called?
-          | Use singular form and capitalize appropriately.
+          | Use singular form.
       .form-group
         label.control-label  for="number"   Number
         select.form-control(
-        ng-model="proposedLawNode.metadata.structure[$index].number"
+        ng-model="proposedLawNode.attributes.structure[$index].number"
         name="number" id="number" )
           option  ng-repeat="option in numberOptions" value="{{option[0]}}"  
             | {{option[1]}}
       .form-group( ng-class="{'has-error': levelForm.title.$invalid, \
       'has-success': !levelForm.title.$invalid && \
-      proposedLawNode.metadata.structure[$index].title, 'has-feedback': true}" )
+      proposedLawNode.attributes.structure[$index].title, 'has-feedback': true}" )
         label.control-label  for="title"  Titling
         .btn-group
           label.btn.btn-info( ng-repeat="title in titleOptions"
-          ng-model="proposedLawNode.metadata.structure[levelI].title"
+          ng-model="proposedLawNode.attributes.structure[levelI].title"
           btn-radio="title[0]" )
             | {{title[1]}}
         span.glyphicon.glyphicon-ok.form-control-feedback(
         ng-show="!levelForm.title.$invalid && \
-        proposedLawNode.metadata.structure[$index].title" ) 
+        proposedLawNode.attributes.structure[$index].title" ) 
         span.glyphicon.glyphicon-remove.form-control-feedback(
         ng-show="levelForm.title.$invalid" )
         span.help-block  ng-show="levelForm.title.$error.required"
           | Is required.
         span.help-block
           | Specify whether segments at this level may have descriptive titles.
+      .form-group( ng-class="{'has-error': levelForm.text.$invalid, \
+      'has-success': !levelForm.text.$invalid && \
+      proposedLawNode.attributes.structure[$index].text, 'has-feedback': true}" )
+        label.control-label  for="text"  Textual Content
+        .btn-group
+          label.btn.btn-info( ng-repeat="text in textOptions"
+          ng-model="proposedLawNode.attributes.structure[levelI].text"
+          btn-radio="text[0]" )
+            | {{text[1]}}
+        span.glyphicon.glyphicon-ok.form-control-feedback(
+        ng-show="!levelForm.text.$invalid && \
+        proposedLawNode.attributes.structure[$index].text" ) 
+        span.glyphicon.glyphicon-remove.form-control-feedback(
+        ng-show="levelForm.text.$invalid" )
+        span.help-block  ng-show="levelForm.text.$error.required"
+          | Is required.
+        span.help-block
+          | Specify whether segments at this level may have textual content.
       .form-group( ng-class="{'has-error': levelForm.optional.$invalid, \
       'has-success': !levelForm.optional.$invalid && \
-      proposedLawNode.metadata.structure[$index].optional, \
+      proposedLawNode.attributes.structure[$index].optional, \
       'has-feedback': true}" )
         label.control-label  for="optional"  Level Optional
         .btn-group  data-toggle='buttons'
           label.btn.btn-info( ng-repeat="option in optionalOptions"
-          ng-model="proposedLawNode.metadata.structure[levelI].optional"
+          ng-model="proposedLawNode.attributes.structure[levelI].optional"
           btn-radio= "option[0]" )
             | {{option[1]}}
         span.glyphicon.glyphicon-ok.form-control-feedback(
         ng-show="!levelForm.optional.$invalid && \
-        proposedLawNode.metadata.structure[$index].optional" )
+        proposedLawNode.attributes.structure[$index].optional" )
         span.glyphicon.glyphicon-remove.form-control-feedback(
         ng-show="levelForm.optional.$invalid" )
         span.help-block  ng-show="levelForm.optional.$error.required"
@@ -142,13 +141,14 @@
         span.glyphicon.glyphicon-plus
         | Add Level
 
-
 .modal-footer
   button.btn.btn-primary( type="button" ng-click="save(proposedLawNode)"
   ng-disabled="proposedLawNodeForm.$invalid" )
     span.glyphicon.glyphicon-ok
-    | {{proposedLawNode.id ? 'Update ' + structure.name + ' Settings' : 
-    | 'Add ' + parentNode.childStructure.name}}
+    span ng-if="proposedLawNode.id"
+      | Update {{proposedLawNode.nodeType.label | capitalizeFirst}} Settings
+    span ng-if="!proposedLawNode.id"
+      | Add {{proposedLawNode.nodeType.label | capitalizeFirst}}
   button.btn.btn-default  type="button" ng-click="cancel()"  
     span.glyphicon.glyphicon-remove
     | Cancel

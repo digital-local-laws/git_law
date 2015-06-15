@@ -31,27 +31,27 @@ RSpec.shared_examples "a git flow repo" do
       expect(File.exist? working_repo_path ).to be false
     end
   end
-  context "working_file" do
-    it "should handle repo root" do
-      file = repo.working_file( "" )
-      expect( file.exists? ).to be false
-      repo.working_repo
-      expect( file.file_name ).to eq ""
-      expect( file.exists? ).to be true
-      expect( file.type ).to eq 'dir'
-      expect( file.content.class ).to be Array
-      file.content.each do |entry|
-        expect( entry.class ).to be repo.class.const_get(:WORKING_FILE_CLASS)
-      end
-      expect( file.metadata ).to be false
-      expect( file.ancestors.length ).to eq 1
-    end
-    it "should handle repo subdir with metadata" do
-      repo.working_repo
-      file = repo.working_file( "laws" )
-      expect( file.type ).to eq 'dir'
-      expect( file.metadata.class ).to be Hash
-      expect( file.ancestors.length ).to eq 2
-    end
-  end
+  # context "working_file" do
+  #   it "should handle repo root" do
+  #     file = repo.working_file( "" )
+  #     expect( file.exists? ).to be false
+  #     repo.working_repo
+  #     expect( file.file_name ).to eq ""
+  #     expect( file.exists? ).to be true
+  #     expect( file.type ).to eq 'dir'
+  #     expect( file.content.class ).to be Array
+  #     file.content.each do |entry|
+  #       expect( entry.class ).to be repo.class.const_get(:WORKING_FILE_CLASS)
+  #     end
+  #     expect( file.metadata ).to be false
+  #     expect( file.ancestors.length ).to eq 1
+  #   end
+  #   it "should handle repo subdir with metadata" do
+  #     repo.working_repo
+  #     file = repo.working_file( "laws" )
+  #     expect( file.type ).to eq 'dir'
+  #     expect( file.metadata.class ).to be Hash
+  #     expect( file.ancestors.length ).to eq 2
+  #   end
+  # end
 end

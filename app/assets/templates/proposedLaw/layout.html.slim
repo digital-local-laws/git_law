@@ -3,6 +3,6 @@
     a  href="/jurisdictions/{{jurisdiction.id}}"
       | {{jurisdiction.name}}
     | &nbsp;/&nbsp;
-    a  ui-sref="proposedLaw.browse({proposedLawId:proposedLaw.id,tree:''})"
+    a  ui-sref="proposedLaw.nodes({proposedLawId:proposedLaw.id,tree:''})"
       | {{proposedLaw.title}}
   div ui-view=true

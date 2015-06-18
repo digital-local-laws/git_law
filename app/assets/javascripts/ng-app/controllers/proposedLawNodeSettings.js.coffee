@@ -48,7 +48,7 @@ angular
       failure = ( response ) ->
         $scope.alerts.push( { type: 'danger', msg: "Save failed." } )
         $scope.errors = response.data.errors
-      if proposedLawNode.id
+      if proposedLawNode.exists
         proposedLawNode.$save( success, failure )
       else
         proposedLawNode.tree = if parentNode.tree

@@ -145,9 +145,9 @@
   button.btn.btn-primary( type="button" ng-click="save(proposedLawNode)"
   ng-disabled="proposedLawNodeForm.$invalid" )
     span.glyphicon.glyphicon-ok
-    span ng-if="proposedLawNode.id"
+    span ng-if="proposedLawNode.exists"
       | Update {{proposedLawNode.nodeType.label | capitalizeFirst}} Settings
-    span ng-if="!proposedLawNode.id"
+    span ng-if="!proposedLawNode.exists"
       | Add {{proposedLawNode.nodeType.label | capitalizeFirst}}
   button.btn.btn-default  type="button" ng-click="cancel()"  
     span.glyphicon.glyphicon-remove

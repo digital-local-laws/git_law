@@ -148,7 +148,7 @@ end
 Then(/^the (\w+) should be added to the (\w+) in the code$/) do |child, parent|
   within 'h3' do
     # TODO logic should access code structure
-    expect( page ).to have_text "A new #{child}"
+    expect( page ).to have_text "#{child.capitalize} 1"
   end
 end
 
@@ -172,4 +172,23 @@ Then(/^the section should should be changed$/) do
   }.join("/") + ".asc"
   step "saving has completed"
   expect( @proposed_law.working_file(path).content ).to include "This is the start of a code."
+end
+
+When /^I go to the (\w+) in the code and change settings for the (\w+)$/ do |parent, child|
+  if parent == 'root'
+    click_link 'Tompkins County Code'
+  else
+    click_link "#{parent.capitalize} 1"
+  end
+  within( :xpath, ".//tr[contains(./td,\"A new #{child}\")]" ) do
+    find(:xpath,".//button[contains(.,\"Settings\")]").click
+  end
+  fill_in "Title", with: "An old #{child}"
+  click_button "Update #{child.capitalize}"
+end
+
+Then /^the (\w+) settings should be changed in the code$/ do |child|
+  within('table') do
+    expect( page ).to have_text "An old #{child}"
+  end
 end

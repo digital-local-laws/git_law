@@ -20,6 +20,25 @@ angular
     ProposedLawNode.query( {
       proposedLawId: $scope.proposedLaw.id
       tree: $stateParams.tree }, onProposedLawNodesLoad )
+    $scope.editNode = (node) ->
+      modalInstance = $modal.open(
+        templateUrl: 'proposedLawNodeSettings/edit.html',
+        controller: 'ProposedLawNodeSettingsCtrl',
+        resolve:
+          proposedLaw: ->
+            $scope.proposedLaw
+          proposedLawNode: ->
+            node.proposedLawId = $scope.proposedLaw.id
+            node.exists = true
+            node
+          parentNode: ->
+            $scope.proposedLawNode
+      )
+      modalInstance.result.then(
+        ( (proposedLawNode) ->
+          $state.reload
+        ),
+        ( () -> false ) )
     $scope.newNode = (proposedLawNode,nodeType) ->
       modalInstance = $modal.open(
         templateUrl: 'proposedLawNodeSettings/new.html',

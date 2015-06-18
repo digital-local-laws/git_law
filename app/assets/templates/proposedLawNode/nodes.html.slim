@@ -21,6 +21,10 @@ gl-node gl-node-location="proposedLawNode" gl-repo="proposedLaw"
             span.glyphicon.glyphicon-file
             |  {{node | lawNodeTitle}}
         td
+          button.btn.btn-default ng-click="editNode(node)"
+            span.glyphicon.glyphicon-wrench
+            | Settings
+        td
           a.btn.btn-info
             span.glyphicon.glyphicon-pencil
             | Text

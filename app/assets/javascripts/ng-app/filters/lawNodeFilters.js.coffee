@@ -6,7 +6,7 @@ filter('capitalizeFirst', ->
 filter('lawNodeNameParts', (capitalizeFirstFilter) ->
   (node) ->
     label:
-      if node.nodeType
+      if node.nodeType && node.nodeType.label
       then capitalizeFirstFilter(node.nodeType.label.toString())
       else ''
     number:

@@ -107,6 +107,7 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
       expect( node.allowed_child_node_types ).to be_empty
       expect( node.node_structure.first["label"] ).to eql "chapter"
       expect( node.node_type["label"] ).to eql "chapter"
+      expect( node.text_file.exists? ).to eql true
     end
   end
 end

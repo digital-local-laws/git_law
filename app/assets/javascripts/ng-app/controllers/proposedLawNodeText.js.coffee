@@ -12,10 +12,12 @@ angular
           success = (n,headers) ->
           fail = (n,headers) ->
           $scope.proposedLawFile.$save({},success,fail)
+          $scope.saveInProgress = false
         cancelTimeout = ->
           $timeout.cancel( $scope.timeout ) if $scope.timeout
         debounceSaveContent = ( newVal, oldVal ) ->
           if newVal != oldVal
+            $scope.saveInProgress = true
             cancelTimeout()
             $scope.timeout = $timeout( saveContent, 5000 )
         $scope.$on '$destroy', ->

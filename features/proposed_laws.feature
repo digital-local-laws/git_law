@@ -43,7 +43,7 @@ Feature: Manage local laws
       | article | chapter |
       | section | chapter |
       | section | article |
-  @javascript @wip
+  @javascript
   Scenario: Add textual content to a structured code
     Given I proposed a law
     And I added a structured code:

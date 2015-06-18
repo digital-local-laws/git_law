@@ -74,7 +74,9 @@ Then(/^the code should be added$/) do
 end
 
 Given /^I fill in the following levels for the code structure:$/ do |t|
+  @proposed_law_levels ||= []
   t.hashes.each do |level|
+    @proposed_law_levels << level
     parent_level = "Level #{level['level'].to_i - 1}"
     this_level = "Level #{level['level']}"
     number_key = {
@@ -86,9 +88,7 @@ Given /^I fill in the following levels for the code structure:$/ do |t|
     }
     unless has_selector?( :xpath, "//fieldset[contains(./legend,\"#{this_level}\")]" )
       within_fieldset parent_level do
-      # within( :xpath, "//fieldset[contains(./legend,\"#{parent_level}\")]" ) do
         click_button "Add Level"
-        # find( :xpath, '//button[contains(.,"Add Level")]' ).click
       end
     end
     within_fieldset this_level do
@@ -153,10 +153,23 @@ Then(/^the (\w+) should be added to the (\w+) in the code$/) do |child, parent|
 end
 
 When(/^I edit the text of the section$/) do
-  find( :xpath, ".//button[contains(.,\"Edit\")]" ).click
   find( :xpath, ".//textarea" ).set("This is the start of a code.")
+  expect( page ).to have_text "Saving..."
+end
+
+When(/^saving has completed$/) do
+  start = Time.zone.now
+  while Capybara.current_session.has_text?("Saving...") do
+    raise "Timeout waiting for saving to complete." if Time.zone.now - start > 10.seconds
+    sleep 0.01
+  end
 end
 
 Then(/^the section should should be changed$/) do
-  expect( page ).to have_text "Saved"
+  path = "tompkins-county-code/"
+  path += @proposed_law_levels.map { |level|
+    "#{level['label']}-1"
+  }.join("/") + ".asc"
+  step "saving has completed"
+  expect( @proposed_law.working_file(path).content ).to include "This is the start of a code."
 end

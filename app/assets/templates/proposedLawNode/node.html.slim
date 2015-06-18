@@ -1,3 +1,5 @@
 gl-node gl-node-location="proposedLawNode" gl-repo="proposedLaw"
   .col-xs-9
+    .text-center.alert.alert-info ng-if="saveInProgress"
+      | Saving...
     gl-file-content gl-file="proposedLawFile" gl-on-load="setupEditor"

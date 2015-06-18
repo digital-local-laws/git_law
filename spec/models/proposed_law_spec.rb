@@ -25,7 +25,7 @@ RSpec.describe ProposedLaw, type: :model do
     let(:proposed_law) { create :proposed_law }
     before(:each) { proposed_law.working_repo }
     it "should have basic metadata" do
-      expect( proposed_law.metadata.keys ).to eq( [ "sections" ] )
+      expect( proposed_law.working_file('proposed-law.json').exists? ).to be true
     end
   end
 end

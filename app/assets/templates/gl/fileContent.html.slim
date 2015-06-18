@@ -1,6 +1,3 @@
 .row
-  button.btn.btn-warning( type="button" ng-model="readOnlyText" btn-checkbox )
-.row
-  div( ui-ace="{mode: editorMode, onLoad: \
-  heightUpdate, useWrapMode: true}" ng-model='file.content'
-  ng-readonly="readOnlyText" )
+  div( ui-ace="{mode: editorMode(file), onLoad: onLoad, useWrapMode: true}"
+  ng-model="file.content" )

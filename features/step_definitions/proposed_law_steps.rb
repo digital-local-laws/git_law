@@ -151,3 +151,12 @@ Then(/^the (\w+) should be added to the (\w+) in the code$/) do |child, parent|
     expect( page ).to have_text "A new #{child}"
   end
 end
+
+When(/^I edit the text of the section$/) do
+  find( :xpath, ".//button[contains(.,\"Edit\")]" ).click
+  find( :xpath, ".//textarea" ).set("This is the start of a code.")
+end
+
+Then(/^the section should should be changed$/) do
+  expect( page ).to have_text "Saved"
+end

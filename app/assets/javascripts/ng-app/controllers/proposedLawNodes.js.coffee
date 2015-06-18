@@ -8,6 +8,10 @@ angular
       return $state.transitionTo('proposedLaw.initialize',{proposedLawId: $scope.proposedLaw.id})
     onProposedLawNodeLoad = (proposedLawNode) ->
       $scope.proposedLawNode = proposedLawNode
+      unless $scope.proposedLawNode.childNodesAllowed
+        $state.go( 'proposedLaw.node',{
+          proposedLawId: $stateParams.proposedLawId
+          tree: $stateParams.tree } )
     onProposedLawNodesLoad = (proposedLawNodes) ->
       $scope.proposedLawNodes = proposedLawNodes
     ProposedLawNode.get( {

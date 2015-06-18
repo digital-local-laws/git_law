@@ -1,16 +1,14 @@
-angular.module('glFileContentDirective',[]).
+angular.module('glFileContentDirective',['ui.ace']).
 directive('glFileContent', ->
   link = ( scope, element, attrs ) ->
-    setEditorMode = ->
-      scope.editorMode = switch scope.file.fileNameExtension
+    scope.editorMode = (file) ->
+      return 'asciidoc' unless file
+      switch file.file_name_extension
         when '.json' then 'json'
-        when '.asc' then 'asciidoc'
-        else 'default'
-    setEditorMode()
-    scope.$watch 'file.fileNameExtension', ->
-      setEditorMode()
+        else 'asciidoc'
   restrict: 'E'
   link: link
   scope:
     file: '=glFile'
+    onLoad: '=glOnLoad'
   templateUrl: 'gl/fileContent.html' )

@@ -9,10 +9,6 @@ Rails.application.routes.draw do
       constraints: { page: /[0-9]+/ }
     resources :proposed_laws, only: [ :index, :show, :update, :destroy ] do
       member do
-        # get '/tree', to: "proposed_laws#show_node"
-        # get '/tree/*path_in_repo', to: "proposed_laws#show_node"
-        # post '/tree/*path_in_repo', to: "proposed_laws#create_node"
-        # patch '/tree/*path_in_repo', to: "proposed_laws#update_node"
         get '/files', to: "proposed_laws/files#index"
         get '/files/*tree', to: "proposed_laws/files#index"
         get '/file/*tree', to: "proposed_laws/files#show"

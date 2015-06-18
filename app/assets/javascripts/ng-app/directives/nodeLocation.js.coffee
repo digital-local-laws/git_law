@@ -1,6 +1,6 @@
 angular.module('glNodeLocationDirective',[]).
-directive('glNodeLocation', ->
-  restrict: 'A'
+directive('glNode', ->
+  restrict: 'E'
   scope:
     node: '=glNodeLocation'
     repo: '=glRepo'

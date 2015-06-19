@@ -98,6 +98,7 @@ module GitFlow
     def update
       run_callbacks :update do
         write_content
+        true
       end
     end
 
@@ -105,7 +106,11 @@ module GitFlow
     # Commit changes
     def destroy
       run_callbacks :destroy do
-        # TODO
+        if directory?
+          FileUtils.rmdir absolute_path
+        else
+          FileUtils.rm absolute_path
+        end
         true
       end
     end

@@ -8,6 +8,8 @@ module GitFlow
     before_create :initialize_container_file, :initialize_text_file,
       :attributes_to_content
     before_update :attributes_to_content
+    before_destroy :remove_child_nodes
+    after_destroy :remove_text_file, :remove_container_file
 
     JSON_WRITE_OPTIONS = {
       indent: '  ',
@@ -31,6 +33,10 @@ module GitFlow
       text_file.create if node_type && node_type["text"] && !text_file.exists?
     end
 
+    def remove_text_file
+      text_file.destroy if text_file.exists?
+    end
+
     def container_file
       return @container_file unless @container_file.nil?
       @container_file = if parent_node && !parent_node.root?
@@ -52,6 +58,16 @@ module GitFlow
     # Initialize the directory associated with this node, if applicable
     def initialize_container_file
       container_file.create true if container_file && !container_file.exists?
+    end
+
+    def remove_container_file
+      if container_file && container_file.exists? && container_file.children.empty?
+        container_file.destroy
+      end
+    end
+
+    def remove_child_nodes
+      child_nodes.each { |node| node.destroy }
     end
 
     # TODO destroy vs. repeal

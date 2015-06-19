@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         get '/node/*tree', to: "proposed_laws/nodes#show"
         post '/node/*tree', to: "proposed_laws/nodes#create"
         patch '/node/*tree', to: "proposed_laws/nodes#update"
+        delete 'node/*tree', to: "proposed_laws/nodes#destroy"
       end
     end
     match "/proposed_laws/page/:page(.:format)",

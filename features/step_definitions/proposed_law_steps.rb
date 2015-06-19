@@ -61,6 +61,7 @@ When(/^I add a code$/) do
   within(".modal-footer") do
     click_button "Add Code"
   end
+  step "the modal has vanished"
 end
 
 Then(/^the code should be added$/) do
@@ -111,6 +112,7 @@ Given(/^I added a structured code:$/) do |t|
   within(".modal-footer") do
     click_button "Add Code"
   end
+  step "the modal has vanished"
   within("h3") do
     expect( page ).to have_text "Tompkins County Code"
   end
@@ -143,6 +145,7 @@ When(/^I add an? (\w+) to the (\w+) in the code$/) do |child, parent|
   within(".modal-footer") do
     click_button "Add #{child.capitalize}"
   end
+  step "the modal has vanished"
 end
 
 Then(/^the (\w+) should be added to the (\w+) in the code$/) do |child, parent|
@@ -184,11 +187,32 @@ When /^I go to the (\w+) in the code and change settings for the (\w+)$/ do |par
     find(:xpath,".//button[contains(.,\"Settings\")]").click
   end
   fill_in "Title", with: "An old #{child}"
-  click_button "Update #{child.capitalize}"
+  within('.modal-footer') do
+    click_button "Update #{child.capitalize}"
+  end
+  step "the modal has vanished"
 end
 
 Then /^the (\w+) settings should be changed in the code$/ do |child|
   within('table') do
     expect( page ).to have_text "An old #{child}"
+  end
+end
+
+When /^I delete the (\w+) from the code$/ do |child|
+  within( :xpath, ".//tr[contains(./td,\"An old #{child}\")]" ) do
+    find( :xpath, ".//button[contains(.,\"Remove\")]" ).click
+  end
+end
+
+Then /^the (\w+) should be absent from the code$/ do |child|
+  expect( page ).to have_no_text "An old #{child}"
+end
+
+Given /^the modal has vanished$/ do
+  start = Time.zone.now
+  while Capybara.current_session.has_css? '.modal' do
+    raise "Timeout waiting for modal to disappear" if Time.zone.now - start > 10.seconds
+    sleep 0.01
   end
 end

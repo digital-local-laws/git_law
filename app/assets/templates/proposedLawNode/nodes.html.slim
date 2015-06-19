@@ -1,11 +1,14 @@
 gl-node gl-node-location="proposedLawNode" gl-repo="proposedLaw"
-  div.row
-    div.col-lg-9.text-right
+  .row
+    .col-lg-9.text-right
       button.btn.btn-primary( ng-click="newNode(proposedLawNode,nodeType)"
       ng-repeat="nodeType in proposedLawNode.allowedChildNodeTypes")
         span.glyphicon.glyphicon-plus
         | Add {{nodeType.label | capitalizeFirst}}
-  table.table.table-striped.table-hover
+  .row
+    .col-lg-9 ng-repeat="alert in alerts" ng-class="'alert-'+alert[0]"
+      | {{alert[1]}}
+  table.table.table-striped.table-hover.col-lg-9
     thead
       tr
         th= "Node"
@@ -29,6 +32,6 @@ gl-node gl-node-location="proposedLawNode" gl-repo="proposedLaw"
             span.glyphicon.glyphicon-pencil
             | Text
         td
-          button.btn.btn-danger
+          button.btn.btn-danger ng-click="removeNode(node)"
             span.glyphicon.glyphicon-remove
             | Remove

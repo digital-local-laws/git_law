@@ -38,6 +38,8 @@ Feature: Manage local laws
     Then the <child> should be added to the <parent> in the code
     When I go to the <parent> in the code and change settings for the <child>
     Then the <child> settings should be changed in the code
+    When I delete the <child> from the code
+    Then the <child> should be absent from the code
     Examples:
       | child   | parent  |
       | part    | root    |

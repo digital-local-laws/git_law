@@ -68,6 +68,15 @@ module Api
           end
         end
       end
+
+      def destroy
+        respond_to do |format|
+          format.json do
+            node.destroy
+            render nothing: true, status: 204
+          end
+        end
+      end
     end
   end
 end

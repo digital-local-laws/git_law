@@ -6,6 +6,7 @@ angular
     CodeLevel ) ->
     unless $scope.proposedLaw.workingRepoCreated
       return $state.transitionTo('proposedLaw.initialize',{proposedLawId: $scope.proposedLaw.id})
+    $scope.alerts = []
     onProposedLawNodeLoad = (proposedLawNode) ->
       $scope.proposedLawNode = proposedLawNode
       unless $scope.proposedLawNode.childNodesAllowed
@@ -20,6 +21,11 @@ angular
     ProposedLawNode.query( {
       proposedLawId: $scope.proposedLaw.id
       tree: $stateParams.tree }, onProposedLawNodesLoad )
+    $scope.removeNode = (node) ->
+      success = (response) ->
+        $scope.alerts.push [ "info", "Node was removed." ]
+        $scope.proposedLawNodes.splice $scope.proposedLawNodes.indexOf(node), 1
+      node.$delete( { proposedLawId: $scope.proposedLaw.id }, success )
     $scope.editNode = (node) ->
       modalInstance = $modal.open(
         templateUrl: 'proposedLawNodeSettings/edit.html',

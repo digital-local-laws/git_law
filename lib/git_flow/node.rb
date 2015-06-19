@@ -91,7 +91,7 @@ module GitFlow
       return false unless toNode.create
       newFile = super( toTree, force: true )
       if text_file.exists?
-        text_file.move toNode.text_file.tree
+        text_file.move toNode.text_file.tree, force: true
       end
       if child_container_file.exists?
         child_container_file.move toNode.child_container_file.tree

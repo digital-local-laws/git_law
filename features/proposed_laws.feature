@@ -36,8 +36,11 @@ Feature: Manage local laws
       | 4     | section | arabic      | yes   | yes   | no       |
     When I add a <child> to the <parent> in the code
     Then the <child> should be added to the <parent> in the code
-    When I go to the <parent> in the code and change settings for the <child>
+    When I go to the <parent> in the code
+    And I change settings for the <child>
     Then the <child> settings should be changed in the code
+    When I renumber the <child> in the code
+    Then the <child> should be renumbered
     When I delete the <child> from the code
     Then the <child> should be absent from the code
     Examples:

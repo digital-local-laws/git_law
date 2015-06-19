@@ -5,6 +5,8 @@ module GitFlow
   # directory that share the name of that metadata file but have a different
   # extension.
   class Node < WorkingFile
+    include ActiveModel::Validations
+
     before_create :initialize_container_file, :initialize_text_file,
       :attributes_to_content
     before_update :attributes_to_content
@@ -46,6 +48,15 @@ module GitFlow
       end
     end
 
+    def child_container_file
+      return @child_container_file unless @child_container_file.nil?
+      @child_container_file = if !root?
+        git_flow_repo.working_file( tree_base )
+      else
+        false
+      end
+    end
+
     def children_file
       return @children_file unless @children_file.nil?
       @children_file = if root?
@@ -68,6 +79,24 @@ module GitFlow
 
     def remove_child_nodes
       child_nodes.each { |node| node.destroy }
+    end
+
+    # Moves node and associated files to new tree location
+    # Returns reference to the moved node
+    def move( toTree )
+      toNode = git_flow_repo.working_file( toTree ).node
+      return false if toNode.exists?
+      return false if toNode.text_file.exists?
+      return false if toNode.child_container_file.exists?
+      return false unless toNode.create
+      newFile = super( toTree, force: true )
+      if text_file.exists?
+        text_file.move toNode.text_file.tree
+      end
+      if child_container_file.exists?
+        child_container_file.move toNode.child_container_file.tree
+      end
+      newFile.node
     end
 
     # TODO destroy vs. repeal

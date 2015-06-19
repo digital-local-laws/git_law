@@ -26,12 +26,12 @@ gl-node gl-node-location="proposedLawNode" gl-repo="proposedLaw"
         td
           button.btn.btn-default ng-click="editNode(node)"
             span.glyphicon.glyphicon-wrench
-            | Settings
+            |  Settings
         td
-          a.btn.btn-info
+          a.btn.btn-info ng-if="nodeType.text"
             span.glyphicon.glyphicon-pencil
-            | Text
+            |  Text
         td
           button.btn.btn-danger ng-click="removeNode(node)"
             span.glyphicon.glyphicon-remove
-            | Remove
+            |  Remove

@@ -109,5 +109,27 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
       expect( node.node_type["label"] ).to eql "chapter"
       expect( node.text_file.exists? ).to eql true
     end
+
+
+    it 'should move the middle child node correctly within same level' do
+      node
+      toTree = middle_node.tree.gsub /part\-1/, 'part-2'
+      newNode = middle_node.move toTree
+      expect( middle_node.exists? ).to be false
+      expect( newNode.tree ).to eql File.join middle_node.tree_parent, 'part-2.json'
+      expect( File.exist? middle_node.child_container_file.absolute_path ).to be false
+      expect( newNode.child_container_file.exists? ).to be true
+      expect( File.exist? newNode.child_container_file.absolute_path ).to be true
+      expect( node.exists? ).to be false
+    end
+
+    it "should move the node correctly within level" do
+      toTree = node.tree.gsub /\-1\.json/, '-2.json'
+      newNode = node.move toTree
+      expect( node.exists? ).to be false
+      expect( newNode.tree ).to eql File.join node.tree_parent, 'chapter-2.json'
+      expect( newNode.text_file.tree ).to match /chapter-2.asc$/
+      expect( File.exist? newNode.text_file.absolute_path ).to be true
+    end
   end
 end

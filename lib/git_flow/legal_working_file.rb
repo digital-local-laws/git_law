@@ -1,10 +1,20 @@
 module GitFlow
-  module LegalWorkingFile
+  module ProposedLawNode
     def self.included(base)
-      base.send :before_initialize_node, :initialize_legal_node
-      base.send :after_initialize_node, :initialize_metadata
-      base.send :after_prepare_for_destroy, :remove_metadata
-      base.send :after_update, :update_metadata
+      base.send :after_create, :create_proposed_law_node
+    end
+
+    def create_proposed_law_node
+      return unless proposed_law_node
+      # TODO create the proposed law node link
+    end
+
+    def proposed_law_root_node
+      @proposed_law_root_node ||= git_flow_repo.working_file('proposed-law.json').node
+    end
+
+    def proposed_law_node
+      @proposed_law_node ||= proposed_law_root_node.find_link(tree)
     end
 
     # Correctly decide whether to initialize directory or file

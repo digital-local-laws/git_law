@@ -49,7 +49,12 @@ angular
         $scope.alerts.push( { type: 'danger', msg: "Save failed." } )
         $scope.errors = response.data.errors
       if proposedLawNode.exists
-        proposedLawNode.$save( success, failure )
+        toTree = parentNode.treeBase + "/" + proposedLawNode.fileName
+        params = if toTree != proposedLawNode.tree
+          { toTree: toTree }
+        else
+          { }
+        proposedLawNode.$save( params, success, failure )
       else
         proposedLawNode.tree = if parentNode.tree
           parentNode.treeBase + "/" + proposedLawNode.fileName

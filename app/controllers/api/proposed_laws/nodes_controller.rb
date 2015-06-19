@@ -40,9 +40,7 @@ module Api
       end
 
       def create
-        logger.info "Attributes: #{attributes}"
         node.attributes = attributes
-        logger.info "Node: #{node.attributes}"
         respond_to do |format|
           format.json do
             if node.create
@@ -54,14 +52,30 @@ module Api
         end
       end
 
-      def update
+      # Move the node, then update the moved node
+      def move_and_update_node
+        newNode = node.move params[:to_tree]
+        if newNode
+          self.node = newNode
+          update_node
+        else
+          false
+        end
+      end
+
+      # Update the node in place
+      def update_node
         node.attributes = attributes
+        node.update
+      end
+
+      def update
         respond_to do |format|
           format.json do
             if !node.exists?
               render nothing: true, status: 404
-            elsif node.update
-              render nothing: true, status: 204
+            elsif ( params[:to_tree] ? move_and_update_node : update_node )
+              render 'show', status: 200
             else
               render 'errors', status: 422
             end

@@ -3,7 +3,9 @@ module GitFlow
     include Comparable
     extend ActiveModel::Callbacks
 
-    define_model_callbacks :create, :update, :destroy
+    define_model_callbacks :create, :update, :destroy, :move
+
+    def logger; Rails.logger; end
 
     def initialize(git_flow_repo, tree)
       @git_flow_repo = git_flow_repo
@@ -65,8 +67,10 @@ module GitFlow
     def create( directory = false )
       run_callbacks :create do
         if directory
+          logger.info "Create directory at #{absolute_path}"
           FileUtils.mkdir absolute_path
         else
+          logger.info "Create file at #{absolute_path}"
           write_content
         end
         true
@@ -97,8 +101,20 @@ module GitFlow
 
     def update
       run_callbacks :update do
+        logger.info "Update file at #{absolute_path}"
         write_content
         true
+      end
+    end
+
+    def move(toTree,options={})
+      run_callbacks :move do
+        newFile = git_flow_repo.working_file( toTree )
+        force = options.delete :force
+        return false if newFile.exists? && !force
+        logger.info "Move #{absolute_path} to #{newFile.absolute_path}"
+        FileUtils.mv absolute_path, newFile.absolute_path
+        git_flow_repo.working_file toTree
       end
     end
 
@@ -107,8 +123,10 @@ module GitFlow
     def destroy
       run_callbacks :destroy do
         if directory?
+          logger.info "Delete directory at #{absolute_path}"
           FileUtils.rmdir absolute_path
         else
+          logger.info "Delete file at #{absolute_path}"
           FileUtils.rm absolute_path
         end
         true

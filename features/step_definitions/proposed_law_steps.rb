@@ -177,26 +177,51 @@ Then(/^the section should should be changed$/) do
   expect( @proposed_law.working_file(path).content ).to include "This is the start of a code."
 end
 
-When /^I go to the (\w+) in the code and change settings for the (\w+)$/ do |parent, child|
+When /^I go to the (\w+) in the code$/ do |parent|
   if parent == 'root'
     click_link 'Tompkins County Code'
   else
     click_link "#{parent.capitalize} 1"
   end
-  within( :xpath, ".//tr[contains(./td,\"A new #{child}\")]" ) do
-    find(:xpath,".//button[contains(.,\"Settings\")]").click
-  end
+end
+
+When /^I change settings for the (\w+)$/ do |child|
+  step "I go to change the settings for the #{child}"
   fill_in "Title", with: "An old #{child}"
+  step "I save the changed settings for the #{child}"
+end
+
+When /^I save the changed settings for the (\w+)$/ do |child|
   within('.modal-footer') do
     click_button "Update #{child.capitalize}"
   end
   step "the modal has vanished"
 end
 
+When /^I go to change the settings for the (\w+)$/ do |child|
+  within( :xpath, ".//tr[contains(./td,\"A new #{child}\")]" ) do
+    find(:xpath,".//button[contains(.,\"Settings\")]").click
+  end
+end
+
 Then /^the (\w+) settings should be changed in the code$/ do |child|
   within('table') do
     expect( page ).to have_text "An old #{child}"
   end
+end
+
+When /^I renumber the (\w+) in the code$/ do |child|
+  within( :xpath, ".//tr[contains(./td,\"An old #{child}\")]" ) do
+    find(:xpath,".//button[contains(.,\"Settings\")]").click
+  end
+  fill_in "Number", with: "2"
+  step "I save the changed settings for the #{child}"
+end
+
+Then /^the (\w+) should be renumbered$/ do |child|
+  expect( page ).to have_text "#{child.capitalize} 2. An old #{child}"
+  expect( find( :xpath, ".//a[contains(.,\"An old #{child}\")]" )[:href]
+    ).to match /#{child}\-2/
 end
 
 When /^I delete the (\w+) from the code$/ do |child|

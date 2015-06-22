@@ -56,5 +56,19 @@ RSpec.describe ProposedLaw, type: :model do
       expect( pl_leaf_node.attributes["number"] ).to eql "3"
       expect( pl_leaf_node.attributes["title"] ).to eql leaf_node.attributes["title"]
     end
+
+    context 'with intrinsic node in proposed law node' do
+      let( :intrinsic_node ) do
+        node = repo.working_file("proposed-law/section-1.json").node
+        node.create
+        node
+      end
+
+      it 'should not create another linked node' do
+        intrinsic_node
+        expect( repo.working_file("proposed-law/section-1.json").exists? ).to be true
+        expect( repo.working_file("proposed-law/section-2.json").exists? ).to be false
+      end
+    end
   end
 end

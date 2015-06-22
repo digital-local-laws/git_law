@@ -19,11 +19,11 @@ class ActiveRecord::Base
     define_model_callbacks :create_repo, :create_working_repo
     after_create :setup_git_flow_repo_job
     after_destroy :remove_files_job
-    working_file_class = if options[:working_file_class]
-      options.delete :working_file_class
+    cattr_accessor :working_file_node_class
+    self.working_file_node_class = if options[:node_class]
+      options.delete :node_class
     else
-      GitFlow::WorkingFile
+      GitFlow::Node
     end
-    const_set :WORKING_FILE_CLASS, working_file_class
   end
 end

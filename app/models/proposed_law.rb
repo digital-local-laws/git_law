@@ -6,7 +6,7 @@ class ProposedLaw < ActiveRecord::Base
   validates :user, presence: true
   validates :title, presence: true
 
-  acts_as_git_flow_repo
+  acts_as_git_flow_repo node_class: ProposedLawNode
 
   after_create_working_repo :initialize_working_repo
 

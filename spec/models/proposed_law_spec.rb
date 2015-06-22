@@ -19,13 +19,42 @@ RSpec.describe ProposedLaw, type: :model do
       expect( proposed_law.errors[:jurisdiction].first ).to include "can't be blank"
     end
   end
+
   it_should_behave_like "a git flow repo"
   it_should_behave_like "a git flow node repo"
-  context "law metadata" do
-    let(:proposed_law) { create :proposed_law }
-    before(:each) { proposed_law.working_repo }
-    it "should have basic metadata" do
-      expect( proposed_law.working_file('proposed-law.json').exists? ).to be true
+
+  context "proposed law metadata" do
+    include_context 'a structured git flow node'
+
+    let(:proposed_law_node) { repo.working_file('proposed-law.json').node }
+
+    let(:pl_root_node) { repo.working_file('proposed-law/section-1.json').node }
+    let(:pl_middle_node) { repo.working_file('proposed-law/section-2.json').node }
+    let(:pl_leaf_node) { repo.working_file('proposed-law/section-3.json').node }
+
+    it "should have basic metadata when law is created" do
+      expect( proposed_law_node.exists? ).to be true
+    end
+
+    it 'should create new linked node when root node added' do
+      root_node
+      expect( pl_root_node.exists? ).to be true
+      expect( pl_root_node.attributes["number"] ).to eql "1"
+      expect( pl_root_node.attributes["title"] ).to eql root_node.attributes["title"]
+    end
+
+    it 'should create new linked node when middle node added' do
+      middle_node
+      expect( pl_middle_node.exists? ).to be true
+      expect( pl_middle_node.attributes["number"] ).to eql "2"
+      expect( pl_middle_node.attributes["title"] ).to eql middle_node.attributes["title"]
+    end
+
+    it 'should create new linked node when leaf node added' do
+      leaf_node
+      expect( pl_leaf_node.exists? ).to be true
+      expect( pl_leaf_node.attributes["number"] ).to eql "3"
+      expect( pl_leaf_node.attributes["title"] ).to eql leaf_node.attributes["title"]
     end
   end
 end

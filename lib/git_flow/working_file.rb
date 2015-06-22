@@ -46,9 +46,9 @@ module GitFlow
     # Instantiates a node object for this file, if it is a node file
     def node
       if root?
-        GitFlow::Node.new git_flow_repo, tree
+        git_flow_repo.working_file_node_class.new git_flow_repo, tree
       elsif is_node?
-        GitFlow::Node.new git_flow_repo, tree
+        git_flow_repo.working_file_node_class.new git_flow_repo, tree
       else
         false
       end

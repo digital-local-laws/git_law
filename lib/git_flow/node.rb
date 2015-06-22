@@ -20,8 +20,75 @@ module GitFlow
       array_nl: "\n"
     }
 
+    # Generate appropriate file_name for a sibling node with new attributes
+    # that are different from the present node
+    def self.file_name( attributes, node_type )
+      name = if attributes["number"] && node_type && node_type["label"]
+        "#{node_type['label']}-#{attributes['number']}"
+      else
+        attributes["title"]
+      end
+      name.downcase!
+      name.gsub! /[^a-z0-9]+/,'-'
+      name.gsub! /^-/, ''
+      name.gsub! /-$/, ''
+      "#{name}.json"
+    end
+
+    def <=>(other)
+      comp = node_type["label"] <=> other.node_type["label"]
+      return comp unless comp == 0
+      comp = attributes["number"].to_i <=> other.attributes["number"].to_i
+      return comp unless comp == 0
+      attributes["title"] <=> other.attributes["title"]
+    end
+
+    # Create a new child node of the current node, assigning it the next
+    # available number
+    def new_child_node( attributes )
+      child_nodes.sort!
+      last_node = child_nodes.last
+      number = ( last_node ? last_node.attributes["number"].to_i : 0 )
+      attributes = {
+        "number" => "#{number + 1}"
+      }
+      node_type = allowed_child_node_types.first
+      node = git_flow_repo.working_file(
+        File.join( child_container_file.tree,
+          GitFlow::Node.file_name( attributes, node_type )
+        )
+      ).node
+      node.attributes = attributes.merge( attributes )
+      node
+    end
+
     def initialize( git_flow_repo, tree )
-      super git_flow_repo, tree
+      super( git_flow_repo, tree )
+    end
+
+    def ancestor_of_node?( node )
+      node.tree =~ /^#{Regexp.escape tree_base}/
+    end
+
+    def descendent_nodes
+      @descendent_nodes ||= child_nodes.inject([]) do |memo, node|
+        memo << node
+        memo += node.descendent_nodes
+      end
+    end
+
+    def next_node
+      git_flow_repo.working_file( File.join( container_file.tree ) ).node
+    end
+
+    def find( key, value )
+      descendent_nodes.select do |node|
+        if node.attributes[key]
+          node.attributes[key] =~ /#{needle}/
+        else
+          false
+        end
+      end
     end
 
     # Returns textual content file associated with the node

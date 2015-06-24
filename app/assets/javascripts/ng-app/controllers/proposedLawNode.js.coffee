@@ -1,26 +1,61 @@
 angular
   .module 'gitLaw'
-  .controller( 'ProposedLawNodesCtrl', [ '$state', '$scope', '$stateParams',
-  '$modal', '$timeout', 'ProposedLawNode', 'CodeLevel',
+  .controller( 'ProposedLawNodeCtrl', [ '$state', '$scope', '$stateParams',
+  '$modal', '$timeout', 'ProposedLawNode', 'ProposedLawFile', 'CodeLevel',
   ( $state, $scope, $stateParams, $modal, $timeout, ProposedLawNode,
-    CodeLevel ) ->
+    ProposedLawFile, CodeLevel ) ->
     unless $scope.proposedLaw.workingRepoCreated
-      return $state.transitionTo('proposedLaw.initialize',{proposedLawId: $scope.proposedLaw.id})
+      return $state.transitionTo( 'proposedLaw.initialize',
+        { proposedLawId: $scope.proposedLaw.id }
+      )
     $scope.alerts = []
-    onProposedLawNodeLoad = (proposedLawNode) ->
-      $scope.proposedLawNode = proposedLawNode
-      unless $scope.proposedLawNode.childNodesAllowed
-        $state.go( 'proposedLaw.node',{
-          proposedLawId: $stateParams.proposedLawId
-          tree: $stateParams.tree } )
+    onProposedLawFileLoad = (proposedLawFile) ->
+      $scope.proposedLawFile = proposedLawFile
+      $scope.noProposedLawFile = false
+      $scope.timeout = null
+      saveContent = () ->
+        success = (n,headers) ->
+        fail = (n,headers) ->
+        $scope.proposedLawFile.$save({},success,fail)
+        $scope.saveInProgress = false
+      cancelTimeout = ->
+        $timeout.cancel( $scope.timeout ) if $scope.timeout
+      debounceSaveContent = ( newVal, oldVal ) ->
+        if newVal != oldVal
+          $scope.saveInProgress = true
+          cancelTimeout()
+          $scope.timeout = $timeout( saveContent, 5000 )
+      $scope.$on '$destroy', ->
+        cancelTimeout()
+      $scope.$watch('proposedLawFile.content', debounceSaveContent)
+    onProposedLawFileFail = ( response ) ->
+      if response.status == 404
+        $scope.noProposedLawFile = true
+    $scope.createProposedLawFile = () ->
+      ProposedLawFile.create( {
+          proposedLawId: $scope.proposedLaw.id
+          tree: $scope.proposedLawNode.textFileTree
+        }, onProposedLawFileLoad
+      )
     onProposedLawNodesLoad = (proposedLawNodes) ->
       $scope.proposedLawNodes = proposedLawNodes
+    onProposedLawNodeLoad = (proposedLawNode) ->
+      $scope.proposedLawNode = proposedLawNode
+      if proposedLawNode.nodeType.text
+        ProposedLawFile.get( {
+          proposedLawId: proposedLawNode.proposedLawId
+          tree: proposedLawNode.textFileTree }, onProposedLawFileLoad,
+          onProposedLawFileFail )
+      if proposedLawNode.childNodesAllowed
+        ProposedLawNode.query( {
+          proposedLawId: $scope.proposedLaw.id
+          tree: $stateParams.tree }, onProposedLawNodesLoad )
     ProposedLawNode.get( {
       proposedLawId: $scope.proposedLaw.id
       tree: $stateParams.tree }, onProposedLawNodeLoad )
-    ProposedLawNode.query( {
-      proposedLawId: $scope.proposedLaw.id
-      tree: $stateParams.tree }, onProposedLawNodesLoad )
+    $scope.setupEditor = ( editor ) ->
+      editor.setOption('maxLines',100)
+      editor.$blockscrolling = Infinity
     $scope.removeNode = (node) ->
       success = (response) ->
         $scope.alerts.push [ "info", "Node was removed." ]
@@ -42,7 +77,7 @@ angular
       )
       modalInstance.result.then(
         ( (proposedLawNode) ->
-          $state.reload
+          $state.reload()
         ),
         ( () -> false ) )
     $scope.newNode = (proposedLawNode,nodeType) ->

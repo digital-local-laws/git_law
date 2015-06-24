@@ -11,13 +11,9 @@ angular
     $urlRouterProvider.when('/jurisdictions/:jurisdictionId/proposed-laws',
       '/jurisdictions/:jurisdictionId/proposed-laws/page/1')
     $urlRouterProvider.when('/proposed-laws/:proposedLawId',
-      '/proposed-laws/:proposedLawId/nodes/')
-    $urlRouterProvider.when('/proposed-laws/:proposedLawId/nodes',
-      '/proposed-laws/:proposedLawId/nodes/')
-    # $urlRouterProvider.when('/proposed-laws/:proposedLawId',
-    #   '/proposed-laws/:proposedLawId/browse/')
-    # $urlRouterProvider.when('/proposed-laws/:proposedLawId/browse',
-    #   '/proposed-laws/:proposedLawId/browse/')
+      '/proposed-laws/:proposedLawId/node/')
+    $urlRouterProvider.when('/proposed-laws/:proposedLawId/node',
+      '/proposed-laws/:proposedLawId/node/')
     $urlMatcherFactoryProvider
       .type('path', {
         is: (val) ->
@@ -113,20 +109,10 @@ angular
         templateUrl: 'proposedLaw/initialize.html'
         controller: 'ProposedLawInitializeCtrl'
       }
-      .state 'proposedLaw.nodes', {
-        url: '/nodes/{tree:path}'
-        templateUrl: 'proposedLawNode/nodes.html'
-        controller: 'ProposedLawNodesCtrl'
-      }
       .state 'proposedLaw.node', {
         url: '/node/{tree:path}'
         templateUrl: 'proposedLawNode/node.html'
-        controller: 'ProposedLawNodeTextCtrl'
+        controller: 'ProposedLawNodeCtrl'
       }
-      # .state 'proposedLaw.browse', {
-      #   url: '/browse/{tree:path}'
-      #   templateUrl: 'proposedLawNode/browse.html'
-      #   controller: 'ProposedLawNodeCtrl'
-      # }
     $urlRouterProvider.otherwise '/'
     $locationProvider.html5Mode true

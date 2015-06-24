@@ -121,7 +121,7 @@ end
 Given(/^initialization has completed$/) do
   step "all jobs have run"
   start = Time.now
-  until Capybara.current_session.current_url =~ /\/nodes\/$/ do
+  until Capybara.current_session.current_url =~ /\/node\/$/ do
     raise 'Timed out waiting for initialization to complete' if Time.now - start > 10.seconds
     sleep 0.01
   end
@@ -156,6 +156,7 @@ Then(/^the (\w+) should be added to the (\w+) in the code$/) do |child, parent|
 end
 
 When(/^I edit the text of the section$/) do
+  click_link "Text"
   find( :xpath, ".//textarea" ).set("This is the start of a code.")
   expect( page ).to have_text "Saving..."
 end
@@ -169,12 +170,9 @@ When(/^saving has completed$/) do
 end
 
 Then(/^the section should should be changed$/) do
-  path = "tompkins-county-code/"
-  path += @proposed_law_levels.map { |level|
-    "#{level['label']}-1"
-  }.join("/") + ".asc"
   step "saving has completed"
-  expect( @proposed_law.working_file(path).content ).to include "This is the start of a code."
+  expect( @proposed_law.working_file( proposed_law_text_file_tree ).content
+    ).to include "This is the start of a code."
 end
 
 When /^I go to the (\w+) in the code$/ do |parent|
@@ -240,4 +238,23 @@ Given /^the modal has vanished$/ do
     raise "Timeout waiting for modal to disappear" if Time.zone.now - start > 10.seconds
     sleep 0.01
   end
+end
+
+Given /^the (\w+) has no text$/ do |label|
+  @proposed_law.working_file( proposed_law_text_file_tree ).destroy
+  expect( @proposed_law.working_file( proposed_law_text_file_tree ).exists? ).to be false
+  click_link "Chapter 1"
+  click_link "Section 1. A new section"
+end
+
+When /^I add text to the (\w+)$/ do |label|
+  click_link "Text"
+  sleep 10
+  expect( page ).to have_text "No text exists for this #{label}."
+  click_button "Click here to add text."
+end
+
+Then /^text should be added to the (\w+)$/ do |label|
+  step "saving has completed"
+  expect( @proposed_law.working_file( proposed_law_text_file_tree ).exists? ).to be true
 end

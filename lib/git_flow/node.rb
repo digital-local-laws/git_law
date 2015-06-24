@@ -49,16 +49,16 @@ module GitFlow
       child_nodes.sort!
       last_node = child_nodes.last
       number = ( last_node ? last_node.attributes["number"].to_i : 0 )
-      attributes = {
+      intrinsic_attributes = {
         "number" => "#{number + 1}"
       }
       node_type = allowed_child_node_types.first
       node = git_flow_repo.working_file(
         File.join( child_container_file.tree,
-          GitFlow::Node.file_name( attributes, node_type )
+          GitFlow::Node.file_name( intrinsic_attributes, node_type )
         )
       ).node
-      node.attributes = attributes.merge( attributes )
+      node.attributes = intrinsic_attributes.merge( attributes )
       node
     end
 
@@ -84,7 +84,7 @@ module GitFlow
     def find( key, value )
       descendent_nodes.select do |node|
         if node.attributes[key]
-          node.attributes[key] =~ /#{needle}/
+          node.attributes[key] =~ /#{value}/
         else
           false
         end

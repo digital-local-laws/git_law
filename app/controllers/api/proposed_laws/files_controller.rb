@@ -38,7 +38,7 @@ module Api
         respond_to do |format|
           format.json do
             if working_file.create
-              render nothing: true, status: 201
+              render 'show', status: 201
             else
               render 'errors', status: 422
             end

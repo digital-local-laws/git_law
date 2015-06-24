@@ -11,6 +11,9 @@ module Api
       expose :attributes do
         params[:attributes]
       end
+      expose :recurse do
+        params[:tree] == 'proposed-law.json'
+      end
 
       # TODO add before filter that issues error when file name is not a
       # valid node

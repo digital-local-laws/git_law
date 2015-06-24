@@ -18,21 +18,15 @@ gl-node gl-node-location="proposedLawNode" gl-repo="proposedLaw"
               | Actions
         tbody
           tr  ng-repeat="node in proposedLawNodes"
-            td ng-switch="node.childNodesAllowed"
-              a ng-switch-when="true" ui-sref="{tree: node.tree}"
-                span.glyphicon.glyphicon-folder-close
-                |  {{node | lawNodeTitle}}
-              a ng-switch-default=true ui-sref="^.node({tree: node.tree})"
-                span.glyphicon.glyphicon-file
+            td
+              a ui-sref="{treeBase: node.treeBase}"
+                span.glyphicon.glyphicon-folder-close ng-if="node.childNodesAllowed"
+                span.glyphicon.glyphicon-file ng-if="!node.childNodesAllowed"
                 |  {{node | lawNodeTitle}}
             td
               button.btn.btn-default ng-click="editNode(node)"
                 span.glyphicon.glyphicon-wrench
                 |  Settings
-            td
-              a.btn.btn-info ng-if="nodeType.text"
-                span.glyphicon.glyphicon-pencil
-                |  Text
             td
               button.btn.btn-danger ng-click="removeNode(node)"
                 span.glyphicon.glyphicon-remove

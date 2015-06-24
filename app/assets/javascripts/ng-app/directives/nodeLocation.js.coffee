@@ -5,7 +5,7 @@ directive('glNode', [ 'ProposedLawNode', (ProposedLawNode) ->
       scope.repo.sections = result
     ProposedLawNode.query( {
       proposedLawId: scope.repo.id
-      tree: 'proposed-law.json' }, onLoad )
+      treeBase: 'proposed-law' }, onLoad )
   restrict: 'E'
   link: link
   scope:

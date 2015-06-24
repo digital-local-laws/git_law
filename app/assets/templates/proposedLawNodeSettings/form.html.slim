@@ -33,19 +33,19 @@
       span.help-block  ng-repeat="error in errors.number" )
         | {{error}}
         br
-    .form-group.has-feedback( ng-class="{'has-error': errors.fileName || \
-    proposedLawNodeForm.fileName.$invalid, 'has-success': \
-    proposedLawNode.fileName && !errors.fileName && \
-    proposedLawNodeForm.fileName.$valid }" )  
-      label.control-label  for="fileName"   File Name
-      input.form-control( type='text' id="fileName" name="fileName" \
-      ng-model="proposedLawNode.fileName" disabled=true )
+    .form-group.has-feedback( ng-class="{'has-error': errors.fileNameBase || \
+    proposedLawNodeForm.fileNameBase.$invalid, 'has-success': \
+    proposedLawNode.fileNameBase && !errors.fileNameBase && \
+    proposedLawNodeForm.fileNameBase.$valid }" )  
+      label.control-label  for="fileNameBase"   File Name
+      input.form-control( type='text' id="fileNameBase" name="fileNameBase" \
+      ng-model="proposedLawNode.fileNameBase" disabled=true )
       span.glyphicon.glyphicon-ok.form-control-feedback(
-      ng-show="proposedLawNode.fileName && !errors.fileName && \
-      !proposedLawNodeForm.fileName.$invalid" )
+      ng-show="proposedLawNode.fileNameBase && !errors.fileNameBase && \
+      !proposedLawNodeForm.fileNameBase.$invalid" )
       span.glyphicon.glyphicon-remove.form-control-feedback(
-      ng-show="errors.fileName || proposedLawNodeForm.fileName.$invalid" )
-      span.help-block  ng-repeat="error in errors.fileName"
+      ng-show="errors.fileNameBase || proposedLawNodeForm.fileNameBase.$invalid" )
+      span.help-block  ng-repeat="error in errors.fileNameBase"
         | {{error}}
         br
     button.btn.btn-default  ng-click="addLevel(0)"

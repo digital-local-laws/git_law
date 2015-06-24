@@ -49,10 +49,10 @@ angular
       if proposedLawNode.childNodesAllowed
         ProposedLawNode.query( {
           proposedLawId: $scope.proposedLaw.id
-          tree: $stateParams.tree }, onProposedLawNodesLoad )
+          treeBase: $stateParams.treeBase }, onProposedLawNodesLoad )
     ProposedLawNode.get( {
       proposedLawId: $scope.proposedLaw.id
-      tree: $stateParams.tree }, onProposedLawNodeLoad )
+      treeBase: $stateParams.treeBase }, onProposedLawNodeLoad )
     $scope.setupEditor = ( editor ) ->
       editor.setOption('maxLines',100)
       editor.$blockscrolling = Infinity
@@ -93,7 +93,7 @@ angular
             node.nodeType = nodeType
             node.attributes = { }
             node.attributes.type = nodeType.label
-            if proposedLawNode.tree == ''
+            if proposedLawNode.treeBase == ''
               node.attributes.structure = [ new CodeLevel() ]
             node
           parentNode: ->
@@ -101,7 +101,7 @@ angular
       )
       modalInstance.result.then(
         ( (proposedLawNode) ->
-          $state.go('.', { tree: proposedLawNode.tree })
+          $state.go('.', { treeBase: proposedLawNode.treeBase })
         ),
         ( () -> false ) )
   ] )

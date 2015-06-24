@@ -10,8 +10,8 @@ class ProposedLawNode < GitFlow::Node
   def proposed_law_node_entry
     return @proposed_law_node_entry unless @proposed_law_node_entry.nil?
     return @proposed_law_node_entry = false if proposed_law_node.ancestor_of_node? self
-    @proposed_law_node_entry = proposed_law_node.find( "link", tree ).first ||
-      proposed_law_node.new_child_node( { "link" => tree } )
+    @proposed_law_node_entry = proposed_law_node.find( "link", tree_base ).first ||
+      proposed_law_node.new_child_node( { "link" => tree_base } )
   end
 
   # Add the proposed law node if it does not already exist

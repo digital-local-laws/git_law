@@ -1,17 +1,17 @@
 angular
   .module 'gitLaw'
   .controller( 'ProposedLawNodeSettingsCtrl', ['$scope', '$modalInstance',
-  '$upload', 'proposedLawNode', 'ProposedLawNode', 'parentNode', 'lawNodeFilenameFilter',
+  '$upload', 'proposedLawNode', 'ProposedLawNode', 'parentNode', 'lawNodeFilenameBaseFilter',
   'CodeLevel'
   ( $scope, $modalInstance, $upload, proposedLawNode, ProposedLawNode, parentNode,
-  lawNodeFilenameFilter, CodeLevel ) ->
+  lawNodeFilenameBaseFilter, CodeLevel ) ->
     $scope.alerts = [ ]
     $scope.errors = { }
     $scope.proposedLawNode = proposedLawNode
     $scope.parentNode = parentNode
     $scope.$watchCollection('[proposedLawNode.attributes.title, proposedLawNode.attributes.number]',
     (newVal,oldVal) ->
-      $scope.proposedLawNode.fileName = lawNodeFilenameFilter(
+      $scope.proposedLawNode.fileNameBase = lawNodeFilenameBaseFilter(
         $scope.proposedLawNode ) )
     $scope.numberOptions = [
       [ "1", "Arabic (1, 2, ...)", "1" ]
@@ -49,17 +49,17 @@ angular
         $scope.alerts.push( { type: 'danger', msg: "Save failed." } )
         $scope.errors = response.data.errors
       if proposedLawNode.exists
-        toTree = parentNode.treeBase + "/" + proposedLawNode.fileName
-        params = if toTree != proposedLawNode.tree
-          { toTree: toTree }
+        toTreeBase = parentNode.treeBase + "/" + proposedLawNode.fileNameBase
+        params = if toTreeBase != proposedLawNode.treeBase
+          { toTreeBase: toTreeBase }
         else
           { }
         proposedLawNode.$save( params, success, failure )
       else
-        proposedLawNode.tree = if parentNode.tree
-          parentNode.treeBase + "/" + proposedLawNode.fileName
+        proposedLawNode.treeBase = if parentNode.treeBase
+          parentNode.treeBase + "/" + proposedLawNode.fileNameBase
         else
-          proposedLawNode.fileName
+          proposedLawNode.fileNameBase
         ProposedLawNode.create( proposedLawNode, success, failure )
     $scope.cancel = ->
       $modalInstance.dismiss()

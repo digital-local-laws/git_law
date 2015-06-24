@@ -1,7 +1,7 @@
 div  ng-if="repo.workingRepoCreated"
   h3.col-lg-12
     span ng-if="node" ng-repeat="aNode in node.ancestorNodes"
-      a  ui-sref="{tree: aNode.tree}"  
+      a  ui-sref="{treeBase: aNode.treeBase}"  
         | {{aNode | lawNodeShortTitle}}
       span  ng-if="aNode.childNodesAllowed"
         | &nbsp;/&nbsp;
@@ -12,12 +12,12 @@ div  ng-if="repo.workingRepoCreated"
       div  ui-tree=true
         ol.nav.nav-pills.nav-stacked  ui-tree-nodes=true ng-model="repo.sections"
           li  ng-repeat="section in repo.sections" ui-tree-node=true ui-sref-active='active'
-            a  ui-sref="^.node({tree: section.attributes.link})"  
+            a  ui-sref="{treeBase: section.attributes.link}"  
               span.glyphicon.glyphicon-move  ui-tree-handle=true
               | {{section | lawNodeTitle}}
             ol.nav.nav-pills.nav-stacked  ui-tree-nodes=true ng-model="section.sections" type='a'
               li  ng-repeat="subSection in section.sections" ui-tree-node=true ui-sref-active='active'
                 span.glyphicon.glyphicon-move  ui-tree-handle=true
-                a  ui-sref="^.node({tree: subSection.attributes.link})"
+                a  ui-sref="{treeBase: subSection.attributes.link}"
                   | {{subSection | lawNodeTitle}}
     .col-lg-9 ng-transclude=true style="height: 100%;"  

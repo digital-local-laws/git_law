@@ -8,7 +8,7 @@ table.table.table-striped
   tbody
     tr  ng-repeat="law in list.proposedLaws"
       td
-        a  ui-sref="proposedLaw.node({ proposedLawId: law.id, tree: '' })"
+        a  ui-sref="proposedLaw.node({ proposedLawId: law.id })"
           | {{law.title}}
       td
         a.btn.btn-default  ng-click='editProposedLawSettings(law)'  

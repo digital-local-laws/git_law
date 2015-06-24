@@ -110,7 +110,7 @@ angular
         controller: 'ProposedLawInitializeCtrl'
       }
       .state 'proposedLaw.node', {
-        url: '/node/{tree:path}'
+        url: '/node/{treeBase:path}'
         templateUrl: 'proposedLawNode/node.html'
         controller: 'ProposedLawNodeCtrl'
       }

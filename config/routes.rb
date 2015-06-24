@@ -15,12 +15,12 @@ Rails.application.routes.draw do
         post '/file/*tree', to: "proposed_laws/files#create"
         put '/file/*tree', to: "proposed_laws/files#update"
         get '/nodes', to: "proposed_laws/nodes#index"
-        get '/nodes/*tree', to: "proposed_laws/nodes#index"
+        get '/nodes/*tree_base', to: "proposed_laws/nodes#index"
         get '/node', to: "proposed_laws/nodes#show"
-        get '/node/*tree', to: "proposed_laws/nodes#show"
-        post '/node/*tree', to: "proposed_laws/nodes#create"
-        patch '/node/*tree', to: "proposed_laws/nodes#update"
-        delete 'node/*tree', to: "proposed_laws/nodes#destroy"
+        get '/node/*tree_base', to: "proposed_laws/nodes#show"
+        post '/node/*tree_base', to: "proposed_laws/nodes#create"
+        patch '/node/*tree_base', to: "proposed_laws/nodes#update"
+        delete 'node/*tree_base', to: "proposed_laws/nodes#destroy"
       end
     end
     match "/proposed_laws/page/:page(.:format)",

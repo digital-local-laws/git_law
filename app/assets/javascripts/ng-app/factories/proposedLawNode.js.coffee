@@ -2,10 +2,10 @@ angular
   .module 'gitLaw'
   .factory( 'ProposedLawNode', ['$resource', ($resource) ->
     return $resource(
-      '/api/proposed_laws/:proposedLawId/node/:tree.:format'
+      '/api/proposed_laws/:proposedLawId/node/:treeBase.:format'
       {
         proposedLawId: "@proposedLawId"
-        tree: "@tree"
+        treeBase: "@treeBase"
         format: 'json'
         camel: 'true'
       }
@@ -13,7 +13,7 @@ angular
         query:
           method: 'GET'
           isArray: true
-          url: '/api/proposed_laws/:proposedLawId/nodes/:tree.:format'
+          url: '/api/proposed_laws/:proposedLawId/nodes/:treeBase.:format'
         save:
           method: 'PATCH'
         create:

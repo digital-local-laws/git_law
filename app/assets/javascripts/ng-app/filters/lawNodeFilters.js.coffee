@@ -38,7 +38,7 @@ filter('lawNodeShortTitle', (lawNodeNamePartsFilter) ->
       parts.title
     text
 ).
-filter('lawNodeFilename', (lawNodeNamePartsFilter) ->
+filter('lawNodeFilenameBase', (lawNodeNamePartsFilter) ->
   (node) ->
     parts = lawNodeNamePartsFilter node
     text = if parts.number
@@ -46,6 +46,14 @@ filter('lawNodeFilename', (lawNodeNamePartsFilter) ->
     else
       parts.title.toLowerCase().replace(/[^a-z]/g,'-')
     if text
-      text.replace(/^\-*/,'').replace(/\-*$/,'').replace(/\-+/,'-') + '.json'
+      text.replace(/^\-*/,'').replace(/\-*$/,'').replace(/\-+/,'-')
     else
-      '' )
+      '' ).
+filter('lawNodeFilename', (lawNodeFilenameBase) ->
+  (node) ->
+    base = lawNodeFilenameBase node
+    if base
+      base + '.json'
+    else
+      ''
+)

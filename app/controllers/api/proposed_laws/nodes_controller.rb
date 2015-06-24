@@ -12,11 +12,8 @@ module Api
         params[:attributes]
       end
       expose :recurse do
-        params[:tree] == 'proposed-law.json'
+        tree_base == 'proposed-law'
       end
-
-      # TODO add before filter that issues error when file name is not a
-      # valid node
 
       def index
         respond_to do |format|
@@ -55,29 +52,12 @@ module Api
         end
       end
 
-      # Move the node, then update the moved node
-      def move_and_update_node
-        newNode = node.move params[:to_tree]
-        if newNode
-          self.node = newNode
-          update_node
-        else
-          false
-        end
-      end
-
-      # Update the node in place
-      def update_node
-        node.attributes = attributes
-        node.update
-      end
-
       def update
         respond_to do |format|
           format.json do
             if !node.exists?
               render nothing: true, status: 404
-            elsif ( params[:to_tree] ? move_and_update_node : update_node )
+            elsif ( to_tree ? move_and_update_node : update_node )
               render 'show', status: 200
             else
               render 'errors', status: 422
@@ -93,6 +73,51 @@ module Api
             render nothing: true, status: 204
           end
         end
+      end
+
+      protected
+
+      def to_tree_base
+        return @to_tree_base unless @to_tree_base.nil?
+        @to_tree_base = if params[:to_tree_base] && params[:to_tree_base].present?
+          params[:to_tree_base]
+        else
+          false
+        end
+      end
+
+      def to_tree
+        return @to_tree unless @to_tree.nil?
+        @to_tree = if to_tree_base
+          "#{to_tree_base}.json"
+        else
+          false
+        end
+      end
+
+      def tree_base
+        @tree_base ||= params[:tree_base] ? params[:tree_base] : ''
+      end
+
+      def tree
+        @tree ||= tree_base && tree_base.present? ? "#{tree_base}.json" : ''
+      end
+
+      # Move the node, then update the moved node
+      def move_and_update_node
+        newNode = node.move to_tree
+        if newNode
+          self.node = newNode
+          update_node
+        else
+          false
+        end
+      end
+
+      # Update the node in place
+      def update_node
+        node.attributes = attributes
+        node.update
       end
     end
   end

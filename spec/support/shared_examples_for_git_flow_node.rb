@@ -6,6 +6,31 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
       root_node
     end
 
+    it 'should have a sorted_attributes method' do
+      expect( GitFlow::Node.sorted_attributes( "a" ) ).
+      to eql "a"
+      expect( GitFlow::Node.sorted_attributes( { "b" => "a", "a" => "b" } ) ).
+      to eql( { "a" => "b", "b" => "a" } )
+      expect( GitFlow::Node.sorted_attributes( [ "b", "a" ] ) ).
+      to eql( [ "a", "b" ] )
+      expect( GitFlow::Node.sorted_attributes(
+        "b" => [ "b", "a" ],
+        "a" => [ "c", "d" ],
+        "c" => { "b" => "a", "a" => "b" }
+      ) ).to eql(
+        { "a" => [ "c", "d" ],
+          "b" => [ "a", "b" ],
+          "c" => { "a" => "b", "b"=> "a" } }
+      )
+      expect( GitFlow::Node.sorted_attributes( [
+        { "b" => ["b", "a"] },
+        { "a" => "b" }
+      ] ) ).to eql( [
+        { "b" => [ "a", "b" ] },
+        { "a" => "b" }
+      ] )
+    end
+
     it 'should create a root node with basic parameters' do
       expect( node ).to be_a GitFlow::Node
       expect( File.exist? node.absolute_path ).to be true

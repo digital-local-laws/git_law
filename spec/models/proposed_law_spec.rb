@@ -41,7 +41,7 @@ RSpec.describe ProposedLaw, type: :model do
       expect( pl_root_node.exists? ).to be true
       expect( pl_root_node.attributes["number"] ).to eql "1"
       expect( pl_root_node.attributes["title"] ).to eql root_node.attributes["title"]
-      expect( pl_root_node.attributes["link"] ).to eql root_node.tree
+      expect( pl_root_node.attributes["link"] ).to eql root_node.tree_base
     end
 
     it 'should create new linked node when middle node added' do
@@ -49,7 +49,7 @@ RSpec.describe ProposedLaw, type: :model do
       expect( pl_middle_node.exists? ).to be true
       expect( pl_middle_node.attributes["number"] ).to eql "2"
       expect( pl_middle_node.attributes["title"] ).to eql middle_node.attributes["title"]
-      expect( pl_middle_node.attributes["link"] ).to eql middle_node.tree
+      expect( pl_middle_node.attributes["link"] ).to eql middle_node.tree_base
     end
 
     it 'should create new linked node when leaf node added' do
@@ -57,7 +57,7 @@ RSpec.describe ProposedLaw, type: :model do
       expect( pl_leaf_node.exists? ).to be true
       expect( pl_leaf_node.attributes["number"] ).to eql "3"
       expect( pl_leaf_node.attributes["title"] ).to eql leaf_node.attributes["title"]
-      expect( pl_leaf_node.attributes["link"] ).to eql leaf_node.tree
+      expect( pl_leaf_node.attributes["link"] ).to eql leaf_node.tree_base
     end
 
     context 'with intrinsic node in proposed law node' do

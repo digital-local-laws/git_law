@@ -285,8 +285,34 @@ module GitFlow
       end
     end
 
+    # Recursive sorting algorithm for hash, array, value nest structures
+    def self.sorted_attributes(attributes)
+      if attributes.is_a? Hash
+        attributes.keys.sort.inject({}) do |memo, key|
+          memo[key] = sorted_attributes( attributes[key] )
+          memo
+        end
+      elsif attributes.is_a? Array
+        # Do not sort an array if the entries are not comparable
+        attributes.each do |attribute|
+          unless attribute.class.included_modules.include? Comparable
+            return attributes.map { |value| sorted_attributes( value ) }
+          end
+        end
+        attributes.sort.map { |value| sorted_attributes( value ) }
+      else
+        attributes
+      end
+    end
+
+    # Returns attributes sorted
+    # Useful for writing attributes to JSON in predictable order
+    def sorted_attributes
+      self.class.sorted_attributes attributes
+    end
+
     def attributes_to_content
-      self.content = JSON.generate( attributes, JSON_WRITE_OPTIONS )
+      self.content = JSON.generate( sorted_attributes, JSON_WRITE_OPTIONS )
     end
 
     # Set attribute values from hash

@@ -249,7 +249,6 @@ end
 
 When /^I add text to the (\w+)$/ do |label|
   click_link "Text"
-  sleep 10
   expect( page ).to have_text "No text exists for this #{label}."
   click_button "Click here to add text."
 end
@@ -257,4 +256,24 @@ end
 Then /^text should be added to the (\w+)$/ do |label|
   step "saving has completed"
   expect( @proposed_law.working_file( proposed_law_text_file_tree ).exists? ).to be true
+end
+
+When /^I rename the code$/ do
+  click_link @proposed_law.title
+  within( :xpath, "//tr[contains(.,'Tompkins County Code')]" ) do
+    find( :xpath, ".//button[contains(.,'Settings')]" ).click
+  end
+  sleep 2
+  fill_in "Title", with: "Tioga County Code"
+  click_button "Update Code Settings"
+  step "the modal has vanished"
+end
+
+Then /^the code should be renamed$/ do
+  within( :xpath, './/table' ) do
+    expect( page ).to have_text "Tioga County Code"
+    expect( page ).to have_no_text "Tompkins County Code"
+  end
+  expect( @proposed_law.working_file('tompkins-county-code.json').exists? ).to be false
+  expect( @proposed_law.working_file('tioga-county-code.json').exists? ).to be true
 end

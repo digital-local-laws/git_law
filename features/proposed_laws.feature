@@ -21,10 +21,12 @@ Feature: Manage local laws
     When I edit the proposed law settings
     Then the proposed law settings should be updated
   @javascript
-  Scenario: Add a code
+  Scenario: Add a code and edit its settings
     Given I proposed a law
     When I add a code
     Then the code should be added
+    When I rename the code
+    Then the code should be renamed
   @javascript
   Scenario Outline: Add a structured code
     Given I proposed a law

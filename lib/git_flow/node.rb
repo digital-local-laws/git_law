@@ -179,6 +179,17 @@ module GitFlow
     # Returns empty array when no children are supported
     def child_node_structure
       return @child_node_structure unless @child_node_structure.nil?
+      # Where is the start in the parent node's child structure,
+      # if we have a parent and type
+      # Otherwise it is 1
+      start = if attributes["type"] && parent_node &&
+      parent_node.child_node_structure.index { |s|
+      s['label'] == attributes['type'] }
+        parent_node.child_node_structure.index { |s|
+        s['label'] == attributes['type'] } + 1
+      else
+        1
+      end
       @child_node_structure = if root?
         [ { "label" => "code",
             "number" => false,
@@ -186,8 +197,9 @@ module GitFlow
             "text" => false } ]
       elsif attributes["structure"]
         attributes["structure"]
-      elsif parent_node && parent_node.child_node_structure.length > 1
-        parent_node.child_node_structure[1..(parent_node.child_node_structure.length - 1)]
+      elsif parent_node && parent_node.child_node_structure.length > start
+        parent_node.
+        child_node_structure[start..(parent_node.child_node_structure.length - 1)]
       else
         []
       end

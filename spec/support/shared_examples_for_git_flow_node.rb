@@ -113,5 +113,19 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
       expect( newNode.text_file.tree ).to match /chapter-2.asc$/
       expect( File.exist? newNode.text_file.absolute_path ).to be true
     end
+
+    it "should allow leaf to attach directly to root if middle is optional" do
+      structure[0]["optional"] = true
+      root_node.attributes["structure"] = structure
+      root_node.save
+      root = repo.working_file(root_node.tree).node
+      expect( root.allowed_child_node_types.length ).to eql 2
+      expect( root.allowed_child_node_types.last["label"] ).to eql "chapter"
+      expect( middle_node.allowed_child_node_types.length ).to eql 1
+      middle_node.attributes["type"] = "chapter"
+      middle_node.save
+      expect( repo.working_file(middle_node.tree).node.
+        allowed_child_node_types ).to be_empty
+    end
   end
 end

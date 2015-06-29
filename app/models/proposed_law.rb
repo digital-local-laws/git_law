@@ -10,36 +10,8 @@ class ProposedLaw < ActiveRecord::Base
 
   after_create_working_repo :initialize_working_repo
 
-  def metadata
-    return @metadata unless @metadata.nil?
-    return @metadata = false unless File.exist? metadata_path
-    @metadata ||= JSON.load( File.open( metadata_path ) )
-  end
-
-  def write_metadata
-    File.open( metadata_path, 'w' ) do |file|
-      file << @metadata.to_json
-    end
-  end
-
-  def reset_metadata
-    @metadata = nil
-  end
-
-  def metadata_path
-    working_file_path metadata_path_in_repo
-  end
-
-  def metadata_path_in_repo
-    'law.json'
-  end
-
   private
 
-  # def metadata_path
-  #   "#{working_repo_path}/law.json"
-  # end
-  #
   def initialize_working_repo
     # TODO is this the best way to assure the jurisdiction has a repo initialized?
     jurisdiction.working_repo

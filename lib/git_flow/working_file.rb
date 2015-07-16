@@ -144,6 +144,7 @@ module GitFlow
         new_file = git_flow_repo.working_file( to_tree )
         force = options.delete :force
         return false if new_file.exists? && !force
+        logger.info "Move #{absolute_path} to #{new_file.absolute_path}"
         # If a directory, make new directory, move all children, remove old
         if directory?
           FileUtils.mkdir new_file.absolute_path
@@ -152,7 +153,6 @@ module GitFlow
           end
           FileUtils.rmdir absolute_path
         else
-          logger.info "Move #{absolute_path} to #{new_file.absolute_path}"
           FileUtils.mv absolute_path, new_file.absolute_path
           new_file.add
           remove

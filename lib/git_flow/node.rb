@@ -150,20 +150,20 @@ module GitFlow
 
     # Moves node and associated files to new tree location
     # Returns reference to the moved node
-    def move( toTree )
-      toNode = git_flow_repo.working_file( toTree ).node
-      return false if toNode.exists?
-      return false if toNode.text_file.exists?
-      return false if toNode.child_container_file.exists?
-      return false unless toNode.create
-      newFile = super( toTree, force: true )
+    def move( to_tree )
+      to_node = git_flow_repo.working_file( to_tree ).node
+      return false if to_node.exists?
+      return false if to_node.text_file.exists?
+      return false if to_node.child_container_file.exists?
+      return false unless to_node.create
+      new_file = super( to_tree, force: true )
       if text_file.exists?
-        text_file.move toNode.text_file.tree, force: true
+        text_file.move to_node.text_file.tree, force: true
       end
       if child_container_file.exists?
-        child_container_file.move toNode.child_container_file.tree
+        child_container_file.move to_node.child_container_file.tree
       end
-      newFile.node
+      new_file.node
     end
 
     # TODO destroy vs. repeal

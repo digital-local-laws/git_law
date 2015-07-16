@@ -1,9 +1,39 @@
 module GitFlow
   class WorkingFile
+    class Transaction
+      def close( message )
+        # TODO commit the Transaction
+        # TODO free resources
+      end
+    end
     include Comparable
     extend ActiveModel::Callbacks
 
     define_model_callbacks :create, :update, :destroy, :move
+
+    after_create :add
+
+    cattr_accessor :top_transaction
+
+
+
+    # Encapsulates block of code in Git transaction
+    def self.transaction(message)
+      transaction = Transaction.new unless top_transaction
+      top_transaction ||= transaction
+      begin
+        yield
+        transaction.close message
+      rescue
+        # TODO should we track the files this transaction touches and
+        # do a checkout of each one to reset it to the HEAD state?
+      end
+    end
+
+    # Add the file to the index
+    def add
+      working_repo.add tree
+    end
 
     def logger; Rails.logger; end
 
@@ -82,6 +112,7 @@ module GitFlow
       File.open(absolute_path,'w') do |file|
         file << content if content
       end
+      # TODO git functionality
     end
 
     # Set content to be stored in the file
@@ -107,14 +138,26 @@ module GitFlow
       end
     end
 
-    def move(toTree,options={})
+    # Rename a file
+    def move(to_tree,options={})
       run_callbacks :move do
-        newFile = git_flow_repo.working_file( toTree )
+        new_file = git_flow_repo.working_file( to_tree )
         force = options.delete :force
-        return false if newFile.exists? && !force
-        logger.info "Move #{absolute_path} to #{newFile.absolute_path}"
-        FileUtils.mv absolute_path, newFile.absolute_path
-        git_flow_repo.working_file toTree
+        return false if new_file.exists? && !force
+        # If a directory, make new directory, move all children, remove old
+        if directory?
+          FileUtils.mkdir new_file.absolute_path
+          children.each do |child|
+            child.move child.tree.gsub( /^#{Regexp.escape tree}/, to_tree )
+          end
+          FileUtils.rmdir absolute_path
+        else
+          logger.info "Move #{absolute_path} to #{new_file.absolute_path}"
+          FileUtils.mv absolute_path, new_file.absolute_path
+          new_file.add
+          remove
+        end
+        git_flow_repo.working_file( to_tree )
       end
     end
 
@@ -127,10 +170,20 @@ module GitFlow
           FileUtils.rmdir absolute_path
         else
           logger.info "Delete file at #{absolute_path}"
-          FileUtils.rm absolute_path
+        # TODO if the file has added state (not committed), reset it to HEAD
+          if status_file.untracked?
+            FileUtils.rm absolute_path
+          else
+            remove
+          end
         end
         true
       end
+    end
+
+    # Remove file from working directory and stage deletion from the index
+    def remove
+      working_repo.remove tree
     end
 
     # Checks whether this file is a directory
@@ -171,7 +224,8 @@ module GitFlow
     end
 
     def status_file
-      repo.status.map(&:last).select { |f| f.path == tree }
+      matches = working_repo.status.map.select { |f| f.path == tree }
+      matches.first
     end
 
     def root?
@@ -183,6 +237,8 @@ module GitFlow
     def repo
       git_flow_repo.repo
     end
+
+    def working_repo; git_flow_repo.working_repo; end
 
     def git_flow_repo; @git_flow_repo; end
   end

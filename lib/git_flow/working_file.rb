@@ -1,34 +1,11 @@
 module GitFlow
   class WorkingFile
-    class Transaction
-      def close( message )
-        # TODO commit the Transaction
-        # TODO free resources
-      end
-    end
     include Comparable
     extend ActiveModel::Callbacks
 
     define_model_callbacks :create, :update, :destroy, :move
 
     after_create :add
-
-    cattr_accessor :top_transaction
-
-
-
-    # Encapsulates block of code in Git transaction
-    def self.transaction(message)
-      transaction = Transaction.new unless top_transaction
-      top_transaction ||= transaction
-      begin
-        yield
-        transaction.close message
-      rescue
-        # TODO should we track the files this transaction touches and
-        # do a checkout of each one to reset it to the HEAD state?
-      end
-    end
 
     # Add the file to the index
     def add

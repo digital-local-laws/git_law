@@ -66,6 +66,10 @@ module GitFlow
       super( git_flow_repo, tree )
     end
 
+    def self.to_reference( tree ); tree.gsub( /\// , '_' ); end
+
+    def to_reference; self.class.to_reference tree; end
+
     def ancestor_of_node?( node )
       node.tree =~ /^#{Regexp.escape tree_base}/
     end

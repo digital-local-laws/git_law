@@ -10,7 +10,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1.7'
 # gem 'capistrano-rails', group: :development
-gem 'mongoid', '~> 4', git: "https://github.com/mongoid/mongoid.git"
+gem 'mongoid', '~> 4.0'
 gem 'bson_ext'
 gem 'bower-rails'
 gem 'angular-rails-templates'
@@ -27,6 +27,7 @@ gem 'delayed_job_active_record'
 #gem 'statsample-optimization'
 gem 'git'
 gem 'asciidoctor'
+gem 'asciidoctor-diagram'
 gem 'api-pagination'
 gem 'omniauth'
 gem 'ruby-filemagic', require: 'filemagic'

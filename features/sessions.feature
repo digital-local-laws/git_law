@@ -11,4 +11,3 @@ Feature: User sessions
     Given I log in
     When I log out
     Then I should be logged out
-

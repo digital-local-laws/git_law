@@ -8,7 +8,7 @@ For town clerk:
 
 * extract municipal code from common existing source formats
 * upload municipal code
-* expose current code as 
+* expose current code as
 * propose local legislation
   * automatically generate proper identifiers (session/unique identifier)
   * generate a branch from the current code
@@ -28,7 +28,37 @@ Structured metadata regarding legislation and legislative transactions is stored
 
 * https://data.ny.gov/api/views/55k6-h6qq/rows.json is the source for localities
   that might own codes
-  
+
+== Local Legislative Workflow Translated to Git
+
+[graphviz,workflow,svg]
+----
+digraph G {
+  subgraph cluster_0 {
+    label="Canonical Repository (public, state-hosted)"
+    style=filled
+    color=lightgrey
+    node [ style=filled, color=white ]
+    current_master [label="master (Current Law)"]
+  }
+  subgraph cluster_1 {
+    label="Local Legislature Repository (public, state or local)"
+    proposed_master [label="master (Public Draft)"]
+    current_master -> proposed_master [label="fork (propose law)"]
+    proposed_master -> current_master [label="pull request (adopt law)"]
+  }
+  subgraph cluster_2 {
+    label="Local Clerk's Working Repository"
+    clerk_master [label="master (Pending Public Draft)"]
+    clerk_working [label="working (Private Draft)"]
+    proposed_master -> clerk_master [label="clone (propose law)"]
+    clerk_master -> clerk_working [label="branch (apply changes)"]
+    clerk_working -> clerk_master [label="merge --squash (publish changes)"]
+    clerk_master -> proposed_master [label="push (publish changes)"]
+  }
+}
+----
+
 == Inspiration
 
 Gitbook

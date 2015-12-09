@@ -148,7 +148,7 @@ module GitFlow
         else
           logger.info "Delete file at #{absolute_path}"
         # TODO if the file has added state (not committed), reset it to HEAD
-          if status_file.untracked?
+          if status_file.untracked
             FileUtils.rm absolute_path
           else
             remove

@@ -157,8 +157,9 @@ end
 
 When(/^I edit the text of the section$/) do
   click_link "Text"
-  find( :xpath, ".//textarea" ).set("This is the start of a code.")
-  expect( page ).to have_text "Saving..."
+  expect( page ).to have_xpath( './/textarea', visible: false )
+  find(:xpath,'.//textarea', visible: false).set("This is the start of a code.")
+  expect( Capybara.current_session ).to have_text "Saving..."
 end
 
 When(/^saving has completed$/) do

@@ -39,7 +39,7 @@ gl-node gl-node-location="proposedLawNode" gl-repo="proposedLaw"
           span ng-if="!saveInProgress"
             | Saved.
         gl-file-content gl-file="proposedLawFile" gl-on-load="setupEditor"
-      .col-xs-9 ng-if="noProposedLawFile"
+      .col-xs-9 ng-if="!proposedLawFile"
         p
           | No text content exists for this {{proposedLawNode.nodeType.label}}.
           button.btn.btn-link ng-click="createProposedLawFile()"

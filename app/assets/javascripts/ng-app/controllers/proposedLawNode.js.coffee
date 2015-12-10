@@ -11,7 +11,6 @@ angular
     $scope.alerts = []
     onProposedLawFileLoad = (proposedLawFile) ->
       $scope.proposedLawFile = proposedLawFile
-      $scope.noProposedLawFile = false
       $scope.timeout = null
       saveContent = () ->
         success = (n,headers) ->
@@ -28,9 +27,6 @@ angular
       $scope.$on '$destroy', ->
         cancelTimeout()
       $scope.$watch('proposedLawFile.content', debounceSaveContent)
-    onProposedLawFileFail = ( response ) ->
-      if response.status == 404
-        $scope.noProposedLawFile = true
     $scope.createProposedLawFile = () ->
       ProposedLawFile.create( {
           proposedLawId: $scope.proposedLaw.id
@@ -44,8 +40,7 @@ angular
       if proposedLawNode.nodeType.text
         ProposedLawFile.get( {
           proposedLawId: proposedLawNode.proposedLawId
-          tree: proposedLawNode.textFileTree }, onProposedLawFileLoad,
-          onProposedLawFileFail )
+          tree: proposedLawNode.textFileTree }, onProposedLawFileLoad )
       if proposedLawNode.childNodesAllowed
         ProposedLawNode.query( {
           proposedLawId: $scope.proposedLaw.id

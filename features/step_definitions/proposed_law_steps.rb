@@ -246,11 +246,12 @@ Given /^the (\w+) has no text$/ do |label|
   expect( @proposed_law.working_file( proposed_law_text_file_tree ).exists? ).to be false
   click_link "Chapter 1"
   click_link "Section 1. A new section"
+  screenshot_and_save_page
 end
 
 When /^I add text to the (\w+)$/ do |label|
   click_link "Text"
-  expect( page ).to have_text "No text exists for this #{label}."
+  expect( page ).to have_text "No text content exists for this #{label}."
   click_button "Click here to add text."
 end
 

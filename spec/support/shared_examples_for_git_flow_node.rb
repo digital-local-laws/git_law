@@ -44,6 +44,7 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
       expect( node.attributes["structure"] ).to be nil
       expect( node.child_node_structure ).to be_empty
       expect( node.allowed_child_node_types ).to be_empty
+      expect( node.to_reference ).to eql 'tompkins-county-code'
     end
 
     context 'with structure' do
@@ -73,6 +74,7 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
       expect( node.allowed_child_node_types.first["label"] ).to eql "chapter"
       expect( root_node.child_nodes.length ).to eql 1
       expect( root_node.child_nodes.map(&:tree)[0] ).to eql node.tree
+      expect( node.to_reference ).to eql 'tompkins-county-code_part-1'
     end
   end
 
@@ -140,6 +142,7 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
       text = f.read
       f.close
       expect( text ).to match /^= Tompkins County Code/
+      expect( text ).to include "\n\ninclude::tompkins-county-code/part-1.asc[]"
     end
   end
 end

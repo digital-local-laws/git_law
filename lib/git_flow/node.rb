@@ -66,7 +66,7 @@ module GitFlow
       super( git_flow_repo, tree )
     end
 
-    def self.to_reference( tree ); tree.gsub( /\// , '_' ); end
+    def self.to_reference( tree ); tree.chomp('.json').gsub( /\// , '_' ); end
 
     def to_reference; self.class.to_reference tree; end
 

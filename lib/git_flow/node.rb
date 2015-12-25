@@ -128,15 +128,6 @@ module GitFlow
       end
     end
 
-    def children_file
-      return @children_file unless @children_file.nil?
-      @children_file = if root?
-        self
-      else
-        git_flow_repo.working_file tree_base
-      end
-    end
-
     # Initialize the directory associated with this node, if applicable
     def initialize_container_file
       container_file.create true if container_file && !container_file.exists?
@@ -258,8 +249,8 @@ module GitFlow
 
     def child_nodes
       return @child_nodes unless @child_nodes.nil?
-      @child_nodes = if children_file.exists?
-        children_file.children.select(&:is_node?).map(&:node)
+      @child_nodes = if child_container_file && child_container_file.exists?
+        child_container_file.children.select(&:is_node?).map(&:node)
       else
         []
       end
@@ -278,7 +269,7 @@ module GitFlow
     # Retrieves the parent node
     def parent_node
       return @parent_node unless @parent_node.nil?
-      @parent_node = if File.dirname( tree ) == '.' && !root?
+      @parent_node = if tree_parent.empty? && !root?
         git_flow_repo.working_file( '' ).node
       elsif File.exist? absolute_parent_node_path
         git_flow_repo.working_file( tree_parent_node ).node
@@ -349,7 +340,10 @@ module GitFlow
 
     # What is the path to the parent directory in the git repo?
     def tree_parent
-      File.dirname tree
+      return @tree_parent if @tree_parent
+      @tree_parent = File.dirname tree
+      @tree_parent = '' if @tree_parent == '.'
+      tree_parent
     end
 
     # What is the path to the parent directory in the working directory?
@@ -370,6 +364,18 @@ module GitFlow
     # In git repo, where is the content file?
     def tree_text_file
       tree_base + ".asc"
+    end
+
+    # Compile node and children using specified compiler
+    # If no base is specified, create a base in the build location root
+    def compile(compiler_type)
+      compiler = case compiler_type
+      when :node
+        GitLaw::Compilers::NodeCompiler
+      else
+        raise ArgumentError, "Unsupported compiler type: #{compiler_type}"
+      end
+      compiler.new( self )
     end
   end
 end

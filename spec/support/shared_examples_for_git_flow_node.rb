@@ -128,4 +128,18 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
         allowed_child_node_types ).to be_empty
     end
   end
+
+  context "root node with children" do
+    let(:node) { leaf_node; root_node }
+
+    it "should compile into valid structure", focus: true do
+      compiler = node.compile :node
+      expect( compiler.class ).to eql GitLaw::Compilers::NodeCompiler
+      compiler.compile
+      f = File.open(compiler.out_path,'r')
+      text = f.read
+      f.close
+      expect( text ).to match /^= Tompkins County Code/
+    end
+  end
 end

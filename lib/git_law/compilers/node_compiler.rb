@@ -9,7 +9,13 @@ module GitLaw
 
       def compile
         out << "[[#{reference}]]\n"
-        out << "#{'='*level} #{title}\n\n"
+        out << "#{'='*level} #{title}\n"
+        # Add document-level metadata for a root node
+        if level == 1
+          out << ":doctype: book\n"
+          out << ":!sectnums:\n"
+        end
+        out << "\n"
         if node.text_file.exists?
           out << node.text_file.content
           out << "\n\n"

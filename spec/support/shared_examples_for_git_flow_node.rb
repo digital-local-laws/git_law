@@ -142,6 +142,8 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
       text = f.read
       f.close
       expect( text ).to match /^= Tompkins County Code/
+      expect( text ).to include ":doctype: book\n"
+      expect( text ).to include ":!sectnums:\n"
       expect( text ).to include "\n\n// tag::tompkins-county-code_content[]"
       expect( text ).to include "\n\ninclude::tompkins-county-code/part-1.asc[]"
       expect( text ).to include "\n\n// end::tompkins-county-code_content[]"
@@ -149,6 +151,8 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
       text = f.read
       f.close
       expect( text ).to match /^== Part I. General Provisions/
+      expect( text ).not_to include ":doctype: book\n"
+      expect( text ).not_to include ":!sectnums:\n"
       f = File.open(leaf_node.compile(:node).out_path)
       text = f.read
       f.close

@@ -156,6 +156,7 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
       expect( text ).to match /^== Part I. General Provisions/
       expect( text ).not_to include ":doctype: book\n"
       expect( text ).not_to include ":!sectnums:\n"
+      expect( text ).to include "\n\ninclude::part-1/chapter-1.asc[]"
       text = compiled_text leaf_node
       expect( text ).to match /^=== Chapter 1. Administrative Provisions/
     end

@@ -236,6 +236,24 @@ module GitFlow
       end
     end
 
+    # Get the properly formatted number for this node
+    def node_number
+      return unless node_type && attributes["number"]
+      number = attributes["number"].to_i
+      case node_type["number"]
+      when 'R'
+        number.to_roman
+      when 'r'
+        number.to_roman.downcase
+      when 'A'
+        number.to_alpha.upcase
+      when 'a'
+        number.to_alpha
+      else
+        number
+      end
+    end
+
     # Returns structural configuration for this node
     # If the node has no parent, it is a root-level "code"
     def node_structure

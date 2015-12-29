@@ -143,6 +143,14 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
       f.close
       expect( text ).to match /^= Tompkins County Code/
       expect( text ).to include "\n\ninclude::tompkins-county-code/part-1.asc[]"
+      f = File.open(middle_node.compile(:node).out_path)
+      text = f.read
+      f.close
+      expect( text ).to match /^== Part I. General Provisions/
+      f = File.open(leaf_node.compile(:node).out_path)
+      text = f.read
+      f.close
+      expect( text ).to match /^=== Chapter 1. Administrative Provisions/
     end
   end
 end

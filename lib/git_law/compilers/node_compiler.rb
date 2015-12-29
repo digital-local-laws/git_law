@@ -51,7 +51,7 @@ module GitLaw
 
       def title
         return @title unless @title.nil?
-        @title = number ? "#{label.capitalize} #{node.attributes['number']}. " : ""
+        @title = number ? "#{label.capitalize} #{node.node_number}. " : ""
         @title = "#{@title}#{node.attributes['title']}" if node.attributes['title']
         title
       end

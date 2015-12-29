@@ -7,11 +7,11 @@ RSpec.shared_context 'a structured git flow node' do
 
   let(:structure) do
     [ { "label" => "part",
-        "number" => true,
+        "number" => 'R',
         "text" => false,
         "optional" => false },
       { "label" => "chapter",
-        "number" => true,
+        "number" => '1',
         "text" => true,
         "optional" => false } ]
   end

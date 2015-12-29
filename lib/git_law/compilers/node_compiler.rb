@@ -14,10 +14,12 @@ module GitLaw
           out << node.text_file.content
           out << "\n\n"
         end
+        out << "// tag::#{reference}_content[]\n\n"
         node.child_nodes.each do |child|
           child_compiler = child.compile(:node).compile
-          out << "include::#{node.child_container_file.file_name}/#{child.text_file.file_name}[]"
+          out << "include::#{node.child_container_file.file_name}/#{child.text_file.file_name}[]\n\n"
         end
+        out << "// end::#{reference}_content[]\n"
         close
       end
 

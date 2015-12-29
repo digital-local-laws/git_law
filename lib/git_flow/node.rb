@@ -70,6 +70,30 @@ module GitFlow
 
     def to_reference; self.class.to_reference tree; end
 
+    # Takes a reference (usually to another node)
+    # Returns array of the full reference and the tree
+    # The tree can be used to pull up metadata for referenced node
+    def to_interpolated_reference( target )
+      current = tree.split("/")
+      target_parts = target.split("/")
+      parts = []
+      while current.any? && current.first != target_parts.first do
+        parts << current.shift
+      end
+      parts += target_parts
+      target_tree = parts.join "/"
+      target_node = git_flow_repo.working_file( target_tree + ".json" ).node
+      if parts.length > 1
+        if target_node.exists?
+          [ self.class.to_reference( parts.join('/') ), target_node ]
+        else
+          raise "Target node does not exist (#{tree}): #{target_node.tree}"
+        end
+      else
+        [ target ]
+      end
+    end
+
     def ancestor_of_node?( node )
       node.tree =~ /^#{Regexp.escape tree_base}/
     end
@@ -252,6 +276,23 @@ module GitFlow
       else
         number
       end
+    end
+
+    # Render the label for the node type
+    def node_label
+      node_type['label']
+    end
+
+    # Render the full title of the node
+    def node_title
+      title = node_number ? "#{node_label.capitalize} #{node_number}. " : ""
+      title = "#{title}#{attributes['title']}" if attributes['title']
+      title
+    end
+
+    # Render titles of parent nodes
+    def node_title_context
+      ancestor_nodes.reject(&:root?).map(&:node_title).join(', ')
     end
 
     # Returns structural configuration for this node

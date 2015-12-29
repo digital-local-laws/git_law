@@ -16,9 +16,8 @@ module GitLaw
           out << ":!sectnums:\n"
         end
         out << "\n"
-        if node.text_file.exists?
-          out << node.text_file.content
-          out << "\n\n"
+        unless content.empty?
+          out << "#{content}\n\n"
         end
         out << "// tag::#{reference}_content[]\n\n"
         node.child_nodes.each do |child|
@@ -38,7 +37,17 @@ module GitLaw
       end
 
       def parse_content(content)
-        content.gsub( /<<([^\/]+[\/][^,]+)(,[^>])?>>/, "<<#{GitFlow::Node.to_reference $1}$2>>" )
+        # Interpolate the links
+        content.gsub( /<<([^\/]+[\/][^,]+)(,[^>])?>>/ ) do |match|
+          ref = node.to_interpolated_reference $1
+          if $2 || ref.length < 2
+            "<<#{ref[0]}#{$2}>>"
+          elsif ref[1].ancestor_nodes.reject(&:root?).any?
+            "<<#{ref[0]},#{ref[1].node.node_title}>> of #{node.node_title_context}"
+          else
+            "<<#{ref[0]},#{ref[1].node.node_title}>>"
+          end
+        end
       end
 
       def reference
@@ -54,14 +63,11 @@ module GitLaw
       end
 
       def label
-        @label ||= type['label']
+        @label ||= node.node_label
       end
 
       def title
-        return @title unless @title.nil?
-        @title = number ? "#{label.capitalize} #{node.node_number}. " : ""
-        @title = "#{@title}#{node.attributes['title']}" if node.attributes['title']
-        title
+        @title ||= node.node_title
       end
 
       def number

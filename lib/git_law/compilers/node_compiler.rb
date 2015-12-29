@@ -38,12 +38,12 @@ module GitLaw
 
       def parse_content(content)
         # Interpolate the links
-        content.gsub( /<<([^\/]+[\/][^,]+)(,[^>])?>>/ ) do |match|
+        content.gsub( /<<([^\/]+[\/][^,]+)(,[^>]+)?>>/ ) do |match|
           ref = node.to_interpolated_reference $1
           if $2 || ref.length < 2
             "<<#{ref[0]}#{$2}>>"
           elsif ref[1].ancestor_nodes.reject(&:root?).any?
-            "<<#{ref[0]},#{ref[1].node.node_title}>> of #{node.node_title_context}"
+            "<<#{ref[0]},#{ref[1].node.node_title}>> of #{ref[1].node_title_context}"
           else
             "<<#{ref[0]},#{ref[1].node.node_title}>>"
           end

@@ -290,9 +290,20 @@ module GitFlow
       title
     end
 
+    # Short title for node
+    def node_short_title
+      if node_number
+        "#{node_label.capitalize} #{node_number}"
+      else
+        "#{attributes['title']}"
+      end
+    end
+
     # Render titles of parent nodes
     def node_title_context
-      ancestor_nodes.reject(&:root?).map(&:node_title).join(', ')
+      ancestor_nodes.reject(&:root?).reject { |ancestor|
+        ancestor.tree == tree
+      }.map(&:node_short_title).join(', ')
     end
 
     # Returns structural configuration for this node

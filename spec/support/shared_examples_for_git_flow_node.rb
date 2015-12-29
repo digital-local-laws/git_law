@@ -161,24 +161,6 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
       expect( text ).to match /^=== Chapter 1. Administrative Provisions/
     end
 
-    it "should interpolate references correctly" do
-      ref_node = repo.working_file( File.join middle_node.tree_base,
-        'chapter-2.json' ).node
-      ref_node.attributes = {
-        "title" => "Reference to Administrative Provisions",
-        "number" => "2"
-      }
-      ref_node.save
-      ref_node.text_file.content = "See <<part-1/chapter-1>>"
-      ref_node.text_file.save
-      node.compile(:node).compile
-      text = compiled_text ref_node
-      expect( text ).to( include(
-        "<<tompkins-county-code_part-1_chapter-1," +
-        "Chapter 1. Administrative Provisions>>"
-      ) )
-    end
-
     it "should correctly number lower roman sections" do
       structure[0]["number"] = 'r'
       node.compile(:node).compile
@@ -198,6 +180,50 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
       node.compile(:node).compile
       text = compiled_text middle_node
       expect( text ).to match /^== Part A. General Provisions/
+    end
+
+    context "containing references" do
+      let(:ref_node) do
+        ref_node = repo.working_file( File.join middle_node.tree_base,
+          'chapter-2.json' ).node
+        ref_node.attributes = {
+          "title" => "Reference to Administrative Provisions",
+          "number" => "2"
+        }
+        ref_node.save
+        ref_node.text_file.content = "See <<#{ref_node_text}>>"
+        ref_node.text_file.save
+        ref_node
+      end
+
+      let(:ref_node_text) { "part-1/chapter-1" }
+
+      let(:text) { compiled_text ref_node }
+
+      before(:each) do
+        ref_node
+        node.compile(:node).compile
+        text = compiled_text ref_node
+      end
+
+      it "should interpolate references correctly" do
+        expect( text ).to( include(
+          "<<tompkins-county-code_part-1_chapter-1," +
+          "Chapter 1. Administrative Provisions>> " +
+          "of Tompkins County Code, Part I"
+        ) )
+      end
+
+      context "should omit description when overridden" do
+        let(:ref_node_text) { "part-1/chapter-1,Chapter 1" }
+
+        it "should interpolate references correctly" do
+          expect( text ).to( include(
+            "<<tompkins-county-code_part-1_chapter-1," +
+            "Chapter 1>>"
+          ) )
+        end
+      end
     end
   end
 end

@@ -131,32 +131,54 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
     end
   end
 
-  context "root node with children" do
+  context "root node with children", focus: true do
+    def compiled_text(node)
+      f = File.open node.compile(:node).out_path
+      text = f.read
+      f.close
+      text
+    end
+
     let(:node) { leaf_node; root_node }
 
-    it "should compile into valid structure", focus: true do
+    it "should compile into valid structure" do
       compiler = node.compile :node
       expect( compiler.class ).to eql GitLaw::Compilers::NodeCompiler
       compiler.compile
-      f = File.open(compiler.out_path,'r')
-      text = f.read
-      f.close
+      text = compiled_text node
       expect( text ).to match /^= Tompkins County Code/
       expect( text ).to include ":doctype: book\n"
       expect( text ).to include ":!sectnums:\n"
       expect( text ).to include "\n\n// tag::tompkins-county-code_content[]"
       expect( text ).to include "\n\ninclude::tompkins-county-code/part-1.asc[]"
       expect( text ).to include "\n\n// end::tompkins-county-code_content[]"
-      f = File.open(middle_node.compile(:node).out_path)
-      text = f.read
-      f.close
+      text = compiled_text middle_node
       expect( text ).to match /^== Part I. General Provisions/
       expect( text ).not_to include ":doctype: book\n"
       expect( text ).not_to include ":!sectnums:\n"
-      f = File.open(leaf_node.compile(:node).out_path)
-      text = f.read
-      f.close
+      text = compiled_text leaf_node
       expect( text ).to match /^=== Chapter 1. Administrative Provisions/
+    end
+
+    it "should correctly number lower roman sections" do
+      structure[0]["number"] = 'r'
+      node.compile(:node).compile
+      text = compiled_text middle_node
+      expect( text ).to match /^== Part i. General Provisions/
+    end
+
+    it "should correctly number lower alpha sections" do
+      structure[0]["number"] = 'a'
+      node.compile(:node).compile
+      text = compiled_text middle_node
+      expect( text ).to match /^== Part a. General Provisions/
+    end
+
+    it "should correctly number lower alpha sections" do
+      structure[0]["number"] = 'A'
+      node.compile(:node).compile
+      text = compiled_text middle_node
+      expect( text ).to match /^== Part A. General Provisions/
     end
   end
 end

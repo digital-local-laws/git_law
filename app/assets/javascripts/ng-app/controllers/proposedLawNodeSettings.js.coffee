@@ -1,9 +1,9 @@
 angular
   .module 'gitLaw'
-  .controller( 'ProposedLawNodeSettingsCtrl', ['$scope', '$modalInstance',
+  .controller( 'ProposedLawNodeSettingsCtrl', ['$scope', '$uibModalInstance',
   '$upload', 'proposedLawNode', 'ProposedLawNode', 'parentNode', 'lawNodeFilenameBaseFilter',
   'CodeLevel'
-  ( $scope, $modalInstance, $upload, proposedLawNode, ProposedLawNode, parentNode,
+  ( $scope, $uibModalInstance, $upload, proposedLawNode, ProposedLawNode, parentNode,
   lawNodeFilenameBaseFilter, CodeLevel ) ->
     $scope.alerts = [ ]
     $scope.errors = { }
@@ -44,7 +44,7 @@ angular
       $scope.proposedLawNode.attributes.structure.splice i, 1
     $scope.save = () ->
       success = ( proposedLawNode ) ->
-        $modalInstance.close proposedLawNode
+        $uibModalInstance.close proposedLawNode
       failure = ( response ) ->
         $scope.alerts.push( { type: 'danger', msg: "Save failed." } )
         $scope.errors = response.data.errors
@@ -65,5 +65,5 @@ angular
           proposedLawNode.fileNameBase
         ProposedLawNode.create( proposedLawNode, success, failure )
     $scope.cancel = ->
-      $modalInstance.dismiss()
+      $uibModalInstance.dismiss()
   ])

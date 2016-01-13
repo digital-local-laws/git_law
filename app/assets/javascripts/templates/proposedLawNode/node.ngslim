@@ -1,6 +1,6 @@
 gl-node gl-node-location="proposedLawNode" gl-repo="proposedLaw"
-  tabset
-    tab heading="Children" ng-if="proposedLawNode.childNodesAllowed"
+  uib-tabset
+    uib-tab heading="Children" ng-if="proposedLawNode.childNodesAllowed"
       .row
         .col-lg-9.text-right
           button.btn.btn-primary( ng-click="newNode(proposedLawNode,nodeType)"
@@ -31,7 +31,7 @@ gl-node gl-node-location="proposedLawNode" gl-repo="proposedLaw"
               button.btn.btn-danger ng-click="removeNode(node)"
                 span.glyphicon.glyphicon-remove
                 |  Remove
-    tab heading="Text" ng-if="proposedLawNode.nodeType.text"
+    uib-tab heading="Text" ng-if="proposedLawNode.nodeType.text"
       .col-xs-9 ng-if="proposedLawFile"
         .text-center.alert.alert-info
           span ng-if="saveInProgress"

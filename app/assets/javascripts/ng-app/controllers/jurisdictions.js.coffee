@@ -1,7 +1,7 @@
 angular
   .module 'gitLaw'
-  .controller( 'JurisdictionsCtrl', [ '$scope', '$modal', '$stateParams', '$state', 'Jurisdiction',
-    ( $scope, $modal, $stateParams, $state, Jurisdiction ) ->
+  .controller( 'JurisdictionsCtrl', [ '$scope', '$uibModal', '$stateParams', '$state', 'Jurisdiction',
+    ( $scope, $uibModal, $stateParams, $state, Jurisdiction ) ->
       $scope.alerts = [ ]
       $scope.list = {
         page: 1,
@@ -18,7 +18,7 @@ angular
       $scope.closeAlert = (index) ->
         $scope.alerts.splice index, 1
       $scope.newJurisdiction = ->
-        modalInstance = $modal.open( {
+        modalInstance = $uibModal.open( {
           templateUrl: 'jurisdictionSettings/new.html',
           controller: 'JurisdictionSettingsCtrl',
           resolve: {

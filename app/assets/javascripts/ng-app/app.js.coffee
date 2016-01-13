@@ -1,7 +1,7 @@
 angular
   .module 'gitLaw', [ 'angularFileUpload', 'ngAnimate', 'ngSanitize',
      'ui.select', 'ui.router', 'ngResource', 'templates', 'ui.utils',
-    'ui.bootstrap', 'angular-chartist', 'ui.tree', 'lawNodeFilters',
+    'ui.bootstrap', 'ui.tree', 'lawNodeFilters',
     'ui.ace', 'glFileContentDirective', 'glNodeLocationDirective' ]
   .config ($stateProvider, $urlRouterProvider, $locationProvider,
     $urlMatcherFactoryProvider, uiSelectConfig ) ->

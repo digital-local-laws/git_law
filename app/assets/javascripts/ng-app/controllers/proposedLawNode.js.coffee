@@ -1,8 +1,8 @@
 angular
   .module 'gitLaw'
   .controller( 'ProposedLawNodeCtrl', [ '$state', '$scope', '$stateParams',
-  '$modal', '$timeout', 'ProposedLawNode', 'ProposedLawFile', 'CodeLevel',
-  ( $state, $scope, $stateParams, $modal, $timeout, ProposedLawNode,
+  '$uibModal', '$timeout', 'ProposedLawNode', 'ProposedLawFile', 'CodeLevel',
+  ( $state, $scope, $stateParams, $uibModal, $timeout, ProposedLawNode,
     ProposedLawFile, CodeLevel ) ->
     unless $scope.proposedLaw.workingRepoCreated
       return $state.transitionTo( 'proposedLaw.initialize',
@@ -57,7 +57,7 @@ angular
         $scope.proposedLawNodes.splice $scope.proposedLawNodes.indexOf(node), 1
       node.$delete( { proposedLawId: $scope.proposedLaw.id }, success )
     $scope.editNode = (node) ->
-      modalInstance = $modal.open(
+      modalInstance = $uibModal.open(
         templateUrl: 'proposedLawNodeSettings/edit.html',
         controller: 'ProposedLawNodeSettingsCtrl',
         resolve:
@@ -76,7 +76,7 @@ angular
         ),
         ( () -> false ) )
     $scope.newNode = (proposedLawNode,nodeType) ->
-      modalInstance = $modal.open(
+      modalInstance = $uibModal.open(
         templateUrl: 'proposedLawNodeSettings/new.html',
         controller: 'ProposedLawNodeSettingsCtrl',
         resolve:

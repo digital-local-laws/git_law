@@ -6,7 +6,7 @@
       span.glyphicon.glyphicon-plus  aria-hidden=true
       | Propose a Law
 .container
-  alert( ng-repeat="alert in alerts" type="{{alert.type}}"
+  uib-alert( ng-repeat="alert in alerts" type="{{alert.type}}"
   close="closeAlert($index)" )
     | {{alert.msg}}
 div  ui-view=true

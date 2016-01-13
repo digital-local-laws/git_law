@@ -6,6 +6,11 @@ RSpec.shared_examples 'a git flow node repo' do |variable|
       root_node
     end
 
+    it "should appear among the project root's children" do
+      node
+      expect( repo.working_file('').node.child_nodes ).to include( node )
+    end
+
     it 'should have a sorted_attributes method' do
       expect( GitFlow::Node.sorted_attributes( "a" ) ).
       to eql "a"

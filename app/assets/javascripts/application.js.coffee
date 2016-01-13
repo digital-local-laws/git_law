@@ -6,14 +6,11 @@
 #= require angular-resource/angular-resource
 #= require ng-file-upload/angular-file-upload-shim.js
 #= require ng-file-upload/angular-file-upload.js
-#= require angular-rails-templates
+#= require angular-rails4-templates
 #= require angular-ui-utils/ui-utils.min.js
 #= require angular-bootstrap/ui-bootstrap-tpls.js
 #= require angular-ui-select/dist/select.min.js
-# require angular-google-chart/ng-google-chart
-#= require chartist/dist/chartist.js
-#= require ng-chartistjs/dist/ng-chartist.min.js
 #= require angular-ui-tree/dist/angular-ui-tree.js
 #= require angular-ui-ace/ui-ace.js
 #= require_tree ./ng-app
-#= require_tree ../templates
+#= require_tree ./templates

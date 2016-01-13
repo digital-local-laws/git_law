@@ -1,5 +1,5 @@
 .modal-body
-  alert  ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)"
+  uib-alert  ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)"
     | {{alert.msg}}
   form  name="proposedLawNodeForm"  
     .form-group.has-feedback( ng-class="{'has-error': errors.title || \
@@ -89,7 +89,7 @@
         .btn-group
           label.btn.btn-info( ng-repeat="title in titleOptions"
           ng-model="proposedLawNode.attributes.structure[levelI].title"
-          btn-radio="title[0]" )
+          uib-btn-radio="title[0]" )
             | {{title[1]}}
         span.glyphicon.glyphicon-ok.form-control-feedback(
         ng-show="!levelForm.title.$invalid && \
@@ -107,7 +107,7 @@
         .btn-group
           label.btn.btn-info( ng-repeat="text in textOptions"
           ng-model="proposedLawNode.attributes.structure[levelI].text"
-          btn-radio="text[0]" )
+          uib-btn-radio="text[0]" )
             | {{text[1]}}
         span.glyphicon.glyphicon-ok.form-control-feedback(
         ng-show="!levelForm.text.$invalid && \
@@ -126,7 +126,7 @@
         .btn-group  data-toggle='buttons'
           label.btn.btn-info( ng-repeat="option in optionalOptions"
           ng-model="proposedLawNode.attributes.structure[levelI].optional"
-          btn-radio= "option[0]" )
+          uib-btn-radio= "option[0]" )
             | {{option[1]}}
         span.glyphicon.glyphicon-ok.form-control-feedback(
         ng-show="!levelForm.optional.$invalid && \

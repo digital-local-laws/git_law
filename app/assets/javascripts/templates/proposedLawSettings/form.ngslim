@@ -1,5 +1,5 @@
 .modal-body
-  alert  ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)"
+  uib-alert  ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)"
     | {{alert.msg}}
   form  name="proposedLawForm"  
     .form-group.has-feedback( ng-class="{'has-error': errors.title || \

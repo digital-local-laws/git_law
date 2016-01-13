@@ -148,7 +148,7 @@ module GitFlow
       @child_container_file = if !root?
         git_flow_repo.working_file( tree_base )
       else
-        false
+        git_flow_repo.working_file( '' )
       end
     end
 

@@ -1,7 +1,7 @@
 angular
   .module 'gitLaw'
-  .controller( 'JurisdictionsListCtrl', [ '$scope', '$modal', '$stateParams', 'Jurisdiction',
-    ( $scope, $modal, $stateParams, Jurisdiction ) ->
+  .controller( 'JurisdictionsListCtrl', [ '$scope', '$uibModal', '$stateParams', 'Jurisdiction',
+    ( $scope, $uibModal, $stateParams, Jurisdiction ) ->
       $scope.reloadList = ->
         $scope.list.jurisdictions = Jurisdiction.query(
           { page: $scope.list.page },
@@ -10,7 +10,7 @@ angular
               $scope.list.totalPages = r['x-total']
               $scope.list.perPage = r['x-per-page'] ) )
       $scope.editJurisdiction = (jurisdiction) ->
-        modalInstance = $modal.open( {
+        modalInstance = $uibModal.open( {
           templateUrl: 'jurisdictionSettings/edit.html',
           controller: 'JurisdictionSettingsCtrl',
           resolve: {

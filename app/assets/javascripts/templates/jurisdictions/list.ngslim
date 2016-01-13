@@ -1,4 +1,4 @@
-pagination( ng-model="list.page" ng-change="setPage(list.page)"
+uib-pagination( ng-model="list.page" ng-change="setPage(list.page)"
 total-items="list.totalPages" items-per-page="list.perPage" )
 table.table.table-striped
   thead

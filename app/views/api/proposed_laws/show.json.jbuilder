@@ -1,7 +1,4 @@
-json.id proposed_law.id
-json.title proposed_law.title
-json.created_at proposed_law.created_at
-json.updated_at proposed_law.updated_at
+json.partial! 'api/proposed_laws/proposed_law', proposed_law: proposed_law
 json.jurisdiction do
   json.partial! 'api/jurisdictions/jurisdiction', jurisdiction: proposed_law.jurisdiction
 end

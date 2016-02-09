@@ -246,7 +246,6 @@ Given /^the (\w+) has no text$/ do |label|
   expect( @proposed_law.working_file( proposed_law_text_file_tree ).exists? ).to be false
   click_link "Chapter 1"
   click_link "Section 1. A new section"
-  screenshot_and_save_page
 end
 
 When /^I add text to the (\w+)$/ do |label|
@@ -278,4 +277,17 @@ Then /^the code should be renamed$/ do
   end
   expect( @proposed_law.working_file('tompkins-county-code.json').exists? ).to be false
   expect( @proposed_law.working_file('tioga-county-code.json').exists? ).to be true
+end
+
+When(/^I adopt the proposed law$/) do
+  click_link "Authorizing formation of Office of Chief Innovation Officer"
+  within(:css, 'h2') do
+    find( :xpath, ".//a[contains(.,'Adopt')]" ).click
+  end
+  find( :xpath, ".//label[contains(.,'Local legislative body only')]" ).click
+  click_button "Certify and Submit Adopted Law"
+end
+
+Then(/^I should see the proposed law is adopted$/) do
+  expect( page ).to have_text "Adopted law was submitted."
 end

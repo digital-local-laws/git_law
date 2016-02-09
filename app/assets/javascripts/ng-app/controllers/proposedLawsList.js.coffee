@@ -1,8 +1,8 @@
 angular
   .module 'gitLaw'
   .controller( 'ProposedLawsListCtrl', [ '$scope', '$uibModal', '$stateParams',
-    '$state', 'ProposedLaw',
-    ( $scope, $uibModal, $stateParams, $state, ProposedLaw ) ->
+    '$state', 'ProposedLaw', 'Flash',
+    ( $scope, $uibModal, $stateParams, $state, ProposedLaw, Flash ) ->
       $scope.editProposedLaw = (proposedLaw) ->
         $state.go( 'proposedLaw.sections.show',
         { proposedLawId: proposedLaw.id } )
@@ -15,24 +15,17 @@ angular
             proposedLaw: ( -> proposedLaw ) } } )
         modalInstance.result.then(
           ( (proposedLaw) ->
-            $scope.alerts.push( {
-              type: 'success',
-              msg: "Proposed law settings were updated." } )
+            Flash.create( 'success', 'Proposed law settings were updated.' )
             $scope.reloadList() ),
           ( () -> false ) )
       $scope.destroyProposedLaw = (proposedLaw) ->
         proposedLaw.$delete(
           {},
-          ( () -> 
-              $scope.alerts.push( { 
-                type: 'info'
-                msg: 'Proposed law was removed.'
-              } )
+          ( () ->
+              Flash.create( 'info', 'Proposed law was removed.' )
               $scope.reloadList() ),
-          ( () -> $scope.alerts.push( {
-            type: 'danger'
-            msg: 'Proposed law could not be removed.'
-          } ) )
+          ( () ->
+              Flash.create('danger', 'Proposed law could not be removed.' ) )
         )
       $stateParams.page = 1 unless $stateParams.page
       $scope.list.page = $stateParams.page

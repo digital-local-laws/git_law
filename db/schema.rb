@@ -11,10 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150413174715) do
+ActiveRecord::Schema.define(version: 20160209145947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "adopted_laws", force: :cascade do |t|
+    t.integer  "proposed_law_id", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "adopted_laws", ["proposed_law_id"], name: "index_adopted_laws_on_proposed_law_id", using: :btree
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
@@ -66,6 +74,7 @@ ActiveRecord::Schema.define(version: 20150413174715) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
+  add_foreign_key "adopted_laws", "proposed_laws"
   add_foreign_key "proposed_laws", "jurisdictions"
   add_foreign_key "proposed_laws", "users"
 end

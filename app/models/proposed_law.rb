@@ -2,6 +2,8 @@ class ProposedLaw < ActiveRecord::Base
   belongs_to :jurisdiction, inverse_of: :proposed_laws
   belongs_to :user, inverse_of: :proposed_laws
 
+  has_one :adopted_law, inverse_of: :proposed_law
+
   validates :jurisdiction, presence: true
   validates :user, presence: true
   validates :title, presence: true

@@ -1,7 +1,8 @@
 angular
   .module 'gitLaw'
-  .controller( 'JurisdictionsListCtrl', [ '$scope', '$uibModal', '$stateParams', 'Jurisdiction',
-    ( $scope, $uibModal, $stateParams, Jurisdiction ) ->
+  .controller( 'JurisdictionsListCtrl', [ '$scope', '$uibModal', '$stateParams',
+    'Jurisdiction', 'Flash',
+    ( $scope, $uibModal, $stateParams, Jurisdiction, Flash ) ->
       $scope.reloadList = ->
         $scope.list.jurisdictions = Jurisdiction.query(
           { page: $scope.list.page },
@@ -17,24 +18,17 @@ angular
             jurisdiction: ( -> jurisdiction ) } } )
         modalInstance.result.then(
           ( (jurisdiction) ->
-            $scope.alerts.push( {
-              type: 'success',
-              msg: "Jurisdiction settings were updated." } )
+            Flash.create( 'success', 'Jurisdiction settings were updated.' )
             $scope.reloadList() ),
           ( () -> false ) )
       $scope.destroyJurisdiction = (jurisdiction) ->
         jurisdiction.$delete(
           {},
-          ( () -> 
-              $scope.alerts.push( { 
-                type: 'info'
-                msg: 'Jurisdiction was removed.'
-              } )
+          ( () ->
+              Flash.create( 'info', 'Jurisdiction was removed.' )
               $scope.reloadList() ),
-          ( () -> $scope.alerts.push( {
-            type: 'danger'
-            msg: 'Jurisdiction could not be removed.'
-          } ) )
+          ( () ->
+              Flash.create( 'danger', 'Jurisdiction could not be removed.' ) )
         )
       $stateParams.page = 1 unless $stateParams.page
       $scope.list.page = $stateParams.page

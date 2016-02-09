@@ -75,3 +75,15 @@ Feature: Manage local laws
     Given the section has no text
     When I add text to the section
     Then text should be added to the section
+  @javascript
+  Scenario: Adopt a proposed law
+    Given I proposed a law
+    And I added a structured code:
+      | level | label   | number      | title | text  | optional |
+      | 1     | chapter | arabic      | yes   | no    | no       |
+      | 2     | section | arabic      | yes   | yes   | no       |
+    And I add a section to the chapter in the code
+    And I edit the text of the section
+    And saving has completed
+    When I adopt the proposed law
+    Then I should see the proposed law is adopted

@@ -6,9 +6,5 @@
       a.btn.btn-primary  ng-click='newJurisdiction()'
         span.glyphicon.glyphicon-plus
         | Add Jurisdiction
-  .col-lg-12
-    uib-alert( ng-repeat="alert in alerts" type="{{alert.type}}"
-      close="closeAlert($index)" )
-      | {{alert.msg}}
   .jurisdictions-view-container.col-lg-12
-    .jurisdictions-ui-view ui-view="" 
+    .jurisdictions-ui-view ui-view=""

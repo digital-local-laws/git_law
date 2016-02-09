@@ -5,4 +5,6 @@
     | &nbsp;/&nbsp;
     a  ui-sref="proposedLaw.node({proposedLawId:proposedLaw.id,treeBase:''})"
       | {{proposedLaw.title}}
+    a.btn.btn-primary ui-sref="proposedLaw.adopt"
+      | Adopt
   div ui-view=true

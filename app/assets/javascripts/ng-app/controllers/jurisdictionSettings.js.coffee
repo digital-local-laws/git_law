@@ -1,8 +1,8 @@
 angular
   .module 'gitLaw'
   .controller( 'JurisdictionSettingsCtrl', ['$scope', '$uibModalInstance',
-  '$upload', 'jurisdiction', 'Jurisdiction',
-  ( $scope, $uibModalInstance, $upload, jurisdiction, Jurisdiction ) ->
+  '$upload', 'jurisdiction', 'Jurisdiction', 'Flash',
+  ( $scope, $uibModalInstance, $upload, jurisdiction, Jurisdiction, Flash ) ->
     $scope.alerts = [ ]
     $scope.errors = { }
     $scope.jurisdiction = jurisdiction
@@ -10,7 +10,7 @@ angular
       success = ( jurisdiction ) ->
         $uibModalInstance.close jurisdiction
       failure = ( response ) ->
-        $scope.alerts.push( { type: 'danger', msg: "Save failed." } )
+        Flash.create( 'danger', 'Save failed.' )
         $scope.errors = response.data.errors
       if jurisdiction.id
         jurisdiction.$save( success, failure )

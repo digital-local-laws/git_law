@@ -1,0 +1,6 @@
+.container-fluid
+  h2.col-lg-12
+    a  href="/jurisdictions/{{jurisdiction.id}}"
+      | {{jurisdiction.name}}
+    | &nbsp;/&nbsp;
+    | {{adoptedLaw.proposedLaw.title}}

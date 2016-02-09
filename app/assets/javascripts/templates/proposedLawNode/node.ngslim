@@ -7,9 +7,6 @@ gl-node gl-node-location="proposedLawNode" gl-repo="proposedLaw"
           ng-repeat="nodeType in proposedLawNode.allowedChildNodeTypes")
             span.glyphicon.glyphicon-plus
             | Add {{nodeType.label | capitalizeFirst}}
-      .row
-        .col-lg-9 ng-repeat="alert in alerts" ng-class="'alert-'+alert[0]"
-          | {{alert[1]}}
       table.table.table-striped.table-hover.col-lg-9
         thead
           tr
@@ -44,5 +41,3 @@ gl-node gl-node-location="proposedLawNode" gl-repo="proposedLaw"
           | No text content exists for this {{proposedLawNode.nodeType.label}}.
           button.btn.btn-link ng-click="createProposedLawFile()"
             | Click here to add text.
-            
-  

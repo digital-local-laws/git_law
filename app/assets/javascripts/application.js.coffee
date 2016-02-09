@@ -12,5 +12,6 @@
 #= require angular-ui-select/dist/select.min.js
 #= require angular-ui-tree/dist/angular-ui-tree.js
 #= require angular-ui-ace/ui-ace.js
+#= require angular-flash-alert/dist/angular-flash.js
 #= require_tree ./ng-app
 #= require_tree ./templates

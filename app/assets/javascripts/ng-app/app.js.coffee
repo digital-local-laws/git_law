@@ -2,7 +2,8 @@ angular
   .module 'gitLaw', [ 'angularFileUpload', 'ngAnimate', 'ngSanitize',
      'ui.select', 'ui.router', 'ngResource', 'templates', 'ui.utils',
     'ui.bootstrap', 'ui.tree', 'lawNodeFilters',
-    'ui.ace', 'glFileContentDirective', 'glNodeLocationDirective' ]
+    'ui.ace', 'glFileContentDirective', 'glNodeLocationDirective',
+    'ngFlash' ]
   .config ($stateProvider, $urlRouterProvider, $locationProvider,
     $urlMatcherFactoryProvider, uiSelectConfig ) ->
     uiSelectConfig.theme = 'bootstrap'
@@ -113,6 +114,21 @@ angular
         url: '/node/{treeBase:path}'
         templateUrl: 'proposedLawNode/node.html'
         controller: 'ProposedLawNodeCtrl'
+      }
+      .state 'proposedLaw.adopt', {
+        url: '/adopt'
+        templateUrl: 'proposedLaw/adopt.html'
+        controller: 'AdoptLawCtrl'
+      }
+      .state 'adoptedLaw', {
+        url: '/adoptedLaw'
+        views:
+          "navigation":
+            templateUrl: 'navbar.html'
+            controller: 'NavigationCtrl'
+          "content":
+            templateUrl: 'adoptedLaw/layout.html'
+            controller: 'AdoptedLawCtrl'
       }
     $urlRouterProvider.otherwise '/'
     $locationProvider.html5Mode true

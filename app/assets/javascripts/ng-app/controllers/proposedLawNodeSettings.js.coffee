@@ -2,9 +2,9 @@ angular
   .module 'gitLaw'
   .controller( 'ProposedLawNodeSettingsCtrl', ['$scope', '$uibModalInstance',
   '$upload', 'proposedLawNode', 'ProposedLawNode', 'parentNode', 'lawNodeFilenameBaseFilter',
-  'CodeLevel'
+  'CodeLevel', 'Flash',
   ( $scope, $uibModalInstance, $upload, proposedLawNode, ProposedLawNode, parentNode,
-  lawNodeFilenameBaseFilter, CodeLevel ) ->
+  lawNodeFilenameBaseFilter, CodeLevel, Flash ) ->
     $scope.alerts = [ ]
     $scope.errors = { }
     $scope.proposedLawNode = proposedLawNode
@@ -46,7 +46,7 @@ angular
       success = ( proposedLawNode ) ->
         $uibModalInstance.close proposedLawNode
       failure = ( response ) ->
-        $scope.alerts.push( { type: 'danger', msg: "Save failed." } )
+        Flash.create( 'danger', 'Save failed.' )
         $scope.errors = response.data.errors
       if proposedLawNode.exists
         toTreeBase = if parentNode.treeBase == ""

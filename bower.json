@@ -8,6 +8,7 @@
       "angular-mocks": "~1.4.8",
       "angular-animate": "~1.4.8",
       "angular-sanitize": "~1.4.8",
+      "angular-flash-alert": "~2.2.0",
       "ng-file-upload": "~3.0.7",
       "ng-context-menu": "~1.0.1",
       "ngUpload": "~0.5.14",

@@ -2,8 +2,9 @@ angular
   .module 'gitLaw'
   .controller( 'ProposedLawNodeCtrl', [ '$state', '$scope', '$stateParams',
   '$uibModal', '$timeout', 'ProposedLawNode', 'ProposedLawFile', 'CodeLevel',
+  'Flash',
   ( $state, $scope, $stateParams, $uibModal, $timeout, ProposedLawNode,
-    ProposedLawFile, CodeLevel ) ->
+    ProposedLawFile, CodeLevel, Flash ) ->
     unless $scope.proposedLaw.workingRepoCreated
       return $state.transitionTo( 'proposedLaw.initialize',
         { proposedLawId: $scope.proposedLaw.id }
@@ -53,7 +54,7 @@ angular
       editor.$blockscrolling = Infinity
     $scope.removeNode = (node) ->
       success = (response) ->
-        $scope.alerts.push [ "info", "Node was removed." ]
+        Flash.create( 'info', 'Node was removed.' )
         $scope.proposedLawNodes.splice $scope.proposedLawNodes.indexOf(node), 1
       node.$delete( { proposedLawId: $scope.proposedLaw.id }, success )
     $scope.editNode = (node) ->

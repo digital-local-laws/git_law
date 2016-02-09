@@ -1,7 +1,8 @@
 angular
   .module 'gitLaw'
-  .controller( 'JurisdictionsCtrl', [ '$scope', '$uibModal', '$stateParams', '$state', 'Jurisdiction',
-    ( $scope, $uibModal, $stateParams, $state, Jurisdiction ) ->
+  .controller( 'JurisdictionsCtrl', [ '$scope', '$uibModal', '$stateParams',
+  '$state', 'Jurisdiction', 'Flash',
+    ( $scope, $uibModal, $stateParams, $state, Jurisdiction, Flash ) ->
       $scope.alerts = [ ]
       $scope.list = {
         page: 1,
@@ -25,9 +26,7 @@ angular
             jurisdiction: ( -> new Jurisdiction ) } } )
         modalInstance.result.then(
           ( (jurisdiction) ->
-            $scope.alerts.push( {
-              type: 'success',
-              msg: "Jurisdiction was added." } )
-            $scope.reloadList() ),
+              Flash.create( 'success', 'Jurisdiction was added.' )
+              $scope.reloadList() ),
           ( () -> false ) )
   ] )

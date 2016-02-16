@@ -27,6 +27,7 @@ gem 'omniauth'
 gem 'ruby-filemagic', require: 'filemagic'
 gem 'octokit'
 gem 'angular-rails4-templates'
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
 group :development, :test do
   # gem 'therubyracer'
   gem 'teaspoon'

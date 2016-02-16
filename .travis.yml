@@ -1,6 +1,9 @@
 language: ruby
 rvm:
   - 2.2
+addons:
+  apt_packages:
+    - libmagic-dev
 services:
   - postgresql
 before_script:

@@ -28,7 +28,7 @@ gem 'ruby-filemagic', require: 'filemagic'
 gem 'octokit'
 gem 'angular-rails4-templates'
 group :development, :test do
-  gem 'therubyracer'
+  # gem 'therubyracer'
   gem 'teaspoon'
   gem 'byebug'
   gem 'web-console', '~> 2.0'

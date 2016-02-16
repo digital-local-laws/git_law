@@ -1,9 +1,6 @@
 language: ruby
 rvm:
   - 2.2
-branches:
-  only:
-  - develop
 services:
   - postgresql
 before_script:

@@ -23,8 +23,8 @@ install:
   - gem install bundler --quiet --no-ri --no-rdoc
   - bundler --version
   - bundle
-build_script:
-  - bundle exec rake build
+# build_script:
+#   - bundle exec rake build
 test_script:
   - bundle exec rake spec
   - bundle exec rake cucumber

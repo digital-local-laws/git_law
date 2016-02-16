@@ -1,0 +1,14 @@
+language: ruby
+rvm:
+- 2.2
+branches:
+  only:
+  - develop
+services:
+  - postgresql
+before_script:
+  - cp config/database.yml.travis config/database.yml
+  - psql -c 'create database travis_ci_test;' -U postgres
+script:
+  - bundle exec rake spec
+  - bundle exec rake cucumber

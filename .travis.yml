@@ -20,6 +20,7 @@ before_script:
   - git config --global user.name 'A Tester'
 script:
   - phantomjs -v
+  - bundle
   - bundle exec rake db:migrate RAILS_ENV=test
   - bundle exec rake bower:install
   - bundle exec rake spec

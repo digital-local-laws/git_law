@@ -9,6 +9,8 @@ services:
 before_script:
   - cp config/database.yml.travis config/database.yml
   - psql -c 'create database travis_ci_test;' -U postgres
+  - git config --global user.email 'tester@example.com'
+  - git config --global user.name 'A Tester'
 script:
   - bundle exec rake db:migrate RAILS_ENV=test
   - bundle exec rake spec

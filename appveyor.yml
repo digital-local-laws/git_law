@@ -25,6 +25,7 @@ install:
   - bundle
 # build_script:
 #   - bundle exec rake build
+build: off
 test_script:
   - bundle exec rake spec
   - bundle exec rake cucumber

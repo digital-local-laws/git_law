@@ -30,6 +30,9 @@ gem 'tzinfo-data'
 group :development do
   gem 'web-console', '~> 2.0'
 end
+group :test do
+  gem 'codeclimate-test-reporter'
+end
 group :development, :test do
   # gem 'therubyracer'
   gem 'teaspoon'

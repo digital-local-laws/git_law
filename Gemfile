@@ -28,7 +28,7 @@ gem 'octokit'
 gem 'angular-rails4-templates'
 gem 'tzinfo-data'
 group :development do
-  gem 'web-console'
+  gem 'web-console', '~> 2.0'
 end
 group :development, :test do
   # gem 'therubyracer'

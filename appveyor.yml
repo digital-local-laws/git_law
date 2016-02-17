@@ -25,8 +25,10 @@ install:
   - PATH=C:\Program Files\PostgreSQL\9.4\bin\;%PATH%
   - ruby --version
   - gem --version
+  - cinst PhantomJS -y
+  - SET PATH=%path%;C:\tools\PhantomJS\
+  - phantomjs -v
   - gem install bundler --quiet --no-ri --no-rdoc
-  # - gem install bcrypt --platform=ruby
   - bundler --version
   - npm -v
   - npm install -g bower

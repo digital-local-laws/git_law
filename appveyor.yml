@@ -23,7 +23,6 @@ install:
   - SET PGUSER=postgres
   - SET PGPASSWORD=Password12!
   - PATH=C:\Program Files\PostgreSQL\9.4\bin\;%PATH%
-  - createdb appveyor_ci_test
   - ruby --version
   - gem --version
   - gem install bundler --quiet --no-ri --no-rdoc
@@ -35,6 +34,7 @@ install:
 #   - bundle exec rake build
 build: off
 test_script:
+  - createdb appveyor_ci_test
   - cp config/database.yml.appveyor config/database.yml
   - bundle exec rake db:migrate RAILS_ENV=test
   - bundle exec rake bower:install

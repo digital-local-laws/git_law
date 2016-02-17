@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/larskanis/bcrypt-ruby.git
+  revision: a55c5e7163eef3443a47bc1710033616344d6d39
+  branch: rake-compiler-dock
+  specs:
+    bcrypt (3.1.10)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -46,7 +53,6 @@ GEM
     asciidoctor-diagram (1.4.0)
       asciidoctor (~> 1.5.0)
     awesome_print (1.6.1)
-    bcrypt (3.1.10)
     bower-rails (0.10.0)
     bson (3.2.6)
     bson_ext (1.5.1)
@@ -343,7 +349,7 @@ DEPENDENCIES
   api-pagination
   asciidoctor
   asciidoctor-diagram
-  bcrypt (~> 3.1.10)
+  bcrypt!
   bower-rails
   bson_ext
   byebug

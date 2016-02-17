@@ -26,7 +26,7 @@ install:
   - ruby --version
   - gem --version
   - gem install bundler --quiet --no-ri --no-rdoc
-  - gem install bcrypt --platform=ruby
+  # - gem install bcrypt --platform=ruby
   - bundler --version
   - npm -v
   - npm install -g bower

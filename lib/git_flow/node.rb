@@ -30,9 +30,9 @@ module GitFlow
         attributes["title"]
       end
       name.downcase!
-      name.gsub! /[^a-z0-9]+/,'-'
-      name.gsub! /^-/, ''
-      name.gsub! /-$/, ''
+      name.gsub!( /[^a-z0-9]+/, '-' )
+      name.gsub!( /^-/, '' )
+      name.gsub!( /-$/, '' )
       "#{name}.json"
     end
 
@@ -102,7 +102,7 @@ module GitFlow
     def descendent_nodes
       @descendent_nodes ||= child_nodes.inject([]) do |memo, node|
         memo << node
-        memo += node.descendent_nodes
+        memo + node.descendent_nodes
       end
     end
 
@@ -175,11 +175,7 @@ module GitFlow
     # Moves node and associated files to new tree location
     # Returns reference to the moved node
     def move( to_tree )
-      to_node = git_flow_repo.working_file( to_tree ).node
-      return false if to_node.exists?
-      return false if to_node.text_file.exists?
-      return false if to_node.child_container_file.exists?
-      return false unless to_node.create
+      return false unless to_node = move_to_node( to_tree )
       new_file = super( to_tree, force: true )
       if text_file.exists?
         text_file.move to_node.text_file.tree, force: true
@@ -188,6 +184,16 @@ module GitFlow
         child_container_file.move to_node.child_container_file.tree
       end
       new_file.node
+    end
+
+    # Set up the node to which this node is being moved
+    def move_to_node( to_tree )
+      to_node = git_flow_repo.working_file( to_tree ).node
+      return false if to_node.exists?
+      return false if to_node.text_file.exists?
+      return false if to_node.child_container_file.exists?
+      return false unless to_node.create
+      to_node
     end
 
     # TODO destroy vs. repeal

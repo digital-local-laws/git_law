@@ -1,16 +1,16 @@
 module Api
-  class JurisdictionsController < ApplicationController
+  class JurisdictionsController < ApiController
     before_filter :decamelize_params!
     expose :jurisdiction
     expose( :unpaginated_jurisdictions ) { Jurisdiction.order(:name) }
     helper_method :jurisdictions
-    
+
     def index
       respond_to do |format|
         format.json { render 'index', status: 200 }
       end
     end
-    
+
     def show
       respond_to do |format|
         format.json { render 'show', status: 200 }
@@ -29,7 +29,7 @@ module Api
         end
       end
     end
-    
+
     def update
       jurisdiction.attributes = jurisdiction_params
       respond_to do |format|
@@ -42,7 +42,7 @@ module Api
         end
       end
     end
-    
+
     def destroy
       respond_to do |format|
         format.json do
@@ -54,13 +54,13 @@ module Api
         end
       end
     end
-        
+
     private
-    
+
     def jurisdictions
       @jurisdictions ||= paginate unpaginated_jurisdictions
     end
-    
+
     def jurisdiction_params
       @jurisdiction_params ||= params.
         permit(:name)

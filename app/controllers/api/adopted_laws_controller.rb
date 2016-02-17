@@ -1,5 +1,5 @@
 module Api
-  class AdoptedLawsController < ApplicationController
+  class AdoptedLawsController < ApiController
     before_filter :decamelize_params!, :camelize_output!
     expose :adopted_law do
       if params[:id]

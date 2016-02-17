@@ -1,6 +1,6 @@
 module Api
   module ProposedLaws
-    class WorkingFilesController < ApplicationController
+    class WorkingFilesController < ApiController
       before_filter :decamelize_params!, :camelize_output!
       expose :proposed_law do
         ProposedLaw.find params[:id]
@@ -10,7 +10,7 @@ module Api
       end
 
       protected
-      
+
       # By default, the tree parameter is just the tree parameter or an empty string
       def tree
         params[:tree].is_a?(String) ? params[:tree] : ""

@@ -79,7 +79,8 @@ module Api
 
       def to_tree_base
         return @to_tree_base unless @to_tree_base.nil?
-        @to_tree_base = if params[:to_tree_base] && params[:to_tree_base].present?
+        @to_tree_base =
+        if params[:to_tree_base] && params[:to_tree_base].present?
           params[:to_tree_base]
         else
           false
@@ -88,7 +89,8 @@ module Api
 
       def to_tree
         return @to_tree unless @to_tree.nil?
-        @to_tree = if to_tree_base
+        @to_tree =
+        if to_tree_base
           "#{to_tree_base}.json"
         else
           false

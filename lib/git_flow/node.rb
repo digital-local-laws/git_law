@@ -23,7 +23,8 @@ module GitFlow
     # Generate appropriate file_name for a sibling node with new attributes
     # that are different from the present node
     def self.file_name( attributes, node_type )
-      name = if attributes["number"] && node_type && node_type["label"]
+      name =
+      if attributes["number"] && node_type && node_type["label"]
         "#{node_type['label']}-#{attributes['number']}"
       else
         attributes["title"]
@@ -105,10 +106,12 @@ module GitFlow
       end
     end
 
+    # TODO: What is this here for?
     def next_node
       git_flow_repo.working_file( File.join( container_file.tree ) ).node
     end
 
+    # Find child nodes of this node with an attribute matching this node
     def find( key, value )
       descendent_nodes.select do |node|
         if node.attributes[key]
@@ -130,39 +133,46 @@ module GitFlow
       text_file.create if node_type && node_type["text"] && !text_file.exists?
     end
 
+    # Remove the text file associated with this node
     def remove_text_file
       text_file.destroy if text_file.exists?
     end
 
+    # Get container file in which this node is located
     def container_file
       return @container_file unless @container_file.nil?
-      @container_file = if parent_node && !parent_node.root?
+      @container_file =
+      if parent_node && !parent_node.root?
         git_flow_repo.working_file( parent_node.tree_base )
       else
         false
       end
     end
 
+    # Get the working file where children of this node are located
     def child_container_file
       return @child_container_file unless @child_container_file.nil?
-      @child_container_file = if !root?
+      @child_container_file =
+      if !root?
         git_flow_repo.working_file( tree_base )
       else
         git_flow_repo.working_file( '' )
       end
     end
 
-    # Initialize the directory associated with this node, if applicable
+    # Initialize the directory in which this node is placed, if applicable
     def initialize_container_file
       container_file.create true if container_file && !container_file.exists?
     end
 
+    # Removes the container directory for this node, if applicable
     def remove_container_file
       if container_file && container_file.exists? && container_file.children.empty?
         container_file.destroy
       end
     end
 
+    # Removes child nodes of this node
     def remove_child_nodes
       child_nodes.each { |node| node.destroy }
     end
@@ -201,7 +211,8 @@ module GitFlow
       # Where is the start in the parent node's child structure,
       # if we have a parent and type
       # Otherwise it is 1
-      start = if attributes["type"] && parent_node &&
+      start =
+      if attributes["type"] && parent_node &&
       parent_node.child_node_structure.index { |s|
       s['label'] == attributes['type'] }
         parent_node.child_node_structure.index { |s|
@@ -209,7 +220,8 @@ module GitFlow
       else
         1
       end
-      @child_node_structure = if root?
+      @child_node_structure =
+      if root?
         [ { "label" => "code",
             "number" => false,
             "title" => true,
@@ -249,10 +261,11 @@ module GitFlow
     # The type of this node
     def node_type
       return @node_type unless @node_type.nil?
-      @node_type = if root?
+      @node_type =
+      if root?
         { title: true }
       elsif attributes["type"]
-        allowed_node_types.select { |type| type["label"] == attributes["type"] }.first
+        allowed_node_types.find { |type| type["label"] == attributes["type"] }
       elsif allowed_node_types.length == 1
         allowed_node_types.first
       else
@@ -310,16 +323,19 @@ module GitFlow
     # If the node has no parent, it is a root-level "code"
     def node_structure
       return @node_structure unless @node_structure.nil?
-      @node_structure = if parent_node && !parent_node.child_node_structure.empty?
+      @node_structure =
+      if parent_node && !parent_node.child_node_structure.empty?
         parent_node.child_node_structure
       else
         []
       end
     end
 
+    # Returns child nodes of this node
     def child_nodes
       return @child_nodes unless @child_nodes.nil?
-      @child_nodes = if child_container_file && child_container_file.exists?
+      @child_nodes =
+      if child_container_file && child_container_file.exists?
         child_container_file.children.select(&:is_node?).map(&:node)
       else
         []
@@ -329,7 +345,8 @@ module GitFlow
     # Return ancestor nodes, including self
     def ancestor_nodes
       return @ancestor_nodes unless @ancestor_nodes.nil?
-      @ancestor_nodes = if parent_node
+      @ancestor_nodes =
+      if parent_node
         parent_node.ancestor_nodes << self
       else
         [ self ]
@@ -339,7 +356,8 @@ module GitFlow
     # Retrieves the parent node
     def parent_node
       return @parent_node unless @parent_node.nil?
-      @parent_node = if tree_parent.empty? && !root?
+      @parent_node =
+      if tree_parent.empty? && !root?
         git_flow_repo.working_file( '' ).node
       elsif File.exist? absolute_parent_node_path
         git_flow_repo.working_file( tree_parent_node ).node
@@ -353,7 +371,8 @@ module GitFlow
     # JSON contents of node are parsed and returned as a hash
     def attributes
       return @attributes unless @attributes.nil?
-      @attributes = if root?
+      @attributes =
+      if root?
         { "title" => "/" }
       elsif exists? || content.present?
         JSON.parse content
@@ -388,6 +407,7 @@ module GitFlow
       self.class.sorted_attributes attributes
     end
 
+    # Returns sorted_attributes as JSON content suitable to write to file
     def attributes_to_content
       self.content = JSON.generate( sorted_attributes, JSON_WRITE_OPTIONS )
     end
@@ -439,7 +459,8 @@ module GitFlow
     # Compile node and children using specified compiler
     # If no base is specified, create a base in the build location root
     def compile(compiler_type)
-      compiler = case compiler_type
+      compiler =
+      case compiler_type
       when :node
         GitLaw::Compilers::NodeCompiler
       else

@@ -4,6 +4,8 @@ skip_tags: true
 #skip_commits:
 #  message: /\[ci skip\]/
 clone_depth: 10
+services:
+  - postgresql
 environment:
   matrix:
     # there's a problem loading nokogiri 1.5.11 in Ruby 2.x on Windows
@@ -18,6 +20,10 @@ install:
   # Add Ruby to path from build matrix
   - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
   - echo %PATH%
+  - SET PGUSER=postgres
+  - SET PGPASSWORD=Password12!
+  - PATH=C:\Program Files\PostgreSQL\9.4\bin\;%PATH%
+  - createdb appveyor_ci_test
   - ruby --version
   - gem --version
   - gem install bundler --quiet --no-ri --no-rdoc
@@ -27,6 +33,7 @@ install:
 #   - bundle exec rake build
 build: off
 test_script:
+  - cp config/database.yml.appveyor config/database.yml
   - bundle exec rake spec
   - bundle exec rake cucumber
 artifacts:

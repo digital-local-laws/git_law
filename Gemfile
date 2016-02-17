@@ -27,7 +27,7 @@ gem 'omniauth'
 gem 'ruby-filemagic', require: 'filemagic'
 gem 'octokit'
 gem 'angular-rails4-templates'
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
+gem 'tzinfo-data'
 group :development do
   gem 'web-console'
 end

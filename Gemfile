@@ -7,7 +7,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
-gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.10'
 gem 'mongoid', '~> 4.0'
 gem 'bson_ext'
 gem 'bower-rails'

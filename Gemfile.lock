@@ -343,7 +343,7 @@ DEPENDENCIES
   api-pagination
   asciidoctor
   asciidoctor-diagram
-  bcrypt (~> 3.1.7)
+  bcrypt (~> 3.1.10)
   bower-rails
   bson_ext
   byebug

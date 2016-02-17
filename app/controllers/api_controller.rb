@@ -1,5 +1,5 @@
 class ApiController < ApplicationController
-  rescue_from 'ActiveRecord::NotFound', with: :not_found
+  rescue_from 'ActiveRecord::RecordNotFound', with: :not_found
 
   # Alert client that record was not found
   def not_found

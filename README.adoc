@@ -2,7 +2,7 @@
 ifdef::env-github[:badges:]
 ifdef::badges[]
 .*Project health*
-image:https://img.shields.io/travis/digital-local-laws/git_law/master.svg[Build Status (Travis CI), link=https://travis-ci.org/digital-local-laws/git_law]
+image:https://travis-ci.org/digital-local-laws/git_law.svg?branch=master[Build Status (Travis CI), link=https://travis-ci.org/digital-local-laws/git_law]
 image:https://ci.appveyor.com/api/projects/status/b5jjl6abfxre76ti/branch/master?svg=true&amp;passingText=green%20bar&amp;failingText=%23fail&amp;pendingText=building%2E%2E%2E[Build Status (AppVeyor), link=https://ci.appveyor.com/project/digital-local-laws/git_law]
 image:https://codeclimate.com/github/digital-local-laws/git_law/badges/gpa.svg[Code Climate, link="https://codeclimate.com/github/digital-local-laws/git_law"]
 image:https://inch-ci.org/github/digital-local-laws/git_law.svg?branch=master[Inline docs, link="https://inch-ci.org/github/digital-local-laws/git_law"]

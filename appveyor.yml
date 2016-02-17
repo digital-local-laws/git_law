@@ -29,7 +29,7 @@ install:
   - bundler --version
   - npm -v
   - npm install -g bower
-  - bundle
+  - bundle --deployment
 # build_script:
 #   - bundle exec rake build
 build: off

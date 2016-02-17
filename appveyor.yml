@@ -13,7 +13,7 @@ environment:
     #- ruby_version: '21-x64'
     #- ruby_version: '200'
     #- ruby_version: '200-x64'
-    - ruby_version: '21'
+    - ruby_version: '22'
 install:
   # Take default Ruby out of path
   - SET PATH=%PATH:C:\Ruby193\bin;=%
@@ -26,6 +26,7 @@ install:
   - ruby --version
   - gem --version
   - gem install bundler --quiet --no-ri --no-rdoc
+  - gem install bcrypt --platform=ruby
   - bundler --version
   - npm -v
   - npm install -g bower

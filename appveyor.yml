@@ -28,12 +28,16 @@ install:
   - gem --version
   - gem install bundler --quiet --no-ri --no-rdoc
   - bundler --version
+  - npm -v
+  - npm install -g bower
   - bundle
 # build_script:
 #   - bundle exec rake build
 build: off
 test_script:
   - cp config/database.yml.appveyor config/database.yml
+  - bundle exec rake db:migrate RAILS_ENV=test
+  - bundle exec rake bower:install
   - bundle exec rake spec
   - bundle exec rake cucumber
 artifacts:

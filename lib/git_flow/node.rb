@@ -203,54 +203,82 @@ module GitFlow
     # Returns empty array when no children are supported
     def child_node_structure
       return @child_node_structure unless @child_node_structure.nil?
-      # Where is the start in the parent node's child structure,
-      # if we have a parent and type
-      # Otherwise it is 1
-      start =
-      if attributes["type"] && parent_node &&
-      parent_node.child_node_structure.index { |s|
-      s['label'] == attributes['type'] }
-        parent_node.child_node_structure.index { |s|
-        s['label'] == attributes['type'] } + 1
-      else
-        1
-      end
-      @child_node_structure =
+      @child_node_structure = compute_child_node_structure
+    end
+
+    # Compute the structure for child nodes of this node
+    def compute_child_node_structure
+      # Root node children are always codes
       if root?
         [ { "label" => "code",
             "number" => false,
             "title" => true,
             "text" => false } ]
+      # Otherwise, check if this node defines a structure for its children
       elsif attributes["structure"]
         attributes["structure"]
-      elsif parent_node && parent_node.child_node_structure.length > start
-        parent_node.
-        child_node_structure[start..(parent_node.child_node_structure.length - 1)]
+      # Otherwise, compute structure from parent
       else
-        []
+        compute_child_node_structure_from_parent
       end
+    end
+
+    # Where does this node appear in its parent's structure?
+    # False if it does not
+    def compute_child_node_index_from_parent
+      # The node must have a type to check against parent structure
+      if attributes['type']
+        parent_node.child_node_structure.index do |s|
+          s['label'] == attributes['type']
+        end
+      # If not, return false -- we cannot use the parent structure
+      else
+        nil
+      end
+    end
+
+    # Compute the child node structure from the parent
+    def compute_child_node_structure_from_parent
+      parent_index = compute_child_node_index_from_parent
+      return [] unless parent_index
+      # Child node structure starts to right of parent's child node structure
+      start = parent_index + 1
+      # If a child structure exists to the right of the parent's child node
+      # structure, grab that for this node
+      if parent_node.child_node_structure.length > start
+        return parent_node.child_node_structure[
+          start..(parent_node.child_node_structure.length - 1)
+        ]
+      # Otherwise, there is no structure from the parent to inherit
+      else
+        return []
+      end
+    end
+
+    # Given an array representing structure of a node, return the members that
+    # are allowed as children
+    # This will return the first entry if it is not optional
+    # Otherwise, it will continue until it reaches the end of the structure
+    # or a required level
+    def self.allowed_node_types( structure )
+      out = []
+      structure.each do |type|
+        out << type
+        break unless type['optional']
+      end
+      out
     end
 
     # Returns the allowed types for children of this node
     def allowed_child_node_types
-      return @allowed_child_node_types unless @allowed_child_node_types.nil?
-      @allowed_child_node_types = []
-      child_node_structure.each do |type|
-        @allowed_child_node_types << type
-        break unless type["optional"]
-      end
-      allowed_child_node_types
+      @allowed_child_node_types ||=
+      self.class.allowed_node_types( child_node_structure )
     end
 
     # Returns the node types allowed for this node
     def allowed_node_types
-      return @allowed_node_types unless @allowed_node_types.nil?
-      @allowed_node_types = []
-      node_structure.each do |type|
-        @allowed_node_types << type
-        break unless type["optional"]
-      end
-      allowed_node_types
+      @allowed_node_types ||=
+      self.class.allowed_node_types( node_structure )
     end
 
     # The type of this node

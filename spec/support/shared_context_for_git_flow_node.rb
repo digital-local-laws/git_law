@@ -28,6 +28,7 @@ RSpec.shared_context 'a structured git flow node' do
     root_node.save
     node = repo.working_file( File.join root_node.tree_base, 'part-1.json' ).node
     node.attributes = {
+      "type" => "part",
       "title" => "General Provisions",
       "number" => "1"
     }
@@ -39,6 +40,7 @@ RSpec.shared_context 'a structured git flow node' do
     node = repo.working_file( File.join middle_node.tree_base,
       'chapter-1.json' ).node
     node.attributes = {
+      "type" => "chapter",
       "title" => "Administrative Provisions",
       "number" => "1"
     }

@@ -106,11 +106,6 @@ module GitFlow
       end
     end
 
-    # TODO: What is this here for?
-    def next_node
-      git_flow_repo.working_file( File.join( container_file.tree ) ).node
-    end
-
     # Find child nodes of this node with an attribute matching this node
     def find( key, value )
       descendent_nodes.select do |node|

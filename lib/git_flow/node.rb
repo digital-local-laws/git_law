@@ -175,7 +175,8 @@ module GitFlow
     # Moves node and associated files to new tree location
     # Returns reference to the moved node
     def move( to_tree )
-      return false unless to_node = move_to_node( to_tree )
+      to_node = move_to_node( to_tree )
+      return false unless to_node
       new_file = super( to_tree, force: true )
       if text_file.exists?
         text_file.move to_node.text_file.tree, force: true

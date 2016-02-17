@@ -1,5 +1,8 @@
 = GitLaw Platform
 ifdef::env-github[:badges:]
+
+This application is intended to provide for storage, management, and reporting of municipal codes and individual local laws in New York State.
+
 ifdef::badges[]
 .*Project health*
 image:https://travis-ci.org/digital-local-laws/git_law.svg?branch=master[Build Status (Travis CI), link=https://travis-ci.org/digital-local-laws/git_law]
@@ -7,8 +10,6 @@ image:https://ci.appveyor.com/api/projects/status/b5jjl6abfxre76ti/branch/master
 image:https://codeclimate.com/github/digital-local-laws/git_law/badges/gpa.svg[Code Climate, link="https://codeclimate.com/github/digital-local-laws/git_law"]
 image:https://inch-ci.org/github/digital-local-laws/git_law.svg?branch=master[Inline docs, link="https://inch-ci.org/github/digital-local-laws/git_law"]
 endif::[]
-
-This application is intended to provide for storage, management, and reporting of municipal codes and individual local laws in New York State.
 
 == Core Functionality
 

@@ -8,22 +8,44 @@ ifdef::badges[]
 image:https://travis-ci.org/digital-local-laws/git_law.svg?branch=master[Build Status (Travis CI), link=https://travis-ci.org/digital-local-laws/git_law]
 image:https://ci.appveyor.com/api/projects/status/b5jjl6abfxre76ti/branch/master?svg=true&amp;passingText=green%20bar&amp;failingText=%23fail&amp;pendingText=building%2E%2E%2E[Build Status (AppVeyor), link=https://ci.appveyor.com/project/aepstein/git-law]
 image:https://codeclimate.com/github/digital-local-laws/git_law/badges/gpa.svg[Code Climate, link="https://codeclimate.com/github/digital-local-laws/git_law"]
+image:https://codeclimate.com/github/digital-local-laws/git_law/badges/coverage.svg[Coverage, link="https://codeclimate.com/github/digital-local-laws/git_law/coverage"]
+image:https://codeclimate.com/github/digital-local-laws/git_law/badges/issue_count.svg[Code Climate Issues, link="https://codeclimate.com/github/digital-local-laws/git_law"]
 image:https://inch-ci.org/github/digital-local-laws/git_law.svg?branch=master[Inline docs, link="https://inch-ci.org/github/digital-local-laws/git_law"]
 endif::[]
 
-== Core Functionality
+== Getting Started
 
-For town clerk:
+The application should run on Windows and Unix-like operating systems.
+See the .travis.yml for hints on how to configure for Unix-like systems.
+See the appveyor.yml for hinsts on how to configure for Windows-like systems.
 
-* extract municipal code from common existing source formats
-* upload municipal code
-* expose current code as
-* propose local legislation
-  * automatically generate proper identifiers (session/unique identifier)
-  * generate a branch from the current code
-  * enable user to edit proposed legislation online or to check it out with
-    git and edit it locally
-  * enable user to pull a proposed law
+In general:
+
+* set up a postgres database available and set database.yml to use it
+* create an administrative user who can log in
+** You can do this through the Rails console with
++
+[source,ruby]
+----
+User.create( email: 'me@example.com', admin: true )
+----
+* spin up a web server
+[source,ruby]
+----
+rails s
+----
+
+=== Testing
+
+Tests can be run as rake tasks:
+
+[source,bash]
+----
+bundle exec rake spec <1>
+bundle exec rake cucumber <2>
+----
+<1> Run the unit tests written in RSpec
+<2> Run the acceptance tests written in Gherkin
 
 == Architectural Overview
 
@@ -31,43 +53,14 @@ The application consists of a client application and backend API.
 The client utilizes AngularJS, Bootstrap, and related javascript tools to provide a responsive user interface.
 
 The backend is a Rails-based service through which legislation is maintained.
-Structured metadata regarding legislation and legislative transactions is stored in a Postgres database, with the legislation itself maintained in git repositories.  Legislation is marked up in AsciiDoc.
+Structured metadata regarding legislation and legislative transactions is stored in a Postgres database, with the legislation itself maintained in git repositories.
+Legislation is marked up in AsciiDoc.
 
 == Related Services
 
 * https://data.ny.gov/api/views/55k6-h6qq/rows.json is the source for localities
   that might own codes
 
-== Local Legislative Workflow Translated to Git
-
-[graphviz,workflow,svg]
-----
-digraph G {
-  subgraph cluster_0 {
-    label="Canonical Repository (public, state-hosted)"
-    style=filled
-    color=lightgrey
-    node [ style=filled, color=white ]
-    current_master [label="master (Current Law)"]
-  }
-  subgraph cluster_1 {
-    label="Local Legislature Repository (public, state or local)"
-    proposed_master [label="master (Public Draft)"]
-    current_master -> proposed_master [label="fork (propose law)"]
-    proposed_master -> current_master [label="pull request (adopt law)"]
-  }
-  subgraph cluster_2 {
-    label="Local Clerk's Working Repository"
-    clerk_master [label="master (Pending Public Draft)"]
-    clerk_working [label="working (Private Draft)"]
-    proposed_master -> clerk_master [label="clone (propose law)"]
-    clerk_master -> clerk_working [label="branch (apply changes)"]
-    clerk_working -> clerk_master [label="merge --squash (publish changes)"]
-    clerk_master -> proposed_master [label="push (publish changes)"]
-  }
-}
-----
-
 == Inspiration
 
-Gitbook
+* Gitbook

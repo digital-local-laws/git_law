@@ -9,6 +9,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', git: 'https://github.com/larskanis/bcrypt-ruby.git', branch: 'rake-compiler-dock'
 gem 'mongoid', '~> 4.0'
+gem 'pundit'
 gem 'bson_ext'
 gem 'bower-rails'
 gem 'slim-rails'

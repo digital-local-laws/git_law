@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160209145947) do
+ActiveRecord::Schema.define(version: 20160218142001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,17 @@ ActiveRecord::Schema.define(version: 20160209145947) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "jurisdiction_memberships", force: :cascade do |t|
+    t.integer  "jurisdiction_id"
+    t.integer  "user_id"
+    t.boolean  "adopt"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "jurisdiction_memberships", ["jurisdiction_id"], name: "index_jurisdiction_memberships_on_jurisdiction_id", using: :btree
+  add_index "jurisdiction_memberships", ["user_id"], name: "index_jurisdiction_memberships_on_user_id", using: :btree
+
   create_table "jurisdictions", force: :cascade do |t|
     t.string   "name",                                 null: false
     t.string   "file_name",                            null: false
@@ -67,14 +78,20 @@ ActiveRecord::Schema.define(version: 20160209145947) do
   add_index "proposed_laws", ["user_id"], name: "index_proposed_laws_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",      null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean  "admin",      default: false, null: false
+    t.boolean  "staff",      default: false, null: false
+    t.string   "email",                      null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
+  add_index "users", ["admin"], name: "index_users_on_admin", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["staff"], name: "index_users_on_staff", using: :btree
 
   add_foreign_key "adopted_laws", "proposed_laws"
+  add_foreign_key "jurisdiction_memberships", "jurisdictions"
+  add_foreign_key "jurisdiction_memberships", "users"
   add_foreign_key "proposed_laws", "jurisdictions"
   add_foreign_key "proposed_laws", "users"
 end

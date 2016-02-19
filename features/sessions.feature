@@ -5,7 +5,6 @@ Feature: User sessions
   @javascript
   Scenario: Log in
     Given I log in
-    Then I should be logged in
   @javascript
   Scenario:
     Given I log in

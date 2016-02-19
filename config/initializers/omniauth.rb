@@ -1,5 +1,7 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :developer unless Rails.env.production?
+  unless Rails.env.production?
+    provider :developer
+  end
 end
 
 OmniAuth.config.logger = Rails.logger

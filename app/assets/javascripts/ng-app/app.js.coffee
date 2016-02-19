@@ -3,9 +3,9 @@ angular
      'ui.select', 'ui.router', 'ngResource', 'templates', 'ui.utils',
     'ui.bootstrap', 'ui.tree', 'lawNodeFilters',
     'ui.ace', 'glFileContentDirective', 'glNodeLocationDirective',
-    'ngFlash' ]
-  .config ($stateProvider, $urlRouterProvider, $locationProvider,
-    $urlMatcherFactoryProvider, uiSelectConfig ) ->
+    'ngFlash', 'ipCookie', 'ng-token-auth' ]
+  .config ( $stateProvider, $urlRouterProvider, $locationProvider,
+    $urlMatcherFactoryProvider, uiSelectConfig, $authProvider ) ->
     uiSelectConfig.theme = 'bootstrap'
     $urlRouterProvider.when('/jurisdictions/:jurisdictionId',
       '/jurisdictions/:jurisdictionId/proposed-laws')
@@ -24,6 +24,12 @@ angular
         encode: (val) ->
           val || ""
       } )
+    $authProvider.configure({
+      omniauthWindowType: 'sameWindow'
+      authProviderPaths: {
+        developer: '/auth/developer'
+      }
+    })
     $stateProvider
       .state 'home', {
         url: '/',
@@ -132,3 +138,23 @@ angular
       }
     $urlRouterProvider.otherwise '/'
     $locationProvider.html5Mode true
+  .run [ '$rootScope', '$auth', '$state', 'Flash',
+    ( $rootScope, $auth, $state, Flash ) ->
+      # Check on page load whether user is logged in
+      $auth.validateUser().then ( user ) ->
+        $rootScope.currentUser = user
+      # Notify user that he or she is logged in
+      $rootScope.notifyCurrentUser = () ->
+        Flash.create( 'info', 'You logged in as ' +
+          $rootScope.currentUser.name + '.' )
+        $state.go 'home'
+      # Record user information on login
+      $rootScope.$on 'auth:login-success', (ev, user) ->
+        $rootScope.currentUser = user
+        $rootScope.notifyCurrentUser()
+      # Purge user information on logout
+      $rootScope.$on 'auth:logout-success', ->
+        $rootScope.currentUser = false
+        Flash.create( 'info', 'You logged out.' )
+        $state.go 'home'
+  ]

@@ -1,12 +1,8 @@
 angular
   .module 'gitLaw'
-  .controller 'NavigationCtrl', [ 'session', '$scope',
-  (session, $scope) ->
-    $scope.currentUser = ->
-      session.currentUser()
-    $scope.checkSession = ->
-      session.checkSession()
+  .controller 'NavigationCtrl', [ '$scope', '$auth', '$state',
+  (session, $scope, $auth, $state) ->
     $scope.signOut = ->
-      session.signOut()
-    $scope.checkSession()
+      $auth.signOut().catch( (resp) ->
+        console.log('signout failed') )
   ]

@@ -1,5 +1,8 @@
 class ApiController < ApplicationController
+  include DeviseTokenAuth::Concerns::SetUserByToken
   include Pundit
+
+  protect_from_forgery with: :null_session
 
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
   rescue_from Pundit::NotAuthorizedError, with: :unauthorized

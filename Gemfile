@@ -7,13 +7,20 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
-gem 'bcrypt', git: 'https://github.com/larskanis/bcrypt-ruby.git', branch: 'rake-compiler-dock'
+# Use until PR #117 on original is incorporated
+gem 'bcrypt',
+  git: 'https://github.com/larskanis/bcrypt-ruby.git',
+  branch: 'rake-compiler-dock'
 gem 'mongoid', '~> 4.0'
 gem 'pundit'
 gem 'bson_ext'
 gem 'bower-rails'
 gem 'slim-rails'
-gem 'devise'
+# Use special branch with fix-devise-mapping until PR#540 merged in original
+gem 'devise_token_auth'
+# gem 'devise_token_auth',
+#   git: 'https://github.com/digital-local-laws/devise_token_auth.git',
+#   branch: 'fix-devise-mapping'
 gem 'decent_exposure'
 gem 'kaminari'
 gem 'carrierwave'

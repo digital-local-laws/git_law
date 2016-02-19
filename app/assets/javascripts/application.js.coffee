@@ -1,5 +1,7 @@
 #= require ace-builds/src-min-noconflict/ace.js
 #= require angular
+#= require angular-cookies
+#= require angular-cookie
 #= require angular-animate
 #= require angular-sanitize/angular-sanitize.min.js
 #= require angular-ui-router
@@ -13,5 +15,6 @@
 #= require angular-ui-tree/dist/angular-ui-tree.js
 #= require angular-ui-ace/ui-ace.js
 #= require angular-flash-alert/dist/angular-flash.js
+#= require ng-token-auth/src/ng-token-auth
 #= require_tree ./ng-app
 #= require_tree ./templates

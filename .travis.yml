@@ -24,6 +24,7 @@ script:
   - bundle
   - bundle exec rake db:migrate RAILS_ENV=test
   - bundle exec rake bower:install
+  - bundle exec rake assets:precompile RAILS_ENV=test
   - bundle exec rake spec
   - bundle exec rake cucumber
 env:

@@ -42,7 +42,11 @@ class CreateUsers < ActiveRecord::Migration
       ## Tokens
       t.json :tokens
 
-      t.timestamps
+      ## Global authorization roles
+      t.boolean :admin
+      t.boolean :staff
+
+      t.timestamps null: false
     end
 
     add_index :users, :email

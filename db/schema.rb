@@ -98,6 +98,8 @@ ActiveRecord::Schema.define(version: 20160218142001) do
     t.string   "image"
     t.string   "email"
     t.json     "tokens"
+    t.boolean  "admin"
+    t.boolean  "staff"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

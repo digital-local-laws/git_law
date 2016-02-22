@@ -1,3 +1,0 @@
-.row
-  div( ui-ace="{mode: editorMode(file), onLoad: onLoad, useWrapMode: true}"
-  ng-model="file.content" )

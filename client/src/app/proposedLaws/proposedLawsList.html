@@ -1,0 +1,26 @@
+<uib-pagination change="setPage(list.page)" items-per-page="list.perPage" ng-model="list.page" total-items="list.totalPages"></uib-pagination>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>
+        Title
+      </th>
+      <th colspan="3">
+        Controls
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="law in list.proposedLaws">
+      <td>
+        <a ui-sref="proposedLaw.node({ proposedLawId: law.id })">{{law.title}}</a>
+      </td>
+      <td>
+        <a class="btn btn-default" ng-click="editProposedLawSettings(law)"><span class="glyphicon glyphicon-wrench"></span>Settings</a>
+      </td>
+      <td>
+        <a class="btn btn-danger" ng-click="destroyProposedLaw(law)"><span class="glyphicon glyphicon-remove"></span>Remove</a>
+      </td>
+    </tr>
+  </tbody>
+</table>

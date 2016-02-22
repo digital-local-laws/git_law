@@ -1,0 +1,26 @@
+<uib-pagination items-per-page="list.perPage" ng-change="setPage(list.page)" ng-model="list.page" total-items="list.totalPages"></uib-pagination>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>
+        Name
+      </th>
+      <th colspan="2">
+        Controls
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="jurisdiction in list.jurisdictions">
+      <td>
+        <a ui-sref="jurisdiction.proposedLaws.paginated({jurisdictionId:  jurisdiction.id, page: 1})">{{jurisdiction.name}}</a>
+      </td>
+      <td>
+        <a class="btn btn-default" ng-click="editJurisdiction(jurisdiction)"><span class="glyphicon glyphicon-wrench"></span>Settings</a>
+      </td>
+      <td>
+        <a class="btn btn-danger" ng-click="destroyJurisdiction(jurisdiction)"><span class="glyphicon glyphicon-remove"></span>Remove</a>
+      </td>
+    </tr>
+  </tbody>
+</table>

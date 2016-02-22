@@ -1,0 +1,11 @@
+<div ng-if="repo.workingRepoCreated">
+  <h3 class="col-lg-12">
+    <span ng-if="node" ng-repeat="aNode in node.ancestorNodes">
+      <a ui-sref="{treeBase: aNode.treeBase}">{{aNode | lawNodeShortTitle}}</a>
+      <span ng-if="aNode.childNodesAllowed">&nbsp;/&nbsp;</span>
+    </span>
+  </h3>
+  <div class="row" style="height: 100%;">
+    <div class="col-lg-12" ng-transclude="" style="height: 100%;"></div>
+  </div>
+</div>

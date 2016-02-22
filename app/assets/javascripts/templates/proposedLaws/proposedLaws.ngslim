@@ -1,8 +1,0 @@
-.container
-  h3.col-lg-6
-    | Proposed Laws
-  .col-lg-2
-    a.btn.btn-primary  ng-click='proposeLaw(jurisdiction)'
-      span.glyphicon.glyphicon-plus  aria-hidden=true
-      | Propose a Law
-div  ui-view=true

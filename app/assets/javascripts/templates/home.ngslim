@@ -1,5 +1,0 @@
-.container
-  h1= "NYS Department of State Local Law Submission Platform"
-  | {{$root.currentUser.id}}
-  ul
-    li ng-repeat="thing in things" = "{{thing}} "

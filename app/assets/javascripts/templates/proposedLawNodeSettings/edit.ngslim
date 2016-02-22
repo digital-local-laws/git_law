@@ -1,3 +1,0 @@
-.modal-header
-  h1.modal-title Modify {{proposedLawNode.nodeType.label | capitalizeFirst}} Settings
-div  ng-include="'proposedLawNodeSettings/form.html'"

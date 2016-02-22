@@ -1,0 +1,26 @@
+<h3>
+  Submit as Adopted Law
+</h3>
+<uib-alert close="closeAlert($index)" ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
+<form name="adoptLawForm">
+  Proposed law id: {{adoptedLaw.proposedLawId}}
+  <div class="form-group has-feedback" ng-class="{&#39;has-error&#39;: errors.localNumber ||  adoptedLawForm.localNumber.$invalid, &#39;has-success&#39;:  adoptedLaw.localNumber &amp;&amp; !errors.localNumber &amp;&amp;  adoptedLawForm.localNumber.$valid }">
+    <label class="control-label" for="localNumber">  Local Number</label><input class="form-control" id="localNumber" name="localNumber" ng-model="adoptedLaw.localNumber" type="text" /><span class="glyphicon glyphicon-ok form-control-feedback" ng-show="adoptedLaw.localNumber &amp;&amp; !errors.localNumber  &amp;&amp; !adoptedLawForm.localNumber.$invalid"></span><span class="glyphicon glyphicon-remove form-control-feedback" ng-show="errors.localNumber || adoptedLawForm.localNumber.$invalid"></span><span class="help-block">Specify the locally-issued number for the law, if the locality uses
+      a separate numbering system from the state.
+      Leave this blank if municipality numbers its laws internally the
+      same as its filings with the state.</span><span class="help-block" ng-repeat="error in errors.localNumber">)
+      | {{error}}
+      br</span>
+  </div>
+  <div class="form-group has-feedback" ng-class="{&#39;has-error&#39;: errors.title ||  adoptedLawForm.adoptedOn.$invalid, &#39;has-success&#39;:  adoptedLawForm.attributes.adoptedOn &amp;&amp; !errors.adoptedOn &amp;&amp;  adoptedLawForm.adoptedOn.$valid }">
+    <label class="control-label" for="adoptedOn">  Adopted On</label><input class="form-control" id="adoptedOn" name="adoptedOn" ng-model="adoptedLaw.adoptedOn" type="text" /><span class="glyphicon glyphicon-ok form-control-feedback" ng-show="adoptedLaw.adoptedOn &amp;&amp; !errors.adoptedOn  &amp;&amp; !adoptedLawForm.adoptedOn.$invalid"></span><span class="glyphicon glyphicon-remove form-control-feedback" ng-show="errors.adoptedOn || adoptedLawForm.adoptedOn.$invalid"></span><span class="help-block">Specify date of final adoption for this law.<br /></span><span class="help-block" ng-repeat="error in errors.adoptedOn">{{error}}<br /></span>
+  </div>
+  <div class="form-group" ng-class="{&#39;has-error&#39;: adoptedLawForm.certificationType.$invalid,  &#39;has-success&#39;: !adoptedLawForm.certificationType.$invalid &amp;&amp;  adoptedLaw.certificationType, &#39;has-feedback&#39;: true}">
+    <label class="control-label" for="title"> Titling</label>
+    <div class="btn-group">
+      <label class="btn btn-info" ng-model="adoptedLaw.certificationType" ng-repeat="option in certificationOptions" uib-btn-radio="option[0]">{{option[1]}}</label>
+    </div>
+    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="!adoptedLawForm.certificationType.$invalid &amp;&amp;  adoptedLaw.certificationType"></span><span class="glyphicon glyphicon-remove form-control-feedback" ng-show="adoptedLawForm.certificationType.$invalid"></span><span class="help-block" ng-show="adoptedLawForm.certificationType.$error.required">Is required.</span><span class="help-block">Specify the manner in which final adoption was achieved for this submission.</span>
+  </div>
+</form>
+<button class="btn btn-primary" ng-click="save(adoptedLaw)" ng-disabled="adoptedLawForm.$invalid" type="button"><span class="glyphicon glyphicon-ok"></span>Certify and Submit Adopted Law</button><button class="btn btn-default" ng-click="cancel()" type="button"><span class="glyphicon glyphicon-remove"></span>Cancel</button>

@@ -1,0 +1,44 @@
+<gl-node gl-node-location="proposedLawNode" gl-repo="proposedLaw"><uib-tabset><uib-tab heading="Children" ng-if="proposedLawNode.childNodesAllowed">
+      <div class="row">
+        <div class="col-lg-9 text-right">
+          <button class="btn btn-primary" ng-click="newNode(proposedLawNode,nodeType)" ng-repeat="nodeType in proposedLawNode.allowedChildNodeTypes"><span class="glyphicon glyphicon-plus"></span>Add {{nodeType.label | capitalizeFirst}}</button>
+        </div>
+      </div>
+      <table class="table table-striped table-hover col-lg-9">
+        <thead>
+          <tr>
+            <th>
+              Node
+            </th>
+            <th colspan="2">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="node in proposedLawNodes">
+            <td>
+              <a ui-sref="{treeBase: node.treeBase}"><span class="glyphicon glyphicon-folder-close" ng-if="node.childNodesAllowed"></span><span class="glyphicon glyphicon-file" ng-if="!node.childNodesAllowed"></span> {{node | lawNodeTitle}}</a>
+            </td>
+            <td>
+              <button class="btn btn-default" ng-click="editNode(node)"><span class="glyphicon glyphicon-wrench"></span> Settings</button>
+            </td>
+            <td>
+              <button class="btn btn-danger" ng-click="removeNode(node)"><span class="glyphicon glyphicon-remove"></span> Remove</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </uib-tab><uib-tab heading="Text" ng-if="proposedLawNode.nodeType.text">
+      <div class="col-xs-9" ng-if="proposedLawFile">
+        <div class="text-center alert alert-info">
+          <span ng-if="saveInProgress">Saving...</span><span ng-if="!saveInProgress">Saved.</span>
+        </div>
+        <gl-file-content gl-file="proposedLawFile" gl-on-load="setupEditor"></gl-file-content>
+      </div>
+      <div class="col-xs-9" ng-if="!proposedLawFile">
+        <p>
+          No text content exists for this {{proposedLawNode.nodeType.label}}.<button class="btn btn-link" ng-click="createProposedLawFile()">Click here to add text.</button>
+        </p>
+      </div>
+    </uib-tab></uib-tabset></gl-node>

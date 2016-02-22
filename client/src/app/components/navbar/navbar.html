@@ -1,21 +1,25 @@
-<nav class="navbar navbar-static-top navbar-inverse">
+<div class="navbar navbar-inverse" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="https://github.com/Swiip/generator-gulp-angular">
-        <span class="glyphicon glyphicon-home"></span> Gulp Angular
+      <a class="navbar-brand" href="/">GitLaw</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li ui-sref-active="active">
+        <a ui-sref="jurisdictions.one">Jurisdictions</a>
+      </li>
+    </ul>
+    <form class="navbar-form navbar-right">
+      <a class="btn btn-success" ng-hide="$root.currentUser" ui-sref="signin">
+        Sign In
+        <span aria-hidden="" class="glyphicon glyphicon-log-in"></span>
       </a>
-    </div>
-
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
-      <ul class="nav navbar-nav">
-        <li class="active"><a ng-href="#">Home</a></li>
-        <li><a ng-href="#">About</a></li>
-        <li><a ng-href="#">Contact</a></li>
-      </ul>
-
-      <ul class="nav navbar-nav navbar-right acme-navbar-text">
-        <li>Application was created {{ vm.relativeDate }}.</li>
-      </ul>
-    </div>
+      <button class="btn btn-default" ng-click="signOut()" ng-show="$root.currentUser" type="button">
+        Sign Out
+        <span aria-hidden="" class="glyphicon glyphicon-log-out"></span>
+      </button>
+    </form>
   </div>
-</nav>
+</div>
+<div class="container-fluid">
+  <flash-message duration="0" show-close="true"></flash-message>
+</div>

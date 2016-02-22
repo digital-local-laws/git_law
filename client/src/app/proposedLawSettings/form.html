@@ -1,0 +1,11 @@
+<div class="modal-body">
+  <uib-alert close="closeAlert($index)" ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
+  <form name="proposedLawForm">
+    <div class="form-group has-feedback" ng-class="{&#39;has-error&#39;: errors.title ||  proposedLawForm.title.$invalid, &#39;has-success&#39;:  proposedLaw.title &amp;&amp; !errors.title &amp;&amp;  proposedLawForm.title.$valid }">
+      <label class="control-label" for="title">  Title</label><input class="form-control" id="title" name="title" ng-model="proposedLaw.title" ng-required="" type="text" /><span class="glyphicon glyphicon-ok form-control-feedback" ng-show="proposedLaw.title &amp;&amp; !errors.title &amp;&amp;  !proposedLawForm.title.$invalid"></span><span class="glyphicon glyphicon-remove form-control-feedback" ng-show="errors.title || proposedLawForm.title.$invalid"></span><span class="help-block">Briefly describe to purpose and effect of the proposed law.</span><span class="help-block" ng-show="proposedLawForm.title.$error.required">is required<br /></span><span class="help-block" ng-repeat="error in errors.title">{{error}}<br /></span>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="save(proposedLaw)" ng-disabled="proposedLawForm.$invalid" type="button"><span class="glyphicon glyphicon-ok"></span>{{proposedLaw.id ? 'Update Proposed Law Settings' : 'Add Proposed Law'}}</button><button class="btn btn-default" ng-click="cancel()" type="button"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+</div>

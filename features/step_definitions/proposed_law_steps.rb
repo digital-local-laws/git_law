@@ -1,5 +1,5 @@
 Given(/^I visit the jurisdiction's page$/) do
-  visit "/jurisdictions/#{@jurisdiction.id}"
+  visit "/#/jurisdictions/#{@jurisdiction.id}"
 end
 
 When(/^I propose a law$/) do

@@ -17,7 +17,6 @@
 /tmp
 /lib/assets/bower_components
 /db/*.csv
-/public/uploads
 /db/uploads
 /db/*.zip
 /db/asc-dump
@@ -25,3 +24,6 @@
 /db/development
 /db/test
 npm-debug.log
+
+# Ignore public assets directory, will be built on deploy
+/public

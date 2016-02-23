@@ -36,6 +36,4 @@ Rails.application.routes.draw do
       to: "proposed_laws#index", via: :get, constraints: { jurisdiction_id: /[0-9]+/,
         page: /[0-9]+/ }
   end
-  root 'application#index'
-  get '*path' => 'application#index', format: "html"
 end

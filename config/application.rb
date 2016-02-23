@@ -31,18 +31,15 @@ module GitLaw
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
     config.filter_parameters += [ :password, :password_confirmation, :q ]
-    config.assets.paths << Rails.root.join("lib","assets","images")
-    # Bower asset paths
-    root.join('vendor', 'assets', 'bower_components').to_s.tap do |bower_path|
-      config.sass.load_paths << bower_path
-      config.assets.paths << bower_path
+    # Disable Rails assets pipeline
+    config.assets.enabled = false
+    config.generators do |g|
+      g.assets = false
     end
-    # Precompile Bootstrap fonts
-    config.assets.precompile << %r(bootstrap-sass/assets/fonts/bootstrap/[\w-]+\.(?:eot|svg|ttf|woff2?)$)
-    # Minimum Sass number precision required by bootstrap-sass
-    ::Sass::Script::Number.precision = [8, ::Sass::Script::Number.precision].max
     config.active_job.queue_adapter = :delayed_job
     # Autoload classes in lib
     config.autoload_paths << Rails.root.join('lib')
+    # Selectively enable cookie-based sessions for OmniAuth
+    config.middleware.insert_before ActionDispatch::ParamsParser, "SelectiveStack"
   end
 end

@@ -19,7 +19,7 @@ angular.module 'client'
         $scope.alerts.splice index, 1
       $scope.proposeLaw = (jurisdiction) ->
         modalInstance = $uibModal.open( {
-          templateUrl: 'proposedLawSettings/new.html',
+          templateUrl: 'app/proposedLawSettings/new.html',
           controller: 'ProposedLawSettingsCtrl',
           resolve: {
             jurisdiction: ( -> $scope.jurisdiction )

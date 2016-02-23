@@ -1,5 +1,5 @@
 angular.module 'client'
-  .config ($stateProvider, $urlRouterProvider) ->
+  .config ($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) ->
     'ngInject'
     # Define states of the application and map them to controllers
     $stateProvider
@@ -10,13 +10,13 @@ angular.module 'client'
         controllerAs: 'main'
       .state 'signin', {
         url: '/sign-in'
-        templateUrl: 'userSession/new.html'
+        templateUrl: 'app/userSession/new.html'
         controller: 'UserSessionCtrl'
       }
       .state 'jurisdiction', {
         abstract: true
         url: '/jurisdictions/:jurisdictionId'
-        templateUrl: 'jurisdiction/layout.html'
+        templateUrl: 'app/jurisdiction/layout.html'
         controller: 'JurisdictionCtrl'
       }
       .state 'jurisdiction.proposedLaws', {
@@ -24,28 +24,28 @@ angular.module 'client'
         url: '/proposed-laws',
         views:
           "pane":
-            templateUrl: 'proposedLaws/proposedLaws.html'
+            templateUrl: 'app/proposedLaws/proposedLaws.html'
             controller: 'ProposedLawsCtrl'
       }
       .state 'jurisdiction.proposedLaws.paginated', {
         url: '/page/:page'
-        templateUrl: 'proposedLaws/proposedLawsList.html'
+        templateUrl: 'app/proposedLaws/proposedLawsList.html'
         controller: 'ProposedLawsListCtrl'
       }
       .state 'jurisdictions', {
         abstract: true
         url: '/jurisdictions'
-        templateUrl: 'jurisdictions/layout.html'
+        templateUrl: 'app/jurisdictions/layout.html'
         controller: 'JurisdictionsCtrl'
       }
       .state 'jurisdictions.one', {
         url: '',
-        templateUrl: 'jurisdictions/list.html',
+        templateUrl: 'app/jurisdictions/list.html',
         controller: 'JurisdictionsListCtrl'
       }
       .state 'jurisdictions.paginated', {
         url: '/page/:page'
-        templateUrl: 'jurisdictions/list.html'
+        templateUrl: 'app/jurisdictions/list.html'
         controller: 'JurisdictionsListCtrl'
       }
       .state 'proposedLaw', {
@@ -55,27 +55,27 @@ angular.module 'client'
           proposedLaw: (ProposedLaw, $stateParams) ->
             ProposedLaw.get({proposedLawId: $stateParams.proposedLawId}).$promise
         }
-        templateUrl: 'proposedLaw/layout.html'
+        templateUrl: 'app/proposedLaw/layout.html'
         controller: 'ProposedLawCtrl'
       }
       .state 'proposedLaw.initialize', {
         url: '/initialize'
-        templateUrl: 'proposedLaw/initialize.html'
+        templateUrl: 'app/proposedLaw/initialize.html'
         controller: 'ProposedLawInitializeCtrl'
       }
       .state 'proposedLaw.node', {
         url: '/node/{treeBase:path}'
-        templateUrl: 'proposedLawNode/node.html'
+        templateUrl: 'app/proposedLawNode/node.html'
         controller: 'ProposedLawNodeCtrl'
       }
       .state 'proposedLaw.adopt', {
         url: '/adopt'
-        templateUrl: 'proposedLaw/adopt.html'
+        templateUrl: 'app/proposedLaw/adopt.html'
         controller: 'AdoptLawCtrl'
       }
       .state 'adoptedLaw', {
         url: '/adoptedLaw'
-        templateUrl: 'adoptedLaw/layout.html'
+        templateUrl: 'app/adoptedLaw/layout.html'
         controller: 'AdoptedLawCtrl'
       }
     # Provide additional routes to states
@@ -87,13 +87,13 @@ angular.module 'client'
       '/proposed-laws/:proposedLawId/node/')
     $urlRouterProvider.when('/proposed-laws/:proposedLawId/node',
       '/proposed-laws/:proposedLawId/node/')
-    # $urlMatcherFactoryProvider
-    #   .type('path', {
-    #     is: (val) ->
-    #       true
-    #     decode: (val) ->
-    #       val || ""
-    #     encode: (val) ->
-    #       val || ""
-    #   } )
+    $urlMatcherFactoryProvider
+      .type('path', {
+        is: (val) ->
+          true
+        decode: (val) ->
+          val || ""
+        encode: (val) ->
+          val || ""
+      } )
     $urlRouterProvider.otherwise '/'

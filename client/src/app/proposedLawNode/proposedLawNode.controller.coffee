@@ -57,7 +57,7 @@ angular.module 'client'
         node.$delete( { proposedLawId: $scope.proposedLaw.id }, success )
       $scope.editNode = (node) ->
         modalInstance = $uibModal.open(
-          templateUrl: 'proposedLawNodeSettings/edit.html',
+          templateUrl: 'app/proposedLawNodeSettings/edit.html',
           controller: 'ProposedLawNodeSettingsCtrl',
           resolve:
             proposedLaw: ->
@@ -76,7 +76,7 @@ angular.module 'client'
           ( () -> false ) )
       $scope.newNode = (proposedLawNode,nodeType) ->
         modalInstance = $uibModal.open(
-          templateUrl: 'proposedLawNodeSettings/new.html',
+          templateUrl: 'app/proposedLawNodeSettings/new.html',
           controller: 'ProposedLawNodeSettingsCtrl',
           resolve:
             proposedLaw: ->

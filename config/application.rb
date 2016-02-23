@@ -41,5 +41,14 @@ module GitLaw
     config.autoload_paths << Rails.root.join('lib')
     # Selectively enable cookie-based sessions for OmniAuth
     config.middleware.insert_before ActionDispatch::ParamsParser, "SelectiveStack"
+    config.generators do |g|
+      g.test_framework :rspec,
+        fixtures: false,
+        view_specs: false,
+        helper_specs: false,
+        routing_specs: false,
+        request_specs: false,
+        controller_specs: true
+    end
   end
 end

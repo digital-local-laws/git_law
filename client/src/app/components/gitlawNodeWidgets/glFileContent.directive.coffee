@@ -11,4 +11,4 @@ angular.module 'gitlawNodeWidgets'
     scope:
       file: '=glFile'
       onLoad: '=glOnLoad'
-    templateUrl: 'app/components/gitlawNodes/fileContent.html'
+    templateUrl: 'app/components/gitlawNodeWidgets/fileContent.html'

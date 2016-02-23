@@ -1,5 +1,5 @@
 angular.module 'client'
-  .controller 'ProposedLawSettingsCtrl', ( $scope, $uibModalInstance, $upload,
+  .controller 'ProposedLawSettingsCtrl', ( $scope, $uibModalInstance,
     proposedLaw, ProposedLaw, jurisdiction, Flash ) ->
       $scope.alerts = [ ]
       $scope.errors = { }

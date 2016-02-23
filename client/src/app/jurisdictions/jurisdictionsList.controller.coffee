@@ -10,7 +10,7 @@ angular.module 'client'
             $scope.list.perPage = r['x-per-page'] )
       $scope.editJurisdiction = (jurisdiction) ->
         modalInstance = $uibModal.open( {
-          templateUrl: 'jurisdictionSettings/edit.html',
+          templateUrl: 'app/jurisdictionSettings/edit.html',
           controller: 'JurisdictionSettingsCtrl',
           resolve: {
             jurisdiction: ( -> jurisdiction ) } } )

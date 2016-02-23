@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   post '/omniauth/:provider/callback', to: 'devise_token_auth/omniauth_callbacks#redirect_callbacks'
   namespace :api do
     mount_devise_token_auth_for 'User', at: 'auth'
+  end
+  scope '/api' do
     # Resource routes
     resources :jurisdictions, except: [ :new, :edit ] do
       resources :proposed_laws, only: [ :index, :create ]

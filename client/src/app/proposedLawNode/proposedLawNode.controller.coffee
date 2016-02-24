@@ -2,7 +2,7 @@ angular.module 'client'
   .controller 'ProposedLawNodeCtrl', ( $state, $scope, $stateParams,
     $uibModal, $timeout, ProposedLawNode, ProposedLawFile, CodeLevel, Flash ) ->
       unless $scope.proposedLaw.workingRepoCreated
-        return $state.transitionTo( 'proposedLaw.initialize',
+        return $state.go( 'proposedLaw.initialize',
           { proposedLawId: $scope.proposedLaw.id }
         )
       $scope.alerts = []

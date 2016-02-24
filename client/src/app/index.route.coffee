@@ -16,6 +16,12 @@ angular.module 'client'
       .state 'jurisdiction', {
         abstract: true
         url: '/jurisdictions/:jurisdictionId'
+        resolve: {
+          jurisdiction: (Jurisdiction, $stateParams) ->
+            Jurisdiction.get( {
+              jurisdictionId: $stateParams.jurisdictionId
+            } ).$promise
+        }
         templateUrl: 'app/jurisdiction/layout.html'
         controller: 'JurisdictionCtrl'
       }
@@ -53,7 +59,9 @@ angular.module 'client'
         url: '/proposed-laws/:proposedLawId'
         resolve: {
           proposedLaw: (ProposedLaw, $stateParams) ->
-            ProposedLaw.get({proposedLawId: $stateParams.proposedLawId}).$promise
+            ProposedLaw.get( {
+              proposedLawId: $stateParams.proposedLawId
+            } ).$promise
         }
         templateUrl: 'app/proposedLaw/layout.html'
         controller: 'ProposedLawCtrl'
@@ -64,7 +72,7 @@ angular.module 'client'
         controller: 'ProposedLawInitializeCtrl'
       }
       .state 'proposedLaw.node', {
-        url: '/node/{treeBase:path}'
+        url: '/node/*treeBase'
         templateUrl: 'app/proposedLawNode/node.html'
         controller: 'ProposedLawNodeCtrl'
       }
@@ -79,21 +87,42 @@ angular.module 'client'
         controller: 'AdoptedLawCtrl'
       }
     # Provide additional routes to states
-    $urlRouterProvider.when('/jurisdictions/:jurisdictionId',
-      '/jurisdictions/:jurisdictionId/proposed-laws')
-    $urlRouterProvider.when('/jurisdictions/:jurisdictionId/proposed-laws',
-      '/jurisdictions/:jurisdictionId/proposed-laws/page/1')
-    $urlRouterProvider.when('/proposed-laws/:proposedLawId',
-      '/proposed-laws/:proposedLawId/node/')
-    $urlRouterProvider.when('/proposed-laws/:proposedLawId/node',
-      '/proposed-laws/:proposedLawId/node/')
-    $urlMatcherFactoryProvider
-      .type('path', {
-        is: (val) ->
-          true
-        decode: (val) ->
-          val || ""
-        encode: (val) ->
-          val || ""
-      } )
+    $urlRouterProvider.when '/jurisdictions/:jurisdictionId',
+      ( $match, $state ) ->
+        $state.go 'jurisdiction.proposedLaws.paginated', {
+          jurisdictionId: $match.jurisdictionId
+          page: 1
+        }
+      #  '/#/jurisdictions/:jurisdictionId/proposed-laws')
+
+    $urlRouterProvider.when '/jurisdictions/:jurisdictionId/proposed-laws',
+      ( $match, $state ) ->
+        $state.go 'jurisdiction.proposedLaws.paginated', {
+          jurisdictionId: $match.jurisdictionId
+          page: 1
+        }
+      # '/#/jurisdictions/:jurisdictionId/proposed-laws/page/1')
+    $urlRouterProvider.when '/proposed-laws/:proposedLawId',
+      ( $match, $state ) ->
+        $state.go 'proposedLaw.node', {
+          proposedLawId: $match.proposedLawId
+          treeBase: ''
+        }
+      # '/#/proposed-laws/:proposedLawId/node/')
+    # $urlRouterProvider.when '/proposed-laws/:proposedLawId/node',
+    #   ( $match, $state ) ->
+    #     $state.transitionTo 'proposedLaw.node', {
+    #       proposedLawId: $match.proposedLawId
+    #       treeBase: ''
+    #     }
+      # '/#/proposed-laws/:proposedLawId/node/')
     $urlRouterProvider.otherwise '/'
+    # $urlMatcherFactoryProvider
+    #   .type 'path', {
+    #     is: (val) ->
+    #       true
+    #     decode: (val) ->
+    #       val || ""
+    #     encode: (val) ->
+    #       val || ""
+    #   }

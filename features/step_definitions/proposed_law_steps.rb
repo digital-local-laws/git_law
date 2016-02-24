@@ -121,9 +121,9 @@ end
 Given(/^initialization has completed$/) do
   step "all jobs have run"
   start = Time.now
-  until Capybara.current_session.current_url =~ /\/node\/$/ do
+  until Capybara.current_session.evaluate_script('window.location.hash;') =~ /\/node\/$/ do
     raise 'Timed out waiting for initialization to complete' if Time.now - start > 10.seconds
-    sleep 0.01
+    sleep 1
   end
 end
 

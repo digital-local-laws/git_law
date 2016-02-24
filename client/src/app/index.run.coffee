@@ -20,4 +20,4 @@ angular.module 'client'
       $state.go 'home'
     # TODO: eliminate this?
     # Mark end of runBlock for debug purposes
-    $log.debug 'runBlock end'
+    # $log.debug 'runBlock end'

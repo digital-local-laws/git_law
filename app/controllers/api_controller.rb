@@ -9,18 +9,12 @@ class ApiController < ApplicationController
 
   # Alert client that record was not found
   def not_found
-    respond_to do |format|
-      format.json do
-        render nothing: true, status: 404
-      end
-    end
+    render nothing: true, status: 404
   end
 
   # Alert client that action is not authorized for given credentials
   def unauthorized(exception)
     self.exception = exception
-    respond_to do |format|
-      format.json { render template: 'api/unauthorized', status: 401 }
-    end
+    format.json { render template: 'api/unauthorized', status: 401 }
   end
 end

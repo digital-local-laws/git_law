@@ -33,7 +33,7 @@ module ProposedLaws
     def create
       node.attributes = attributes
       if node.create
-        render 'show', status: 201, location: node
+        render 'show', status: 201
       else
         render 'errors', status: 422
       end

@@ -27,7 +27,7 @@ module ProposedLaws
     def create
       working_file.content = content
       if working_file.create
-        render 'show', status: 201, location: working_file
+        render 'show', status: 201
       else
         render 'errors', status: 422
       end

@@ -1,6 +1,6 @@
 angular.module 'client'
   .controller 'ProposedLawNodeSettingsCtrl', ( $scope, $uibModalInstance,
-    $upload, proposedLawNode, ProposedLawNode, parentNode,
+    proposedLawNode, ProposedLawNode, parentNode,
     lawNodeFilenameBaseFilter, CodeLevel, Flash ) ->
       $scope.alerts = [ ]
       $scope.errors = { }

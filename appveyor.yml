@@ -33,7 +33,7 @@ install:
   - gem install bundler --quiet --no-ri --no-rdoc
   - bundler --version
   - npm -v
-  - npm install -g bower
+  - npm install -g bower gulp
   - bundle --deployment
 build: off
 test_script:

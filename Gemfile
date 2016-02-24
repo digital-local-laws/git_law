@@ -10,7 +10,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 # Use until PR #117 on original is incorporated
 gem 'bcrypt',
-  git: 'https://github.com/larskanis/bcrypt-ruby.git',
+  git: 'https://github.com/digital-local-laws/bcrypt-ruby.git',
   branch: 'rake-compiler-dock'
 gem 'mongoid', '~> 4.0'
 gem 'pundit'

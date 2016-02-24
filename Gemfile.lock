@@ -1,6 +1,6 @@
 GIT
-  remote: https://github.com/larskanis/bcrypt-ruby.git
-  revision: a55c5e7163eef3443a47bc1710033616344d6d39
+  remote: https://github.com/digital-local-laws/bcrypt-ruby.git
+  revision: e5d61d1bcac9404e37910f0724e3c3ea3eebbc14
   branch: rake-compiler-dock
   specs:
     bcrypt (3.1.10)

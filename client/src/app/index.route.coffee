@@ -82,7 +82,13 @@ angular.module 'client'
         controller: 'AdoptLawCtrl'
       }
       .state 'adoptedLaw', {
-        url: '/adoptedLaw'
+        url: '/adoptedLaw/:adoptedLawId'
+        resolve: {
+          adoptedLaw: (AdoptedLaw, $stateParams) ->
+            AdoptedLaw.get( {
+              adoptedLawId: $stateParams.adoptedLawId
+            } ).$promise
+        }
         templateUrl: 'app/adoptedLaw/layout.html'
         controller: 'AdoptedLawCtrl'
       }

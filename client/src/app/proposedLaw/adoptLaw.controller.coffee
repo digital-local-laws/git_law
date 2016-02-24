@@ -1,6 +1,6 @@
 angular.module 'client'
   .controller 'AdoptLawCtrl', ( $scope, $state, $stateParams, AdoptedLaw,
-    Flash ) ->
+    Flash, $log ) ->
       $scope.alerts = [ ]
       $scope.errors = { }
       $scope.certificationOptions = [
@@ -17,7 +17,7 @@ angular.module 'client'
       $scope.adoptedLaw = new AdoptedLaw( { proposedLawId: $stateParams.proposedLawId } )
       $scope.save = (adoptedLaw) ->
         success = ( adoptedLaw ) ->
-          Flash.create( 'success', 'Adopted law was submitted.')
+          Flash.create 'success', 'Adopted law was submitted.'
           $state.go( 'adoptedLaw', { adoptedLawId: adoptedLaw.id } )
         failure = ( response ) ->
           $scope.alerts.push( { type: 'danger', msg: "Adopt failed." } )

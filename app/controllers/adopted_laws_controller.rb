@@ -37,7 +37,7 @@ class AdoptedLawsController < ApiController
   def create
     adopted_law.attributes = adopted_law_params
     if adopted_law.save
-      render status: 201, location: adopted_law
+      render 'show', status: 201, location: adopted_law
     else
       render 'errors', status: 422
     end

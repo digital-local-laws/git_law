@@ -1,6 +1,14 @@
 angular.module 'client'
-  .controller 'AdoptedLawCtrl', ( $scope, $stateParams, AdoptedLaw ) ->
-    AdoptedLaw.get( {adoptedLawId: $stateParams.adoptedLawId}, ( adoptedLaw ) ->
+  .controller 'AdoptedLawCtrl', ( $scope, $stateParams, adoptedLaw,
+  Jurisdiction, ProposedLaw ) ->
+    onJurisdictionLoad = ( jurisdiction ) ->
+      $scope.jurisdiction = jurisdiction
+    onProposedLawLoad = ( proposedLaw ) ->
+      $scope.proposedLaw = proposedLaw
+      Jurisdiction.get { jurisdictionId: proposedLaw.jurisdictionId },
+        onJurisdictionLoad
+    onAdoptedLawLoad = ( adoptedLaw ) ->
       $scope.adoptedLaw = adoptedLaw
-      $scope.jurisdiction = adoptedLaw.jurisdiction
-    )
+      ProposedLaw.get { proposedLawId: adoptedLaw.proposedLawId },
+        onProposedLawLoad
+    onAdoptedLawLoad adoptedLaw

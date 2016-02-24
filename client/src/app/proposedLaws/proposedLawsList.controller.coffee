@@ -6,7 +6,7 @@ angular.module 'client'
         { proposedLawId: proposedLaw.id } )
       $scope.editProposedLawSettings = (proposedLaw) ->
         modalInstance = $uibModal.open( {
-          templateUrl: 'proposedLawSettings/edit.html',
+          templateUrl: 'app/proposedLawSettings/edit.html',
           controller: 'ProposedLawSettingsCtrl',
           resolve: {
             jurisdiction: ( -> $scope.jurisdiction )

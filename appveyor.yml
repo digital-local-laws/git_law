@@ -35,15 +35,12 @@ install:
   - npm -v
   - npm install -g bower
   - bundle --deployment
-# build_script:
-#   - bundle exec rake build
 build: off
 test_script:
   - createdb appveyor_ci_test
   - cp config/database.yml.appveyor config/database.yml
   - bundle exec rake db:migrate RAILS_ENV=test
-  - bundle exec rake bower:install
-  - bundle exec rake assets:precompile RAILS_ENV=test
+  - bundle exec rake gulp:dependencies
   - bundle exec rake spec
   - bundle exec rake cucumber
 artifacts:

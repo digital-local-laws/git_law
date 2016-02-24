@@ -56,6 +56,24 @@ The backend is a Rails-based service through which legislation is maintained.
 Structured metadata regarding legislation and legislative transactions is stored in a Postgres database, with the legislation itself maintained in git repositories.
 Legislation is marked up in AsciiDoc.
 
+[source]
+....
+├── app/ <1>
+├── client/ <2>
+├── config/ <3>
+├── db/ <4>
+├── features/ <5>
+├── lib/ <6>
+├── spec/ <7>
+....
+<1> Server app
+<2> Client app (Yeoman Generator: Gulp Angular)
+<3> Server configuration (Ruby on Rails)
+<4> Server data
+<5> Acceptance tests (Cucumber)
+<6> Server libraries
+<7> Unit tests (RSpec)
+
 == Related Services
 
 * https://data.ny.gov/api/views/55k6-h6qq/rows.json is the source for localities

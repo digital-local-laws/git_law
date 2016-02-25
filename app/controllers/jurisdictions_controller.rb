@@ -5,7 +5,11 @@ class JurisdictionsController < ApiController
   helper_method :jurisdictions
 
   def index
-    render status: 200
+    if page == 1 || jurisdictions.any?
+      render status: 200
+    else
+      render nothing: true, status: 404
+    end
   end
 
   def show

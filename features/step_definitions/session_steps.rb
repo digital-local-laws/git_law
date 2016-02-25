@@ -1,5 +1,13 @@
-Given(/^I log in$/) do
-  user = build(:user)
+Given(/^I log in(?: as (admin|staff))?$/) do |global_role|
+  attributes = case global_role
+  when 'admin'
+    { admin: true }
+  when 'staff'
+    { staff: true }
+  else
+    {}
+  end
+  user = create(:user, attributes)
   visit '/'
   click_link "Sign In"
   click_button "Developer"

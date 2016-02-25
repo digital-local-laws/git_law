@@ -1,5 +1,7 @@
 class JurisdictionsController < ApiController
   before_filter :decamelize_params!
+  before_action :authenticate_user!, :authorize_user!, except: [ :index, :show ]
+
   expose :jurisdiction
   expose( :unpaginated_jurisdictions ) do
     s = Jurisdiction.order :name
@@ -50,6 +52,10 @@ class JurisdictionsController < ApiController
   end
 
   private
+
+  def authorize_user!
+    authorize jurisdiction
+  end
 
   def jurisdictions
     @jurisdictions ||= paginate unpaginated_jurisdictions

@@ -6,6 +6,7 @@ class ApiController < ApplicationController
   rescue_from Pundit::NotAuthorizedError, with: :unauthorized
 
   attr_accessor :exception
+  helper_method :exception
 
   expose :page do
     params[:page] ? params[:page].to_i : 1
@@ -19,6 +20,6 @@ class ApiController < ApplicationController
   # Alert client that action is not authorized for given credentials
   def unauthorized(exception)
     self.exception = exception
-    format.json { render template: 'api/unauthorized', status: 401 }
+    render '/unauthorized', status: 401
   end
 end

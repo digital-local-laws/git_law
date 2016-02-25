@@ -32,6 +32,8 @@ install:
   - phantomjs -v
   - gem install bundler --quiet --no-ri --no-rdoc
   - bundler --version
+  - Install-Product node ''
+  - node -v
   - npm -v
   - npm install -g bower gulp
   - bundle --deployment

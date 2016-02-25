@@ -59,6 +59,6 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'capybara-screenshot', require: false
   gem 'capybara-angular', require: false
-  gem 'capybara-ng'
+  gem 'capybara-ng', require: false
   gem 'database_cleaner'
 end

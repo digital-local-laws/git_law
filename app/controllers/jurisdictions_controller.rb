@@ -1,7 +1,14 @@
 class JurisdictionsController < ApiController
   before_filter :decamelize_params!
   expose :jurisdiction
-  expose( :unpaginated_jurisdictions ) { Jurisdiction.order(:name) }
+  expose( :unpaginated_jurisdictions ) do
+    s = Jurisdiction.order :name
+    if params[:q]
+      s.where "name ILIKE ?", "%#{params[:q]}%"
+    else
+      s
+    end
+  end
   helper_method :jurisdictions
 
   def index

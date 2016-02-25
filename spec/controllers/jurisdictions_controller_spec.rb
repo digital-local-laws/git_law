@@ -30,6 +30,15 @@ RSpec.describe JurisdictionsController, type: :controller do
       expect( results.first['name'] ).to eql 'Binghamton'
     end
 
+    it 'should return only matching results for query' do
+      sign_in user
+      jurisdictions
+      get :index, default_params.merge( q: 'bing' )
+      results = JSON.parse( response.body )
+      expect( results.length ).to eql 1
+      expect( results.first['name'] ).to eql 'Binghamton'
+    end
+
     it 'should raise a 404 status if an empty page is turned that is not page 1' do
       sign_in user
       get :index, default_params.merge( page: 2 )

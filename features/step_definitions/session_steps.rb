@@ -1,4 +1,5 @@
-Given(/^I log in(?: as (admin|staff))?$/) do |global_role|
+Given(/^I log in(?: as (admin|staff|user|nobody))?$/) do |global_role|
+  return if global_role == 'nobody'
   attributes = case global_role
   when 'admin'
     { admin: true }

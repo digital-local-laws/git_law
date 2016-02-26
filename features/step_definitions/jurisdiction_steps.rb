@@ -1,3 +1,17 @@
+Then /^I may( not)? (create|update|destroy) jurisdictions$/ do |negate, action|
+  method = ( negate ? :not_to : :to )
+  visit('/')
+  click_link 'Jurisdictions'
+  case action
+  when 'create'
+    expect( page ).send method, have_xpath('//a[contains(.,"Add Jurisdiction")]')
+  when 'update'
+    expect( page ).send method, have_xpath('//a[contains(.,"Settings")]')
+  when 'destroy'
+    expect( page ).send method, have_xpath('//a[contains(.,"Remove")]')
+  end
+end
+
 Given(/^I go to add a jurisdiction$/) do
   visit '/'
   click_link 'Jurisdictions'

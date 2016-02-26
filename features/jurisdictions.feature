@@ -3,6 +3,18 @@ Feature: Uploading jurisdictions
   As a local law repositary
   I want to set up and manage jurisdiction spaces
   @javascript
+  Scenario Outline: Authorization for user
+    Given I log in as <role>
+    And a jurisdiction exists
+    Then I <create> create jurisdictions
+    And I <update> update jurisdictions
+    And I <destroy> destroy jurisdictions
+    Examples:
+      | role  | create  | update  | destroy |
+      | admin | may     | may     | may     |
+      | staff | may     | may     | may not |
+      | user  | may not | may not | may not |
+  @javascript
   Scenario: Add jurisdiction
     Given I log in as admin
     And I add a jurisdiction

@@ -4,6 +4,11 @@ class JurisdictionPolicy < ApplicationPolicy
     where( id: user.id ).any?
   end
 
+  def propose?
+    record.users.where( '"jurisdiction_memberships"."propose" = ?', true ).
+    where( id: user.id ).any?
+  end
+
   def index?
     true
   end

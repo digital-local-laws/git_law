@@ -44,10 +44,12 @@ ActiveRecord::Schema.define(version: 20160218142001) do
     t.integer  "jurisdiction_id"
     t.integer  "user_id"
     t.boolean  "adopt"
+    t.boolean  "propose"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
 
+  add_index "jurisdiction_memberships", ["jurisdiction_id", "user_id"], name: "index_jurisdiction_memberships_on_jurisdiction_id_and_user_id", unique: true, using: :btree
   add_index "jurisdiction_memberships", ["jurisdiction_id"], name: "index_jurisdiction_memberships_on_jurisdiction_id", using: :btree
   add_index "jurisdiction_memberships", ["user_id"], name: "index_jurisdiction_memberships_on_user_id", using: :btree
 
@@ -100,8 +102,8 @@ ActiveRecord::Schema.define(version: 20160218142001) do
     t.json     "tokens"
     t.boolean  "admin"
     t.boolean  "staff"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

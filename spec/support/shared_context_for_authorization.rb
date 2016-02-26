@@ -12,6 +12,19 @@ RSpec.shared_context 'authorization' do
       :jurisdiction_membership, adopt: true, jurisdiction: jurisdiction
     ).user
   }
+  let(:proposer) {
+    user = create(
+      :jurisdiction_membership, propose: true, jurisdiction: jurisdiction
+    ).user
+  }
+  let(:owner) {
+    user = create(
+      :jurisdiction_membership, propose: true, jurisdiction: jurisdiction
+    ).user
+  }
   let(:jurisdiction) { create :jurisdiction }
+  let(:proposed_law) {
+    create :proposed_law, jurisdiction: jurisdiction, user: owner
+  }
 
 end

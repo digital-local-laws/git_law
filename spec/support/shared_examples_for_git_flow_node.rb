@@ -1,4 +1,4 @@
-RSpec.shared_examples 'a git flow node repo' do |variable|
+RSpec.shared_examples 'a git flow node repo' do
   include_context 'a structured git flow node'
 
   context "root node" do

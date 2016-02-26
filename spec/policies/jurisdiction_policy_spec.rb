@@ -1,21 +1,7 @@
 require 'rails_helper'
 
-describe JurisdictionPolicy do
-
-  let(:admin) { create :user, admin: true }
-  let(:staff) { create :user, staff: true }
-  let(:nonadopter) {
-    create(
-      :jurisdiction_membership, adopt: false, jurisdiction: jurisdiction
-    ).user
-  }
-  let(:adopter) {
-    create(
-      :jurisdiction_membership, adopt: true, jurisdiction: jurisdiction
-    ).user
-  }
-  let(:user) { create :user }
-  let(:jurisdiction) { create :jurisdiction }
+describe JurisdictionPolicy, type: :policy do
+  include_context 'authorization'
 
   subject { described_class }
 

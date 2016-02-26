@@ -15,9 +15,16 @@ Then(/^the proposed law should be added$/) do
   expect( ProposedLaw.count ).to eq 1
 end
 
+Given(/^I am an adopter for all jurisdictions$/) do
+  @current_user.jurisdiction_memberships.each do |membership|
+    membership.adopt = true
+    membership.save!
+  end
+end
+
 Given(/^I proposed a law$/) do
   step "a jurisdiction exists"
-  step "I log in"
+  step "I log in as proposer for the jurisdiction"
   step "I visit the jurisdiction's page"
   step "I propose a law"
   expect( Capybara.current_session ).to have_text "Please wait while the proposed law is initialized."
@@ -280,7 +287,8 @@ Then /^the code should be renamed$/ do
 end
 
 When(/^I adopt the proposed law$/) do
-  click_link "Authorizing formation of Office of Chief Innovation Officer"
+  step "I am an adopter for all jurisdictions"
+  visit "/#/proposed-laws/#{@proposed_law.id}"
   within(:css, 'h2') do
     find( :xpath, ".//a[contains(.,'Adopt')]" ).click
   end

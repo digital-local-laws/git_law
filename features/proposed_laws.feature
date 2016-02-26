@@ -5,7 +5,7 @@ Feature: Manage local laws
   @javascript
   Scenario: Propose a law
     Given a jurisdiction exists
-    And I log in
+    And I log in as proposer for the jurisdiction
     And I visit the jurisdiction's page
     When I propose a law
     Then the proposed law should be added

@@ -1,5 +1,7 @@
 class ProposedLawsController < ApiController
   before_filter :decamelize_params!, :camelize_output!
+  before_action :authenticate_user!, :authorize_user!, except: [ :index, :show ]
+
   expose :proposed_law do
     if params[:id]
       ProposedLaw.find params[:id]
@@ -13,17 +15,27 @@ class ProposedLawsController < ApiController
     end
   end
   expose( :unpaginated_proposed_laws ) do
-    if jurisdiction
+    s = if jurisdiction
       jurisdiction.proposed_laws.all
     else
       ProposedLaw.all
+    end
+    s = s.order :title
+    if params[:q]
+      s.where "title ILIKE ?", "%#{params[:q]}%"
+    else
+      s
     end
   end
   helper_method :proposed_laws
   helper_method :jurisdiction
 
   def index
-    render status: 200
+    if page == 1 || proposed_laws.any?
+      render status: 200
+    else
+      render nothing: true, status: 404
+    end
   end
 
   def show
@@ -57,6 +69,10 @@ class ProposedLawsController < ApiController
   end
 
   private
+
+  def authorize_user!
+    authorize proposed_law
+  end
 
   def proposed_laws
     @proposed_laws ||= paginate unpaginated_proposed_laws

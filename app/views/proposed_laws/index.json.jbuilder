@@ -1,6 +1,3 @@
 json.array! proposed_laws do |proposed_law|
-  json.id proposed_law.id
-  json.title proposed_law.title
-  json.created_at proposed_law.created_at
-  json.updated_at proposed_law.updated_at
+  json.partial! 'proposed_laws/proposed_law', proposed_law: proposed_law
 end

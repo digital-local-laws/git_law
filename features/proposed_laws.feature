@@ -3,6 +3,21 @@ Feature: Manage local laws
   As a local official
   I want to propose, review, and submit local laws
   @javascript
+  Scenario Outline: Authorization for user
+    Given a proposed law exists
+    And I log in as <role>
+    Then I <create> create proposed laws for the jurisdiction
+    And I <update> update the proposed law
+    And I <destroy> destroy the proposed law
+    And I <adopt> adopt the proposed law
+    Examples:
+      | role                             | create  | update  | destroy | adopt   |
+      | admin                            | may not | may not | may not | may not |
+      | adopter for the jurisdiction     | may not | may not | may not | may     |
+      | proposer for the jurisdiction    | may     | may not | may not | may not |
+      | owner of the proposed law        | may     | may     | may     | may not |
+      | lapsed owner of the proposed law | may not | may not | may not | may not |
+  @javascript
   Scenario: Propose a law
     Given a jurisdiction exists
     And I log in as proposer for the jurisdiction
@@ -85,5 +100,7 @@ Feature: Manage local laws
     And I add a section to the chapter in the code
     And I edit the text of the section
     And saving has completed
+    And I log out
+    And I log in as adopter for the jurisdiction
     When I adopt the proposed law
     Then I should see the proposed law is adopted

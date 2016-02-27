@@ -1,17 +1,38 @@
 angular.module 'client'
   .controller 'ProposedLawsCtrl', ( $scope, $uibModal, $stateParams, $state,
-    ProposedLaw ) ->
+    ProposedLaw, pundit, $log ) ->
+      $scope.may = {}
+      pundit(
+        {
+          policy: 'proposedLaw'
+          action: 'create'
+          jurisdictionId: $scope.jurisdiction.id
+        }
+        ( permission ) ->
+          $scope.may.create = permission
+      )
       $scope.alerts = [ ]
       $scope.list = {
         page: 1,
         proposedLaws: [] }
       $scope.reloadList = ->
-        $scope.list.proposedLaws = ProposedLaw.jurisdictionQuery(
+        ProposedLaw.jurisdictionQuery(
           { jurisdictionId: $stateParams.jurisdictionId, page: $scope.list.page },
           (proposedLaws, response) ->
             r = response()
             $scope.list.totalPages = r['x-total']
             $scope.list.perPage = r['x-per-page']
+            $scope.list.proposedLaws = proposedLaws
+            for law, i in proposedLaws
+              pundit(
+                {
+                  policy: 'proposedLaw'
+                  jurisdictionId: $stateParams.jurisdictionId
+                  proposedLaw: law
+                }
+                ( permissions ) ->
+                  law['may'] = permissions
+              )
         )
       $scope.setPage = ( page ) ->
         $state.go('.paginated', { page: page })

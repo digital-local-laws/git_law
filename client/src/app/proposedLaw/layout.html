@@ -8,7 +8,9 @@
     <a ui-sref="proposedLaw.node({proposedLawId:proposedLaw.id,treeBase:''})">
       {{proposedLaw.title}}
     </a>
-    <a class="btn btn-primary" ui-sref="proposedLaw.adopt">Adopt</a>
+    <a class="btn btn-primary" ui-sref="proposedLaw.adopt" ng-if="may.adopt">
+      Adopt
+    </a>
   </h2>
   <div ui-view=""></div>
 </div>

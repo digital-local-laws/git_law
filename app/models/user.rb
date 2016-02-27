@@ -10,4 +10,19 @@ class User < ActiveRecord::Base
   has_many :jurisdictions, through: :jurisdiction_memberships
 
   validates :email, presence: true
+
+  def token_validation_response
+    self.as_json( except: [ "tokens", "created_at", "updated_at" ] )
+      .merge( "permissions" => permissions )
+  end
+
+  def permissions
+    { "jurisdiction" => {
+        "adopt" => jurisdiction_memberships.where(adopt: true).
+          pluck( :jurisdiction_id ),
+        "propose" => jurisdiction_memberships.where(propose: true).
+          pluck( :jurisdiction_id )
+      }
+    }
+  end
 end

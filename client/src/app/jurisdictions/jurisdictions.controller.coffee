@@ -1,7 +1,7 @@
 angular.module 'client'
   .controller 'JurisdictionsCtrl', ( $scope, $uibModal, $stateParams, $state,
     Jurisdiction, Flash, pundit ) ->
-      pundit 'jurisdiction', ( permissions ) ->
+      pundit { policy: 'jurisdiction' }, ( permissions ) ->
         $scope.may = permissions
       $scope.alerts = [ ]
       $scope.list = {

@@ -9,7 +9,7 @@ angular.module 'client'
       $scope.signOut = () ->
         $auth.signOut()
           .catch (resp) ->
-            $log.debug 'signout failed'
+            $log.error 'Signout failed'
       return
     directive =
       restrict: 'E'

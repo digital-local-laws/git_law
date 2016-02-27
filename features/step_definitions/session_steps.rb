@@ -1,4 +1,4 @@
-Given(/^I log in(?: as (?:(admin|staff|user|nobody)|(proposer) for the jurisdiction))?$/) do |global_role,jurisdiction_role|
+Given(/^I log in(?: as (?:(admin|staff|user|nobody)|(owner|lapsed owner) of the proposed law|(proposer|adopter) for the jurisdiction))?$/) do |global_role,proposed_law_role,jurisdiction_role|
   return if global_role == 'nobody'
   attributes = case global_role
   when 'admin'
@@ -9,6 +9,12 @@ Given(/^I log in(?: as (?:(admin|staff|user|nobody)|(proposer) for the jurisdict
     {}
   end
   @current_user = create(:user, attributes)
+  if proposed_law_role
+    jurisdiction_role = case proposed_law_role
+    when 'owner'
+      'proposer'
+    end
+  end
   if jurisdiction_role
     attributes = { user: @current_user, jurisdiction: @jurisdiction }
     case jurisdiction_role
@@ -18,6 +24,10 @@ Given(/^I log in(?: as (?:(admin|staff|user|nobody)|(proposer) for the jurisdict
       attributes.merge! adopt: true
     end
     create :jurisdiction_membership, attributes
+  end
+  if proposed_law_role
+    @proposed_law.user = @current_user
+    @proposed_law.save!
   end
   visit '/'
   click_link "Sign In"

@@ -1,3 +1,36 @@
+Given /^a proposed law exists$/ do
+  step "a jurisdiction exists" unless @jurisdiction
+  @proposed_law = create :proposed_law, jurisdiction: @jurisdiction
+  step "all jobs have run"
+end
+
+Then /^I may( not)? (create) proposed laws for the jurisdiction$/ do |negate, action|
+  method = ( negate ? :not_to : :to )
+  visit "/#/jurisdictions/#{@jurisdiction.id}"
+  case action
+  when 'create'
+    expect( page ).send method, have_xpath('//a[contains(.,"Propose a Law")]')
+  end
+end
+
+Then /^I may( not)? (update|destroy|adopt) the proposed law$/ do |negate, action|
+  method = ( negate ? :not_to : :to )
+  visit "/#/jurisdictions/#{@proposed_law.jurisdiction_id}"
+  within( :xpath, "//tr[contains(.,\"#{@proposed_law.title}\")]" ) do
+    case action
+    when 'update'
+      expect( page ).send method, have_xpath('//a[contains(.,"Settings")]')
+    when 'destroy'
+      expect( page ).send method, have_xpath('//a[contains(.,"Remove")]')
+    end
+  end
+  case action
+  when 'adopt'
+    click_link @proposed_law.title
+    expect( page ).send method, have_xpath('//a[contains(.,"Adopt")]')
+  end
+end
+
 Given(/^I visit the jurisdiction's page$/) do
   visit "/#/jurisdictions/#{@jurisdiction.id}"
 end
@@ -23,13 +56,9 @@ Given(/^I am an adopter for all jurisdictions$/) do
 end
 
 Given(/^I proposed a law$/) do
-  step "a jurisdiction exists"
-  step "I log in as proposer for the jurisdiction"
-  step "I visit the jurisdiction's page"
-  step "I propose a law"
-  expect( Capybara.current_session ).to have_text "Please wait while the proposed law is initialized."
-  step "initialization has completed"
-  @proposed_law = ProposedLaw.first
+  step "a proposed law exists"
+  step "I log in as owner of the proposed law"
+  visit "/#/proposed-laws/#{@proposed_law.id}"
 end
 
 When(/^I remove the proposed law$/) do
@@ -171,6 +200,9 @@ end
 
 When(/^saving has completed$/) do
   start = Time.zone.now
+  # Capybara.current_session.evaluate_script(
+  #   "angular.element('.ng-scope').injector().get('$timeout').flush();"
+  # )
   while Capybara.current_session.has_text?("Saving...") do
     raise "Timeout waiting for saving to complete." if Time.zone.now - start > 10.seconds
     sleep 0.01
@@ -287,7 +319,6 @@ Then /^the code should be renamed$/ do
 end
 
 When(/^I adopt the proposed law$/) do
-  step "I am an adopter for all jurisdictions"
   visit "/#/proposed-laws/#{@proposed_law.id}"
   within(:css, 'h2') do
     find( :xpath, ".//a[contains(.,'Adopt')]" ).click

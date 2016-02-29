@@ -26,5 +26,11 @@ RSpec.shared_context 'authorization' do
   let(:proposed_law) {
     create :proposed_law, jurisdiction: jurisdiction, user: owner
   }
+  let(:proposed_law_working_file) {
+    proposed_law.working_file('code.json')
+  }
+  let(:proposed_law_node) {
+    proposed_law_working_file.node
+  }
 
 end

@@ -1,6 +1,7 @@
 module ProposedLaws
   # For interaction with nodes
   class NodesController < WorkingFilesController
+    before_action :authenticate_user!, :authorize_user!, except: [ :index, :show ]
     expose :node do
       working_file.node
     end

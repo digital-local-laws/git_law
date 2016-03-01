@@ -1,4 +1,4 @@
-class AdoptedLawsController < ApiController
+class AdoptedLawsController < ApplicationController
   before_filter :decamelize_params!, :camelize_output!
   expose :adopted_law do
     if params[:id]

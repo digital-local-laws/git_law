@@ -17,4 +17,5 @@ angular.module 'gitlawModels'
           method: 'PATCH'
         create:
           method: 'POST'
-      } )
+      }
+    )

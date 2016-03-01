@@ -1,11 +1,11 @@
 angular.module 'client'
   .controller 'ProposedLawNodeCtrl', ( $state, $scope, $stateParams,
-    $uibModal, $timeout, ProposedLawNode, ProposedLawFile, CodeLevel, Flash ) ->
+    $uibModal, $timeout, ProposedLawNode, ProposedLawFile, CodeLevel, Flash,
+    proposedLawNode, $log, $auth) ->
       unless $scope.proposedLaw.workingRepoCreated
         return $state.go( 'proposedLaw.initialize',
           { proposedLawId: $scope.proposedLaw.id }
         )
-      $scope.alerts = []
       onProposedLawFileLoad = (proposedLawFile) ->
         $scope.proposedLawFile = proposedLawFile
         $scope.timeout = null
@@ -44,9 +44,7 @@ angular.module 'client'
           ProposedLawNode.query( {
             proposedLawId: $scope.proposedLaw.id
             treeBase: $stateParams.treeBase }, onProposedLawNodesLoad )
-      ProposedLawNode.get( {
-        proposedLawId: $scope.proposedLaw.id
-        treeBase: $stateParams.treeBase }, onProposedLawNodeLoad )
+      onProposedLawNodeLoad proposedLawNode
       $scope.setupEditor = ( editor ) ->
         editor.setOption('maxLines',100)
         editor.$blockscrolling = Infinity
@@ -94,7 +92,8 @@ angular.module 'client'
               proposedLawNode
         )
         modalInstance.result.then(
-          ( (proposedLawNode) ->
-            $state.go('.', { treeBase: proposedLawNode.treeBase })
-          ),
-          ( () -> false ) )
+          ( proposedLawNode ) ->
+            $state.go '.', { treeBase: proposedLawNode.treeBase }
+          () ->
+            false
+        )

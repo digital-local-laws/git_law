@@ -14,6 +14,7 @@ angular.module 'client'
     # $locationProvider.html5Mode true
     uiSelectConfig.theme = 'bootstrap'
     $authProvider.configure({
+      apiUrl: '/api'
       omniauthWindowType: 'sameWindow'
       authProviderPaths: {
         developer: '/auth/developer'

@@ -1,6 +1,5 @@
 module ProposedLaws
-  class WorkingFilesController < ApiController
-    before_filter :decamelize_params!, :camelize_output!
+  class WorkingFilesController < ApplicationController
     expose :proposed_law do
       ProposedLaw.find params[:id]
     end

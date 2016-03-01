@@ -1,7 +1,9 @@
 module ProposedLaws
   # For interaction with nodes
   class NodesController < WorkingFilesController
-    before_action :authenticate_user!, :authorize_user!, except: [ :index, :show ]
+    # before_action :authenticate_user!, except: [ :index, :show ]
+    # before_action :authorize_user!, except: [ :index, :show ]
+
     expose :node do
       working_file.node
     end
@@ -10,9 +12,6 @@ module ProposedLaws
     end
     expose :attributes do
       params[:attributes]
-    end
-    expose :recurse do
-      tree_base == 'proposed-law'
     end
 
     def index
@@ -34,7 +33,9 @@ module ProposedLaws
     def create
       node.attributes = attributes
       if node.create
-        render 'show', status: 201
+        render 'show', status: 201,
+          location: node_proposed_law_path( proposed_law,
+          tree_base: node.tree_base, format: :json )
       else
         render 'errors', status: 422
       end
@@ -44,7 +45,13 @@ module ProposedLaws
       if !node.exists?
         render nothing: true, status: 404
       elsif ( to_tree ? move_and_update_node : update_node )
-        render 'show', status: 200
+        if to_tree
+          render 'show', status: 201,
+            location: node_proposed_law_path( proposed_law,
+            tree_base: node.tree_base, format: :json )
+        else
+          render 'show', status: 200
+        end
       else
         render 'errors', status: 422
       end
@@ -103,6 +110,10 @@ module ProposedLaws
     def update_node
       node.attributes = attributes
       node.update
+    end
+
+    def authorize_user!
+      authorize node
     end
   end
 end

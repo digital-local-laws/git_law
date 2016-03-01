@@ -1,4 +1,4 @@
-class JurisdictionsController < ApiController
+class JurisdictionsController < ApplicationController
   before_filter :decamelize_params!
   before_action :authenticate_user!, :authorize_user!, except: [ :index, :show ]
 

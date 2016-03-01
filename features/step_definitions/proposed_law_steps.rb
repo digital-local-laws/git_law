@@ -58,7 +58,7 @@ end
 Given(/^I proposed a law$/) do
   step "a proposed law exists"
   step "I log in as owner of the proposed law"
-  visit "/#/proposed-laws/#{@proposed_law.id}"
+  visit "/#/proposed-laws/#{@proposed_law.id}/node/"
 end
 
 When(/^I remove the proposed law$/) do

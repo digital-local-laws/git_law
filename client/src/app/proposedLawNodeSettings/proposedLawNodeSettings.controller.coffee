@@ -40,7 +40,9 @@ angular.module 'client'
       $scope.removeLevel = ( i ) ->
         $scope.proposedLawNode.attributes.structure.splice i, 1
       $scope.save = () ->
+        message = ''
         success = ( proposedLawNode ) ->
+          Flash.create( 'success', message )
           $uibModalInstance.close proposedLawNode
         failure = ( response ) ->
           Flash.create( 'danger', 'Save failed.' )
@@ -54,12 +56,14 @@ angular.module 'client'
             { toTreeBase: toTreeBase }
           else
             { }
+          message = 'Node settings updated'
           proposedLawNode.$save( params, success, failure )
         else
           proposedLawNode.treeBase = if parentNode.treeBase
             parentNode.treeBase + "/" + proposedLawNode.fileNameBase
           else
             proposedLawNode.fileNameBase
+          message = 'New node created'
           ProposedLawNode.create( proposedLawNode, success, failure )
       $scope.cancel = ->
         $uibModalInstance.dismiss()

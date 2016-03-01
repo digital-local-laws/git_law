@@ -1,4 +1,4 @@
-class ProposedLawsController < ApiController
+class ProposedLawsController < ApplicationController
   before_filter :decamelize_params!, :camelize_output!
   before_action :authenticate_user!, :authorize_user!, except: [ :index, :show ]
 

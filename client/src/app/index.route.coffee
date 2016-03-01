@@ -73,6 +73,11 @@ angular.module 'client'
       }
       .state 'proposedLaw.node', {
         url: '/node/*treeBase'
+        resolve:
+          proposedLawNode: (ProposedLawNode, $stateParams) ->
+            ProposedLawNode.get( {
+              proposedLawId: $stateParams.proposedLawId
+              treeBase: $stateParams.treeBase } ).$promise
         templateUrl: 'app/proposedLawNode/node.html'
         controller: 'ProposedLawNodeCtrl'
       }

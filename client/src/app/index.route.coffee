@@ -33,7 +33,7 @@ angular.module 'client'
       }
       .state 'jurisdiction.proposeLaw', {
         url: 'proposed-laws/new'
-        templateUrl: 'app/proposedLawSettings/new.html'
+        templateUrl: 'app/proposedLaws/newProposedLawSettings.html'
         controller: 'ProposedLawSettingsCtrl'
         resolve:
           proposedLaw: ( proposedLawState, $stateParams ) ->
@@ -74,7 +74,7 @@ angular.module 'client'
       }
       .state 'proposedLaw.edit', {
         url: '/edit'
-        templateUrl: 'app/proposedLawSettings/edit.html'
+        templateUrl: 'app/proposedLaws/editProposedLawSettings.html'
         controller: 'ProposedLawSettingsCtrl'
         resolve: {
           proposedLaw: ( proposedLawState, $stateParams ) ->
@@ -114,36 +114,16 @@ angular.module 'client'
           jurisdictionId: $match.jurisdictionId
           page: 1
         }
-      #  '/#/jurisdictions/:jurisdictionId/proposed-laws')
-
     $urlRouterProvider.when '/jurisdictions/:jurisdictionId/proposed-laws',
       ( $match, $state ) ->
         $state.go 'jurisdiction.proposedLaws', {
           jurisdictionId: $match.jurisdictionId
           page: 1
         }
-      # '/#/jurisdictions/:jurisdictionId/proposed-laws/page/1')
     $urlRouterProvider.when '/proposed-laws/:proposedLawId',
       ( $match, $state ) ->
         $state.go 'proposedLaw.node', {
           proposedLawId: $match.proposedLawId
           treeBase: ''
         }
-      # '/#/proposed-laws/:proposedLawId/node/')
-    # $urlRouterProvider.when '/proposed-laws/:proposedLawId/node',
-    #   ( $match, $state ) ->
-    #     $state.transitionTo 'proposedLaw.node', {
-    #       proposedLawId: $match.proposedLawId
-    #       treeBase: ''
-    #     }
-      # '/#/proposed-laws/:proposedLawId/node/')
     $urlRouterProvider.otherwise '/'
-    # $urlMatcherFactoryProvider
-    #   .type 'path', {
-    #     is: (val) ->
-    #       true
-    #     decode: (val) ->
-    #       val || ""
-    #     encode: (val) ->
-    #       val || ""
-    #   }

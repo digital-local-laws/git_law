@@ -16,15 +16,4 @@ angular.module 'client'
       ctrl.setPage = ( page ) ->
         $state.go('.', { page: page })
       $scope.proposeLaw = (jurisdiction) ->
-        modalInstance = $uibModal.open( {
-          templateUrl: 'app/proposedLawSettings/new.html',
-          controller: 'ProposedLawSettingsCtrl',
-          resolve: {
-            jurisdiction: ( -> $scope.jurisdiction )
-            proposedLaw: ( -> new ProposedLaw({
-              jurisdictionId: $stateParams.jurisdictionId
-            }) ) } } )
-        modalInstance.result.then(
-          ( (proposedLaw) ->
-            $state.go('proposedLaw.initialize',{proposedLawId:proposedLaw.id}) ),
-          ( () -> false ) )
+        $state.go('^.proposeLaw')

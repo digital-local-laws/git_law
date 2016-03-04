@@ -29,18 +29,7 @@ angular.module 'client'
               )
         )
         $scope.editProposedLawSettings = (proposedLaw) ->
-          modalInstance = $uibModal.open( {
-            templateUrl: 'app/proposedLawSettings/edit.html',
-            controller: 'ProposedLawSettingsCtrl',
-            resolve: {
-              jurisdiction: ( -> ctrl.jurisdiction )
-              proposedLaw: ( -> proposedLaw ) } } )
-          modalInstance.result.then(
-            (proposedLaw) ->
-              Flash.create( 'success', 'Proposed law settings were updated.' )
-              $state.go('.')
-            () -> false
-          )
+          $state.go 'proposedLaw.edit', { proposedLawId: proposedLaw.id }
         $scope.destroyProposedLaw = (proposedLaw) ->
           proposedLaw.$delete(
             {}

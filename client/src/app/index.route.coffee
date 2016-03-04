@@ -31,6 +31,14 @@ angular.module 'client'
         controller: 'ProposedLawsCtrl'
         controllerAs: 'ctrl'
       }
+      .state 'jurisdiction.proposeLaw', {
+        url: 'proposed-laws/new'
+        templateUrl: 'app/proposedLawSettings/new.html'
+        controller: 'ProposedLawSettingsCtrl'
+        resolve:
+          proposedLaw: ( proposedLawState, $stateParams ) ->
+            proposedLawState($stateParams)
+      }
       .state 'jurisdictions', {
         abstract: true
         url: '/jurisdictions'
@@ -63,6 +71,15 @@ angular.module 'client'
         url: '/initialize'
         templateUrl: 'app/proposedLaw/initialize.html'
         controller: 'ProposedLawInitializeCtrl'
+      }
+      .state 'proposedLaw.edit', {
+        url: '/edit'
+        templateUrl: 'app/proposedLawSettings/edit.html'
+        controller: 'ProposedLawSettingsCtrl'
+        resolve: {
+          proposedLaw: ( proposedLawState, $stateParams ) ->
+            proposedLawState($stateParams)
+        }
       }
       .state 'proposedLaw.node', {
         url: '/node/*treeBase'

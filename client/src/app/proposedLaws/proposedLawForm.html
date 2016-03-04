@@ -1,8 +1,3 @@
-<uib-alert close="closeAlert($index)" ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
-<p>
-  Jurisdiction id: {{proposedLaw.jurisdictionId}}
-  Proposed law id: {{proposedLaw.id}}
-</p>
 <form name="proposedLawForm">
   <div class="form-group has-feedback" ng-class="{&#39;has-error&#39;: errors.title ||  proposedLawForm.title.$invalid, &#39;has-success&#39;:  proposedLaw.title &amp;&amp; !errors.title &amp;&amp;  proposedLawForm.title.$valid }">
     <label class="control-label" for="title">Title</label>

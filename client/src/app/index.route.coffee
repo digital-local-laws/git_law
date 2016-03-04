@@ -26,17 +26,10 @@ angular.module 'client'
         controller: 'JurisdictionCtrl'
       }
       .state 'jurisdiction.proposedLaws', {
-        abstract: true,
-        url: '/proposed-laws',
-        views:
-          "pane":
-            templateUrl: 'app/proposedLaws/proposedLaws.html'
-            controller: 'ProposedLawsCtrl'
-      }
-      .state 'jurisdiction.proposedLaws.paginated', {
-        url: '/page/:page'
-        templateUrl: 'app/proposedLaws/proposedLawsList.html'
-        controller: 'ProposedLawsListCtrl'
+        url: '/proposed-laws/page/:page'
+        templateUrl: 'app/proposedLaws/proposedLaws.html'
+        controller: 'ProposedLawsCtrl'
+        controllerAs: 'ctrl'
       }
       .state 'jurisdictions', {
         abstract: true
@@ -100,7 +93,7 @@ angular.module 'client'
     # Provide additional routes to states
     $urlRouterProvider.when '/jurisdictions/:jurisdictionId',
       ( $match, $state ) ->
-        $state.go 'jurisdiction.proposedLaws.paginated', {
+        $state.go 'jurisdiction.proposedLaws', {
           jurisdictionId: $match.jurisdictionId
           page: 1
         }
@@ -108,7 +101,7 @@ angular.module 'client'
 
     $urlRouterProvider.when '/jurisdictions/:jurisdictionId/proposed-laws',
       ( $match, $state ) ->
-        $state.go 'jurisdiction.proposedLaws.paginated', {
+        $state.go 'jurisdiction.proposedLaws', {
           jurisdictionId: $match.jurisdictionId
           page: 1
         }

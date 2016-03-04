@@ -1,4 +1,6 @@
-<uib-pagination change="setPage(list.page)" items-per-page="list.perPage" ng-model="list.page" total-items="list.totalPages"></uib-pagination>
+<uib-pagination change="setPage({page: page})"
+  items-per-page="perPage" ng-model="page"
+  total-items="totalPages"></uib-pagination>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -11,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="law in list.proposedLaws">
+    <tr ng-repeat="law in proposedLaws">
       <td>
         <a ui-sref="proposedLaw.node({ proposedLawId: law.id })">
           {{law.title}}

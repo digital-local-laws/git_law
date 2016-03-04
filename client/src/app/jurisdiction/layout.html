@@ -1,12 +1,12 @@
 <gitlaw-navbar></gitlaw-navbar>
 <div class="container">
   <h2 class="col-lg-12">
-    <a ui-sref="jurisdiction.proposedLaws.paginated({page: '1'})">{{jurisdiction.name}}</a>
+    <a ui-sref=".proposedLaws({page: '1'})">{{jurisdiction.name}}</a>
   </h2>
 </div>
 <div class="container">
   <div class="row">
-    <div class="col-lg-11" style="height: 100%;" ui-view="pane"></div>
+    <div class="col-lg-11" style="height: 100%;" ui-view=""></div>
     <ul class="nav nav-pills nav-stacked col-lg-1" style="height: 100%;">
       <li ng-repeat="tab in tabs" ui-sref-active="active">
         <a ui-sref="{{tab[0]}}">{{tab[1]}}</a>

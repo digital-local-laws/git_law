@@ -16,14 +16,18 @@ angular.module 'client'
       .state 'jurisdiction', {
         abstract: true
         url: '/jurisdictions/:jurisdictionId'
-        resolve: {
+        resolve:
           jurisdiction: (Jurisdiction, $stateParams) ->
             Jurisdiction.get( {
               jurisdictionId: $stateParams.jurisdictionId
             } ).$promise
-        }
         templateUrl: 'app/jurisdiction/layout.html'
         controller: 'JurisdictionCtrl'
+      }
+      .state 'jurisdiction.edit', {
+        url: '/edit'
+        templateUrl: 'app/jurisdictionSettings/edit.html'
+        controller: 'JurisdictionSettingsCtrl'
       }
       .state 'jurisdiction.proposedLaws', {
         url: '/proposed-laws/page/:page'
@@ -39,21 +43,17 @@ angular.module 'client'
           proposedLaw: ( proposedLawState, $stateParams ) ->
             proposedLawState($stateParams)
       }
+      .state 'newJurisdiction', {
+        url: '/new-jurisdiction'
+        templateUrl: 'app/jurisdictionSettings/new.html'
+        controller: 'JurisdictionSettingsCtrl'
+        resolve:
+          jurisdiction: -> { }
+      }
       .state 'jurisdictions', {
-        abstract: true
-        url: '/jurisdictions'
+        url: '/jurisdictions/page/:page'
         templateUrl: 'app/jurisdictions/layout.html'
         controller: 'JurisdictionsCtrl'
-      }
-      .state 'jurisdictions.one', {
-        url: '',
-        templateUrl: 'app/jurisdictions/list.html',
-        controller: 'JurisdictionsListCtrl'
-      }
-      .state 'jurisdictions.paginated', {
-        url: '/page/:page'
-        templateUrl: 'app/jurisdictions/list.html'
-        controller: 'JurisdictionsListCtrl'
       }
       .state 'proposedLaw', {
         abstract: true

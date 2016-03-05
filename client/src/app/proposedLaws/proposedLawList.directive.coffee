@@ -28,15 +28,17 @@ angular.module 'client'
                   law['may'] = permissions
               )
         )
+        $scope.setPage = (page) ->
+          ctrl.onSetPage({page: page})
         $scope.editProposedLawSettings = (proposedLaw) ->
           $state.go 'proposedLaw.edit', { proposedLawId: proposedLaw.id }
         $scope.destroyProposedLaw = (proposedLaw) ->
           proposedLaw.$delete(
             {}
             () ->
-              Flash.create( 'info', 'Proposed law was removed.' )
-              $state.go('.')
+              Flash.create 'info', 'Proposed law was removed.'
+              $state.go '.'
             () ->
-              Flash.create('danger', 'Proposed law could not be removed.' )
+              Flash.create 'danger', 'Proposed law could not be removed.'
           )
     }

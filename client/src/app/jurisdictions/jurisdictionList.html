@@ -1,4 +1,5 @@
-<uib-pagination items-per-page="list.perPage" ng-change="setPage(list.page)" ng-model="list.page" total-items="list.totalPages"></uib-pagination>
+<uib-pagination items-per-page="perPage" ng-change="setPage(page)"
+  ng-model="page" total-items="totalPages"></uib-pagination>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -11,9 +12,9 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="jurisdiction in list.jurisdictions">
+    <tr ng-repeat="jurisdiction in jurisdictions">
       <td>
-        <a ui-sref="jurisdiction.proposedLaws({jurisdictionId:  jurisdiction.id, page: 1})">
+        <a ui-sref="jurisdiction.proposedLaws({jurisdictionId: jurisdiction.id, page: 1})">
           {{jurisdiction.name}}
         </a>
       </td>

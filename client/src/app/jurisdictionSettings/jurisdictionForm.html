@@ -1,11 +1,22 @@
-<div class="modal-body">
-  <uib-alert close="closeAlert($index)" ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
-  <form name="jurisdictionForm">
-    <div class="form-group has-feedback" ng-class="{&#39;has-error&#39;: errors.name ||  jurisdictionForm.name.$invalid, &#39;has-success&#39;: jurisdiction.name  &amp;&amp; !errors.name &amp;&amp; jurisdictionForm.name.$valid }">
-      <label class="control-label" for="name"> Name</label><input class="form-control" id="name" name="name" ng-model="jurisdiction.name" ng-required="" type="text" /><span class="glyphicon glyphicon-ok form-control-feedback" ng-show="jurisdiction.name &amp;&amp; !errors.name &amp;&amp;  !jurisdictionForm.name.$invalid"></span><span class="glyphicon glyphicon-remove form-control-feedback" ng-show="errors.name || jurisdictionForm.name.$invalid"></span><span class="help-block" ng-show="jurisdictionForm.name.$error.required">is required<br /></span><span class="help-block" ng-repeat="error in errors.name">{{error}}<br /></span>
-    </div>
-  </form>
-</div>
-<div class="modal-footer">
-  <button class="btn btn-primary" ng-click="save(jurisdiction)" ng-disabled="jurisdictionForm.$invalid" type="button"><span class="glyphicon glyphicon-ok"></span>{{jurisdiction.id ? 'Update Jurisdiction Settings' : 'Add Jurisdiction'}}</button><button class="btn btn-default" ng-click="cancel()" type="button"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
-</div>
+<form name="jurisdictionForm">
+  <div class="form-group has-feedback"
+   ng-class="{&#39;has-error&#39;: errors.name ||  jurisdictionForm.name.$invalid, &#39;has-success&#39;: jurisdiction.name  &amp;&amp; !errors.name &amp;&amp; jurisdictionForm.name.$valid }">
+    <label class="control-label" for="name">Name</label>
+    <input class="form-control" id="name" name="name"
+    ng-model="jurisdiction.name" ng-required="" type="text" />
+    <span class="glyphicon glyphicon-ok form-control-feedback"
+    ng-show="jurisdiction.name &amp;&amp; !errors.name &amp;&amp;  !jurisdictionForm.name.$invalid"></span>
+    <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="errors.name || jurisdictionForm.name.$invalid"></span>
+    <span class="help-block" ng-show="jurisdictionForm.name.$error.required">is required<br /></span>
+    <span class="help-block" ng-repeat="error in errors.name">{{error}}<br /></span>
+  </div>
+</form>
+<button class="btn btn-primary" ng-click="save(jurisdiction)"
+ ng-disabled="jurisdictionForm.$invalid" type="button">
+   <span class="glyphicon glyphicon-ok"></span>
+   {{jurisdiction.id ? 'Update Jurisdiction Settings' : 'Add Jurisdiction'}}
+  </button>
+  <button class="btn btn-default" ng-click="cancel()" type="button">
+    <span class="glyphicon glyphicon-remove"></span>
+    Cancel
+  </button>

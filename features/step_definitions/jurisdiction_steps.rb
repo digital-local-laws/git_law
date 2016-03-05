@@ -20,14 +20,13 @@ end
 
 When(/^I add(?:ed)? a jurisdiction$/) do
   step %{I go to add a jurisdiction}
-  within(".modal-body") do
-    fill_in 'Name', with: "Tompkins County"
-    find(:xpath,'//button[contains(.,"Add Jurisdiction")]').click
-  end
+  fill_in 'Name', with: "Tompkins County"
+  find(:xpath,'//button[contains(.,"Add Jurisdiction")]').click
 end
 
 Then(/^I should see the jurisdiction was added$/) do
   expect( page ).to have_text "Jurisdiction was added."
+  click_link "Jurisdictions"
   within(:xpath,'//tbody/tr/td[position()=1]') do
     # TODO - how do we want to identify these jurisdictions?
     expect(page).to have_text "Tompkins County"
@@ -39,6 +38,7 @@ Then(/^the jurisdiction should( not)? be recorded in the database$/) do |no|
 end
 
 When(/^I remove the jurisdiction$/) do
+  click_link "Jurisdictions"
   find(:xpath,'//a[contains(.,"Remove")]').click
 end
 
@@ -47,11 +47,10 @@ Then(/^I should see the jurisdiction was removed$/) do
 end
 
 When(/^I edit the jurisdiction settings$/) do
+  click_link "Jurisdictions"
   find(:xpath,'//a[contains(.,"Settings")]').click
-  within(".modal-body") do
-    fill_in "Name", with: "Tompkins County"
-    find(:xpath,'//button[contains(.,"Update Jurisdiction Settings")]').click
-  end
+  fill_in "Name", with: "Tompkins County"
+  find(:xpath,'//button[contains(.,"Update Jurisdiction Settings")]').click
 end
 
 Then(/^I should see the jurisdiction settings were updated$/) do

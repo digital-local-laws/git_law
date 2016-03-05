@@ -28,7 +28,7 @@ class JurisdictionsController < ApplicationController
   def create
     jurisdiction.attributes = jurisdiction_params
     if jurisdiction.save
-      render 'show', status: 201
+      render 'show', status: 201, location: jurisdiction
     else
       render 'errors', status: 422
     end

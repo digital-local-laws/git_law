@@ -3,7 +3,6 @@ angular.module 'client'
     Flash, pundit ) ->
       pundit { policy: 'jurisdiction' }, ( permissions ) ->
         $scope.may = permissions
-      $scope.alerts = [ ]
       $scope.setPage = ( page ) ->
         $state.go '.', { page: page }
       $scope.newJurisdiction = ->

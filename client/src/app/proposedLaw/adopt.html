@@ -3,7 +3,6 @@
 </h3>
 <uib-alert close="closeAlert($index)" ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
 <form name="adoptLawForm">
-  Proposed law id: {{adoptedLaw.proposedLawId}}
   <div class="form-group has-feedback" ng-class="{&#39;has-error&#39;: errors.localNumber ||  adoptedLawForm.localNumber.$invalid, &#39;has-success&#39;:  adoptedLaw.localNumber &amp;&amp; !errors.localNumber &amp;&amp;  adoptedLawForm.localNumber.$valid }">
     <label class="control-label" for="localNumber">  Local Number</label><input class="form-control" id="localNumber" name="localNumber" ng-model="adoptedLaw.localNumber" type="text" /><span class="glyphicon glyphicon-ok form-control-feedback" ng-show="adoptedLaw.localNumber &amp;&amp; !errors.localNumber  &amp;&amp; !adoptedLawForm.localNumber.$invalid"></span><span class="glyphicon glyphicon-remove form-control-feedback" ng-show="errors.localNumber || adoptedLawForm.localNumber.$invalid"></span><span class="help-block">Specify the locally-issued number for the law, if the locality uses
       a separate numbering system from the state.

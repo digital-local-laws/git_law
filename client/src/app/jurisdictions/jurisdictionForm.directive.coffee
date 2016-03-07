@@ -2,7 +2,7 @@ angular.module 'client'
   .directive 'jurisdictionForm', () ->
     {
       scope: {}
-      templateUrl: 'app/jurisdiction/jurisdictionForm.html'
+      templateUrl: 'app/jurisdictions/jurisdictionForm.html'
       bindToController:
         jurisdiction: '='
       controllerAs: 'ctrl'

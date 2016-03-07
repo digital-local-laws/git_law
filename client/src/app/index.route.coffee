@@ -21,12 +21,12 @@ angular.module 'client'
             Jurisdiction.get( {
               jurisdictionId: $stateParams.jurisdictionId
             } ).$promise
-        templateUrl: 'app/jurisdiction/layout.html'
+        templateUrl: 'app/jurisdictions/jurisdiction.html'
         controller: 'JurisdictionCtrl'
       }
       .state 'jurisdiction.edit', {
         url: '/edit'
-        templateUrl: 'app/jurisdiction/edit.html'
+        templateUrl: 'app/jurisdictions/edit.html'
         controller: 'JurisdictionSettingsCtrl'
       }
       .state 'jurisdiction.proposedLaws', {
@@ -45,14 +45,14 @@ angular.module 'client'
       }
       .state 'newJurisdiction', {
         url: '/new-jurisdiction'
-        templateUrl: 'app/jurisdiction/new.html'
+        templateUrl: 'app/jurisdictions/new.html'
         controller: 'JurisdictionSettingsCtrl'
         resolve:
           jurisdiction: -> { }
       }
       .state 'jurisdictions', {
         url: '/jurisdictions/page/:page'
-        templateUrl: 'app/jurisdictions/layout.html'
+        templateUrl: 'app/jurisdictions/jurisdictions.html'
         controller: 'JurisdictionsCtrl'
       }
       .state 'proposedLaw', {

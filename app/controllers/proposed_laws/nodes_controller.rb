@@ -43,7 +43,7 @@ module ProposedLaws
 
     def update
       if !node.exists?
-        render nothing: true, status: 404
+        return not_found
       elsif ( to_tree ? move_and_update_node : update_node )
         if to_tree
           render 'show', status: 201,

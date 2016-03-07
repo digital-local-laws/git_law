@@ -1,7 +1,7 @@
 angular.module 'client'
   .controller 'ProposedLawNodeCtrl', ( $state, $scope, $stateParams,
-    $uibModal, $timeout, ProposedLawNode, ProposedLawFile, CodeLevel, Flash,
-    proposedLawNode, $log, $auth) ->
+    $timeout, ProposedLawNode, ProposedLawFile, CodeLevel, Flash,
+    proposedLawNode ) ->
       unless $scope.proposedLaw.workingRepoCreated
         return $state.go( 'proposedLaw.initialize',
           { proposedLawId: $scope.proposedLaw.id }
@@ -51,49 +51,9 @@ angular.module 'client'
       $scope.removeNode = (node) ->
         success = (response) ->
           Flash.create( 'info', 'Node was removed.' )
-          $scope.proposedLawNodes.splice $scope.proposedLawNodes.indexOf(node), 1
+          $state.reload()
         node.$delete( { proposedLawId: $scope.proposedLaw.id }, success )
       $scope.editNode = (node) ->
-        modalInstance = $uibModal.open(
-          templateUrl: 'app/proposedLawNodeSettings/edit.html',
-          controller: 'ProposedLawNodeSettingsCtrl',
-          resolve:
-            proposedLaw: ->
-              $scope.proposedLaw
-            proposedLawNode: ->
-              node.proposedLawId = $scope.proposedLaw.id
-              node.exists = true
-              node
-            parentNode: ->
-              $scope.proposedLawNode
-        )
-        modalInstance.result.then(
-          ( (proposedLawNode) ->
-            $state.reload()
-          ),
-          ( () -> false ) )
-      $scope.newNode = (proposedLawNode,nodeType) ->
-        modalInstance = $uibModal.open(
-          templateUrl: 'app/proposedLawNodeSettings/new.html',
-          controller: 'ProposedLawNodeSettingsCtrl',
-          resolve:
-            proposedLaw: ->
-              $scope.proposedLaw
-            proposedLawNode: ->
-              node = new ProposedLawNode( {
-                proposedLawId: $scope.proposedLaw.id } )
-              node.nodeType = nodeType
-              node.attributes = { }
-              node.attributes.type = nodeType.label
-              if proposedLawNode.treeBase == ''
-                node.attributes.structure = [ new CodeLevel() ]
-              node
-            parentNode: ->
-              proposedLawNode
-        )
-        modalInstance.result.then(
-          ( proposedLawNode ) ->
-            $state.go '.', { treeBase: proposedLawNode.treeBase }
-          () ->
-            false
-        )
+        $state.go '^.editNode', { treeBase: node.treeBase }
+      $scope.newNode = (node,nodeType) ->
+        $state.go '^.newNode', { treeBase: node.treeBase, label: nodeType.label }

@@ -84,12 +84,26 @@ angular.module 'client'
       .state 'proposedLaw.node', {
         url: '/node/*treeBase'
         resolve:
-          proposedLawNode: (ProposedLawNode, $stateParams) ->
-            ProposedLawNode.get( {
-              proposedLawId: $stateParams.proposedLawId
-              treeBase: $stateParams.treeBase } ).$promise
+          proposedLawNode: ( proposedLawNodeState, $stateParams ) ->
+            proposedLawNodeState $stateParams
         templateUrl: 'app/proposedLawNode/node.html'
         controller: 'ProposedLawNodeCtrl'
+      }
+      .state 'proposedLaw.editNode', {
+        url: '/edit-node/*treeBase'
+        resolve:
+          proposedLawNode: ( proposedLawNodeState, $stateParams ) ->
+            proposedLawNodeState $stateParams
+        templateUrl: 'app/proposedLawNodeSettings/edit.html'
+        controller: 'ProposedLawNodeSettingsCtrl'
+      }
+      .state 'proposedLaw.newNode', {
+        url: '/new-node/:label/*treeBase'
+        resolve:
+          proposedLawNode: ( proposedLawNodeState, $stateParams ) ->
+            proposedLawNodeState $stateParams
+        templateUrl: 'app/proposedLawNodeSettings/new.html'
+        controller: 'ProposedLawNodeSettingsCtrl'
       }
       .state 'proposedLaw.adopt', {
         url: '/adopt'

@@ -27,7 +27,7 @@ Then /^I may( not)? (update|destroy|adopt) the proposed law$/ do |negate, action
   case action
   when 'adopt'
     click_link @proposed_law.title
-    expect( page ).send method, have_xpath('//a[contains(.,"Adopt")]')
+    expect( page ).send method, have_xpath('//a[contains(.,"Adopt Law")]')
   end
 end
 
@@ -94,10 +94,7 @@ When(/^I add a code$/) do
     | level | label | number | title | text  | optional |
     | 1     | part  | arabic | yes   | no    | no       |
   })
-  within(".modal-footer") do
-    click_button "Add Code"
-  end
-  step "the modal has vanished"
+  click_button "Add Code"
 end
 
 Then(/^the code should be added$/) do
@@ -145,10 +142,7 @@ Given(/^I added a structured code:$/) do |t|
   find( :xpath, '//button[contains(.,"Add Code")]' ).click
   fill_in "Title", with: "Tompkins County Code"
   step "I fill in the following levels for the code structure:", t
-  within(".modal-footer") do
-    click_button "Add Code"
-  end
-  step "the modal has vanished"
+  click_button "Add Code"
   within("h3") do
     expect( page ).to have_text "Tompkins County Code"
   end
@@ -178,10 +172,7 @@ When(/^I add an? (\w+) to the (\w+) in the code$/) do |child, parent|
   this_structure = structure[ labels.index(child) ]
   fill_in 'Title', with: "A new #{child}" if this_structure['title']
   fill_in 'Number', with: '1'
-  within(".modal-footer") do
-    click_button "Add #{child.capitalize}"
-  end
-  step "the modal has vanished"
+  click_button "Add #{child.capitalize}"
 end
 
 Then(/^the (\w+) should be added to the (\w+) in the code$/) do |child, parent|
@@ -230,10 +221,7 @@ When /^I change settings for the (\w+)$/ do |child|
 end
 
 When /^I save the changed settings for the (\w+)$/ do |child|
-  within('.modal-footer') do
-    click_button "Update #{child.capitalize}"
-  end
-  step "the modal has vanished"
+  click_button "Update #{child.capitalize}"
 end
 
 When /^I go to change the settings for the (\w+)$/ do |child|
@@ -306,7 +294,6 @@ When /^I rename the code$/ do
   sleep 2
   fill_in "Title", with: "Tioga County Code"
   click_button "Update Code Settings"
-  step "the modal has vanished"
 end
 
 Then /^the code should be renamed$/ do
@@ -321,7 +308,7 @@ end
 When(/^I adopt the proposed law$/) do
   visit "/#/proposed-laws/#{@proposed_law.id}"
   within(:css, 'h2') do
-    find( :xpath, ".//a[contains(.,'Adopt')]" ).click
+    find( :xpath, ".//a[contains(.,'Adopt Law')]" ).click
   end
   find( :xpath, ".//label[contains(.,'Local legislative body only')]" ).click
   click_button "Certify and Submit Adopted Law"

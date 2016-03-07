@@ -1,11 +1,32 @@
 angular.module 'client'
-  .controller 'ProposedLawNodeSettingsCtrl', ( $scope, $uibModalInstance,
-    proposedLawNode, ProposedLawNode, parentNode,
-    lawNodeFilenameBaseFilter, CodeLevel, Flash ) ->
-      $scope.alerts = [ ]
+  .controller 'ProposedLawNodeSettingsCtrl', ( $scope, $state, proposedLawNode,
+    ProposedLawNode, lawNodeFilenameBaseFilter, CodeLevel,
+    Flash, $stateParams, proposedLaw, $log ) ->
       $scope.errors = { }
-      $scope.proposedLawNode = proposedLawNode
-      $scope.parentNode = parentNode
+      # Setup for new node
+      if $stateParams.label
+        $scope.parentNode = proposedLawNode
+        nodeType = ( type for type in proposedLawNode.allowedChildNodeTypes when type.label == $stateParams.label )[0]
+        unless nodeType
+          throw new Exception 'Invalid label for child node: ' + $stateParams.label
+        $scope.proposedLawNode = {
+          proposedLawId: proposedLawNode.proposedLawId
+          nodeType: nodeType
+          attributes:
+            type: nodeType.label
+        }
+        if proposedLawNode.treeBase == ''
+          $scope.proposedLawNode.attributes.structure = [ new CodeLevel() ]
+        $scope.proposedLawNode.exists = false
+      # Setup for existing node
+      else
+        $scope.proposedLawNode = proposedLawNode
+        $scope.proposedLawNode.exists = true
+        $scope.parentNode = if proposedLawNode.ancestorNodes.length > 1
+          proposedLawNode
+            .ancestorNodes[ proposedLawNode.ancestorNodes.length - 2 ]
+        else
+          false
       $scope.$watchCollection('[proposedLawNode.attributes.title, proposedLawNode.attributes.number]',
       (newVal,oldVal) ->
         $scope.proposedLawNode.fileNameBase = lawNodeFilenameBaseFilter(
@@ -41,29 +62,30 @@ angular.module 'client'
         $scope.proposedLawNode.attributes.structure.splice i, 1
       $scope.save = () ->
         message = ''
-        success = ( proposedLawNode ) ->
-          Flash.create( 'success', message )
-          $uibModalInstance.close proposedLawNode
+        onCreate = ( proposedLawNode ) ->
+          Flash.create 'success', 'New node created'
+          $state.go '^.node', { treeBase: proposedLawNode.treeBase }
+        onUpdate = ( proposedLawNode ) ->
+          Flash.create 'success', 'Node settings updated'
+          $state.go '^.node', { treeBase: $scope.parentNode.treeBase }
         failure = ( response ) ->
           Flash.create( 'danger', 'Save failed.' )
           $scope.errors = response.data.errors
-        if proposedLawNode.exists
-          toTreeBase = if parentNode.treeBase == ""
-            proposedLawNode.fileNameBase
+        if $scope.proposedLawNode.exists
+          toTreeBase = if $scope.parentNode.treeBase == ""
+            $scope.proposedLawNode.fileNameBase
           else
-            parentNode.treeBase + "/" + proposedLawNode.fileNameBase
-          params = if toTreeBase != proposedLawNode.treeBase
+            $scope.parentNode.treeBase + "/" + $scope.proposedLawNode.fileNameBase
+          params = if toTreeBase != $scope.proposedLawNode.treeBase
             { toTreeBase: toTreeBase }
           else
             { }
-          message = 'Node settings updated'
-          proposedLawNode.$save( params, success, failure )
+          $scope.proposedLawNode.$save( params, onUpdate, failure )
         else
-          proposedLawNode.treeBase = if parentNode.treeBase
-            parentNode.treeBase + "/" + proposedLawNode.fileNameBase
+          $scope.proposedLawNode.treeBase = if $scope.parentNode.treeBase
+            $scope.parentNode.treeBase + "/" + $scope.proposedLawNode.fileNameBase
           else
-            proposedLawNode.fileNameBase
-          message = 'New node created'
-          ProposedLawNode.create( proposedLawNode, success, failure )
+            $scope.proposedLawNode.fileNameBase
+          ProposedLawNode.create( $scope.proposedLawNode, onCreate, failure )
       $scope.cancel = ->
-        $uibModalInstance.dismiss()
+        $state.go '^.node', { treeBase: $scope.parentNode.treeBase }

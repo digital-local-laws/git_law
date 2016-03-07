@@ -15,7 +15,7 @@
   <tbody>
     <tr ng-repeat="law in proposedLaws">
       <td>
-        <a ui-sref="proposedLaw.node({ proposedLawId: law.id })">
+        <a ui-sref="proposedLaw.node({ proposedLawId: law.id, treeBase: ''})">
           {{law.title}}
         </a>
       </td>

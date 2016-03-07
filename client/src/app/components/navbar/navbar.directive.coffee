@@ -1,10 +1,8 @@
 angular.module 'client'
   .directive 'gitlawNavbar', ->
-    NavbarController = (moment, $auth, $log, $scope) ->
+    NavbarController = ($auth, $log, $scope) ->
       'ngInject'
       vm = this
-      # "vm.creation" is avaible by directive option "bindToController: true"
-      vm.relativeDate = moment(vm.creationDate).fromNow()
       # Sign out using NgTokenAuth service
       $scope.signOut = () ->
         $auth.signOut()

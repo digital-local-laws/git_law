@@ -13,11 +13,9 @@ angular.module 'client'
         $scope.proposedLawNode = angular.copy ctrl.proposedLawNode
         $scope.parentNode = angular.copy ctrl.parentNode
         $scope.errors = { }
-        $scope.$watchCollection '[proposedLawNode.attributes.title, ' +
-          'proposedLawNode.attributes.number]',
-        (newVal,oldVal) ->
-          $scope.proposedLawNode.fileNameBase = lawNodeFilenameBaseFilter(
-            $scope.proposedLawNode ) )
+        $scope.$watchCollection( '[proposedLawNode.attributes.title, proposedLawNode.attributes.number]', (newVal,oldVal) ->
+          $scope.proposedLawNode.fileNameBase = lawNodeFilenameBaseFilter( $scope.proposedLawNode )
+        )
         $scope.numberOptions = [
           [ "1", "Arabic (1, 2, ...)", "1" ]
           [ "R", "Upper case roman (I, II, ...)", "I" ]

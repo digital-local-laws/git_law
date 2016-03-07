@@ -11,7 +11,6 @@ angular.module 'client', [
   'ngResource'
   'ngSanitize'
   'ng-token-auth'
-  'toastr'
   'ui.ace'
   'ui.bootstrap'
   'ui.router'

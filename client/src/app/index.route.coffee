@@ -26,7 +26,7 @@ angular.module 'client'
       }
       .state 'jurisdiction.edit', {
         url: '/edit'
-        templateUrl: 'app/jurisdictionSettings/edit.html'
+        templateUrl: 'app/jurisdiction/edit.html'
         controller: 'JurisdictionSettingsCtrl'
       }
       .state 'jurisdiction.proposedLaws', {
@@ -45,7 +45,7 @@ angular.module 'client'
       }
       .state 'newJurisdiction', {
         url: '/new-jurisdiction'
-        templateUrl: 'app/jurisdictionSettings/new.html'
+        templateUrl: 'app/jurisdiction/new.html'
         controller: 'JurisdictionSettingsCtrl'
         resolve:
           jurisdiction: -> { }

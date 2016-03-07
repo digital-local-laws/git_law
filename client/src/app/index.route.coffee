@@ -94,7 +94,7 @@ angular.module 'client'
         resolve:
           proposedLawNode: ( proposedLawNodeState, $stateParams ) ->
             proposedLawNodeState $stateParams
-        templateUrl: 'app/proposedLawNodeSettings/edit.html'
+        templateUrl: 'app/proposedLawNode/edit.html'
         controller: 'ProposedLawNodeSettingsCtrl'
       }
       .state 'proposedLaw.newNode', {
@@ -102,7 +102,7 @@ angular.module 'client'
         resolve:
           proposedLawNode: ( proposedLawNodeState, $stateParams ) ->
             proposedLawNodeState $stateParams
-        templateUrl: 'app/proposedLawNodeSettings/new.html'
+        templateUrl: 'app/proposedLawNode/new.html'
         controller: 'ProposedLawNodeSettingsCtrl'
       }
       .state 'proposedLaw.adopt', {

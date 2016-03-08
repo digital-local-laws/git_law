@@ -42,4 +42,5 @@ exclude_paths:
 - script/
 - spec/
 - vendor/
-- "bin/*crawldump.rb"
+- bin/crawldump.rb
+- bin/asc-crawldump.rb

@@ -8,22 +8,27 @@ angular.module 'client'
         )
       onProposedLawFileLoad = (proposedLawFile) ->
         $scope.proposedLawFile = proposedLawFile
-        $scope.timeout = null
+        timeout = null
         saveContent = () ->
-          success = (n,headers) ->
-          fail = (n,headers) ->
+          success = (resp) ->
+            $scope.saveInProgress = false
+          fail = (err) ->
+            Flash.create 'danger', 'Save failed.'
+            $scope.saveInProgress = false
           $scope.proposedLawFile.$save({},success,fail)
-          $scope.saveInProgress = false
         cancelTimeout = ->
-          $timeout.cancel( $scope.timeout ) if $scope.timeout
+          $timeout.cancel( timeout ) if timeout
+        # Call this when file content changes
+        # It will decide whether to save
         debounceSaveContent = ( newVal, oldVal ) ->
+          return if $scope.saveInProgress
           if newVal != oldVal
             $scope.saveInProgress = true
             cancelTimeout()
-            $scope.timeout = $timeout( saveContent, 5000 )
+            timeout = $timeout( saveContent, 5000 )
         $scope.$on '$destroy', ->
           cancelTimeout()
-        $scope.$watch('proposedLawFile.content', debounceSaveContent)
+        $scope.$watch 'proposedLawFile.content', debounceSaveContent
       $scope.createProposedLawFile = () ->
         ProposedLawFile.create(
           {

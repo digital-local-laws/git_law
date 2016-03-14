@@ -65,13 +65,13 @@ RSpec.describe ProposedLaws::NodesController, type: :controller do
       expect( list ).to be_empty
     end
 
-    xit 'should not delete a node without authorization' do
+    it 'should not delete a node without authorization' do
       token_sign_in user
       delete :destroy, default_params
       expect( response ).to have_http_status 401
     end
 
-    xit 'should not delete a node without authentication' do
+    it 'should not delete a node without authentication' do
       delete :destroy, default_params
       expect( response ).to have_http_status 401
     end
@@ -95,13 +95,13 @@ RSpec.describe ProposedLaws::NodesController, type: :controller do
       expect( node.attributes['title'] ).to eql 'city charter'
     end
 
-    xit 'should not update a node without authorization' do
+    it 'should not update a node without authorization' do
       token_sign_in user
       patch :update, default_params
       expect( response ).to have_http_status 401
     end
 
-    xit 'should not update a node without authentication' do
+    it 'should not update a node without authentication' do
       patch :update, default_params
       expect( response ).to have_http_status 401
     end
@@ -131,13 +131,13 @@ RSpec.describe ProposedLaws::NodesController, type: :controller do
       expect( list.length ).to eql 1
     end
 
-    xit 'should not create a node without authorization' do
+    it 'should not create a node without authorization' do
       token_sign_in user
       post :create, default_params.merge( valid_params )
       expect( response ).to have_http_status 401
     end
 
-    xit 'should not create a node without authentication' do
+    it 'should not create a node without authentication' do
       post :create, default_params.merge( valid_params )
       expect( response ).to have_http_status 401
     end

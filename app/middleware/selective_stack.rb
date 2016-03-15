@@ -22,7 +22,8 @@ private
         middleware.use Rails.application.config.session_store, Rails.application.config.session_options
         middleware.use ::OmniAuth::Builder do
           unless Rails.env.production?
-            provider :developer
+            provider :developer, fields: [:first_name,:last_name,:email],
+              uid_field: :email
           end
         end
         # middleware.use OmniAuth::Builder, &OmniAuthConfig

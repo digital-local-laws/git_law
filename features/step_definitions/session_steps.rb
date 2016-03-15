@@ -32,7 +32,8 @@ Given(/^I log in(?: as (?:(admin|staff|user|nobody)|(owner|lapsed owner) of the 
   visit '/'
   click_link "Sign In"
   click_button "Developer"
-  fill_in "Name", with: 'A User'
+  fill_in "First name", with: @current_user.first_name
+  fill_in "Last name", with: @current_user.last_name
   fill_in "Email", with: @current_user.email
   click_button "Sign In"
   expect( Capybara.current_session ).to have_no_text "Sign In"

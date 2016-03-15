@@ -34,7 +34,9 @@ class CreateUsers < ActiveRecord::Migration
       # t.datetime :locked_at
 
       ## User Info
-      t.string :name
+      t.string :first_name, null: false
+      t.string :last_name, null: false
+      t.string :name, null: false
       t.string :nickname
       t.string :image
       t.string :email
@@ -52,6 +54,8 @@ class CreateUsers < ActiveRecord::Migration
     add_index :users, :email
     add_index :users, [:uid, :provider], unique: true
     add_index :users, :reset_password_token, unique: true
+    add_index :users, [:last_name,:first_name]
+    add_index :users, :name
     # add_index :users, :confirmation_token,   :unique => true
     # add_index :users, :unlock_token,         :unique => true
   end

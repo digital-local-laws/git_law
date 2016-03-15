@@ -95,7 +95,9 @@ ActiveRecord::Schema.define(version: 20160218142001) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.string   "name"
+    t.string   "first_name",                               null: false
+    t.string   "last_name",                                null: false
+    t.string   "name",                                     null: false
     t.string   "nickname"
     t.string   "image"
     t.string   "email"
@@ -107,6 +109,8 @@ ActiveRecord::Schema.define(version: 20160218142001) do
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree
+  add_index "users", ["last_name", "first_name"], name: "index_users_on_last_name_and_first_name", using: :btree
+  add_index "users", ["name"], name: "index_users_on_name", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
 

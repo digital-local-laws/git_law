@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   end
   scope '/api' do
     # Resource routes
-    resources :users, except: [ :new, :edit, :show ]
+    resources :users, except: [ :new, :edit ]
     resources :jurisdictions, except: [ :new, :edit ] do
       resources :proposed_laws, only: [ :index, :create ]
     end

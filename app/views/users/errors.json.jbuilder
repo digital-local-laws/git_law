@@ -1,1 +1,1 @@
-json.errors proposed_law.errors
+json.errors user.errors

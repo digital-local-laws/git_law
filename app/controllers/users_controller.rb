@@ -12,14 +12,13 @@ class UsersController < ApplicationController
   expose :users do
     paginate unpaginated_users
   end
-  expose :user do
-    User.find params[:id]
-  end
+  expose :user
   expose :page do
     params[:page] ? params[:page].to_i : 1
   end
   expose :user_attributes do
-    params.permit(:first_name,:last_name,:admin,:staff,:email)
+    params.permit :first_name, :last_name, :admin, :staff, :email, :password,
+      :password_confirmation
   end
 
   # GET /api/users[/page/:page].json[?q=:q]
@@ -29,6 +28,24 @@ class UsersController < ApplicationController
       render 'index', status: 200
     else
       render nothing: true, status: 404
+    end
+  end
+
+  # GET /api/users/:id(.:format)
+  def show
+    authorize user, :show?
+    render 'show', status: 200
+  end
+
+  # POST /api/users(.:format)
+  def create
+    authorize User, :create?
+    user.attributes = user_attributes
+    user.skip_confirmation!
+    if user.save
+      render 'show', status: 201, location: user
+    else
+      render 'errors', status: 422
     end
   end
 

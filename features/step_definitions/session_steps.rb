@@ -1,5 +1,7 @@
-Given(/^I log in(?: as (?:(admin|staff|user|nobody)|(owner|lapsed owner) of the proposed law|(proposer|adopter) for the jurisdiction))?$/) do |global_role,proposed_law_role,jurisdiction_role|
-  return if global_role == 'nobody'
+Given /^I log in as nobody$/ do
+end
+
+Given(/^I log in(?: as (?:(admin|staff|user)|(owner|lapsed owner) of the proposed law|(proposer|adopter) for the jurisdiction))?$/) do |global_role,proposed_law_role,jurisdiction_role|
   attributes = case global_role
   when 'admin'
     { admin: true }
@@ -49,4 +51,13 @@ end
 Then(/^I should be logged out$/) do
   expect( page ).to have_text "Sign In"
   expect( page ).to have_no_text "Sign Out"
+end
+
+Then /^I should( not)? be on the home page$/ do |negate|
+  location = Capybara.current_session.evaluate_script 'window.location.hash;'
+  if negate
+    expect( location ).not_to eql '/'
+  else
+    expect( location ).to eql '/'
+  end
 end

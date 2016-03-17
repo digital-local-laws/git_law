@@ -1,0 +1,63 @@
+<form name="userForm">
+  <div class="form-group has-feedback" show-success="">
+    <label class="control-label" for="firstName">First Name</label>
+    <input class="form-control" id="firstName" name="firstName"
+    ng-model="user.firstName" ng-required="" type="text" />
+    <span class="help-block" ng-show="user.firstName.$error.required">is required<br /></span>
+    <span class="help-block" ng-repeat="error in errors.firstName">{{error}}<br /></span>
+  </div>
+  <div class="form-group has-feedback" show-success="">
+    <label class="control-label" for="lastName">Last Name</label>
+    <input class="form-control" id="lastName" name="lastName"
+    ng-model="user.lastName" ng-required="" type="text" />
+    <span class="help-block" ng-show="user.lastName.$error.required">is required<br/></span>
+    <span class="help-block" ng-repeat="error in errors.lastName">{{error}}<br/></span>
+  </div>
+  <div class="form-group has-feedback" show-success="">
+    <label class="control-label" for="email">Email</label>
+    <input class="form-control" id="email" name="email" ng-model="user.email"
+    ng-required="" type="text" />
+    <span class="help-block" ng-show="user.email.$error.required">is required<br/></span>
+    <span class="help-block" ng-repeat="error in errors.email track by $index">{{error}}<br/></span>
+  </div>
+  <div class="form-group has-feedback" show-success="">
+    <label class="control-label" for="password">Password</label>
+    <input class="form-control" id="password" name="password"
+    ng-model="user.password" ng-required="!user.id" type="password" />
+    <span class="help-block" ng-show="user.password.$error.required">is required<br/></span>
+    <span class="help-block" ng-repeat="error in errors.password track by $index">{{error}}<br/></span>
+  </div>
+  <div class="form-group has-feedback" show-success="">
+    <label class="control-label" for="passwordConfirmation">Password Confirmation</label>
+    <input class="form-control" id="passwordConfirmation"
+    name="passwordConfirmation" ng-model="user.passwordConfirmation"
+    ng-required="!user.id" type="password" />
+    <span class="help-block" ng-show="user.passwordConfirmation.$error.required">is required<br/></span>
+    <span class="help-block" ng-repeat="error in errors.passwordConfirmation track by $index">{{error}}<br/></span>
+  </div>
+  <div class="form-group" has-success="">
+    <label class="control-label" for="admin">Administrator?</label>
+    <div class="btn-group">
+      <label class="btn btn-info" ng-model="user.admin"
+      ng-repeat="admin in adminOptions" uib-btn-radio="admin[0]">{{admin[1]}}</label>
+    </div>
+    <span class="help-block" ng-show="userForm.admin.$error.required">Is required.</span>
+    <span class="help-block">Specify whether user should have administrative privileges.</span>
+  </div>
+  <div class="form-group" has-success="">
+    <label class="control-label" for="staff">Staff?</label>
+    <div class="btn-group">
+      <label class="btn btn-info" ng-model="user.staff"
+      ng-repeat="staff in staffOptions" uib-btn-radio="staff[0]">{{staff[1]}}</label>
+    </div>
+    <span class="help-block" ng-show="userForm.staff.$error.required">Is required.</span>
+    <span class="help-block">Specify whether user should have staff privileges.</span>
+  </div>
+</form>
+<button class="btn btn-primary" ng-click="save(user)"
+  ng-disabled="userForm.$invalid" type="button">
+  <span class="glyphicon glyphicon-ok"></span>{{user.id ? 'Update User Settings' : 'Add User'}}
+</button>
+<button class="btn btn-default" ng-click="cancel()" type="button">
+  <span class="glyphicon glyphicon-remove"></span>Cancel
+</button>

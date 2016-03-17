@@ -14,6 +14,16 @@ angular.module 'client'
         newObj[ key ] = value
       return newObj
     punditPolicies =
+      global:
+        adminMenu: (context) ->
+          staff context.user
+      user:
+        create: (context) ->
+          staff context.user
+        update: (context) ->
+          staff context.user
+        destroy: (context) ->
+          admin context.user
       jurisdiction:
         create: (context) ->
           staff context.user

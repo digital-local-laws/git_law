@@ -4,6 +4,16 @@
       <a class="navbar-brand" href="/">GitLaw</a>
     </div>
     <ul class="nav navbar-nav">
+      <li uib-dropdown ui-sref-active="active" ng-if="may.adminMenu">
+        <a href id="admin-menu" uib-dropdown-toggle>
+          Administration<span class="caret"></span>
+        </a>
+        <ul class="uib-dropdown-menu" role="menu" aria-labelledby="admin-menu">
+          <li role="menuitem">
+            <a ui-sref="users">Users</a>
+          </li>
+        </ul>
+      </li>
       <li ui-sref-active="active">
         <a ui-sref="jurisdictions({page: 1})">Jurisdictions</a>
       </li>

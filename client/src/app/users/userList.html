@@ -1,0 +1,55 @@
+<uib-pagination change="setPage(page)" items-per-page="perPage"
+  ng-model="page" total-items="totalPages"></uib-pagination>
+<table class="table table-striped" id="users">
+  <thead>
+    <tr>
+      <th>
+        First Name
+      </th>
+      <th>
+        Last Name
+      </th>
+      <th>
+        Email
+      </th>
+      <th>
+        Admin?
+      </th>
+      <th>
+        Staff?
+      </th>
+      <th colspan="2">
+        Controls
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="user in users">
+      <td>
+        {{user.firstName}}
+      </td>
+      <td>
+        {{user.lastName}}
+      </td>
+      <td>
+        {{user.email}}
+      </td>
+      <td>
+        {{user.admin}}
+      </td>
+      <td>
+        {{user.staff}}
+      </td>
+      <td>
+        <a class="btn btn-default" ng-click="editUser(user)">
+          <span class="glyphicon glyphicon-pencil"></span>Edit
+        </a>
+      </td>
+      <td>
+        <a class="btn btn-danger" ng-click="destroyUser(user)">
+          <span class="glyphicon glyphicon-remove"></span>Remove
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>

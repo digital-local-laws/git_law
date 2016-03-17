@@ -3,4 +3,10 @@ angular.module 'gitlawModels'
     return $resource(
       '/api/jurisdictions/:jurisdictionId.:format'
       { jurisdictionId: "@id", format: 'json', camel: 'true' }
-      { save: { method: 'PATCH' }, create: { method: 'POST' } } )
+      {
+        save:
+          method: 'PATCH'
+        create:
+          method: 'POST'
+      }
+    )

@@ -13,6 +13,35 @@ angular.module 'client'
         templateUrl: 'app/userSession/new.html'
         controller: 'UserSessionCtrl'
       }
+      .state 'user', {
+        abstract: true
+        url: '/users/:userId'
+        templateUrl: 'app/users/user.html'
+        controller: ($scope, user) ->
+          $scope.user = user
+        resolve:
+          user: (User, $stateParams) ->
+            User.get( {
+              userId: $stateParams.userId
+            } ).$promise
+      }
+      .state 'user.edit', {
+        url: '/edit'
+        templateUrl: 'app/users/edit.html'
+        controller: 'UserSettingsCtrl'
+      }
+      .state 'newUser', {
+        url: '/new-user'
+        templateUrl: 'app/users/new.html'
+        controller: 'UserSettingsCtrl'
+        resolve:
+          user: -> { }
+      }
+      .state 'users', {
+        url: '/users'
+        templateUrl: 'app/users/users.html'
+        controller: 'UsersCtrl'
+      }
       .state 'jurisdiction', {
         abstract: true
         url: '/jurisdictions/:jurisdictionId'

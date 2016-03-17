@@ -41,12 +41,12 @@
         {{user.staff}}
       </td>
       <td>
-        <a class="btn btn-default" ng-click="editUser(user)">
+        <a class="btn btn-default" ng-click="editUser(user)" ng-if="may.update">
           <span class="glyphicon glyphicon-pencil"></span>Edit
         </a>
       </td>
       <td>
-        <a class="btn btn-danger" ng-click="destroyUser(user)">
+        <a class="btn btn-danger" ng-click="destroyUser(user)" ng-if="may.destroy">
           <span class="glyphicon glyphicon-remove"></span>Remove
         </a>
       </td>

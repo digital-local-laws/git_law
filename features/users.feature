@@ -3,6 +3,17 @@ Feature: User management
   As an administrator
   I want to manage user accounts in the system
   @javascript
+  Scenario Outline: Authorization for user
+    Given I log in as <role>
+    And another user named Al Smith exists
+    Then I <create> create users
+    And I <update> update users
+    And I <destroy> destroy users
+    Examples:
+      | role  | create  | update  | destroy |
+      | admin | may     | may     | may     |
+      | staff | may     | may     | may not |
+  @javascript
   Scenario: List users
     Given I log in as admin
     When I go to the users listing

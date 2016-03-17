@@ -1,3 +1,18 @@
+Then /^I may( not)? (create|update|destroy) users$/ do |negate, action|
+  method = ( negate ? :not_to : :to )
+  visit('/')
+  click_link 'Administration'
+  click_link 'Users'
+  case action
+  when 'create'
+    expect( page ).send method, have_xpath('//a[contains(.,"Add User")]')
+  when 'update'
+    expect( page ).send method, have_xpath('.//a[contains(.,"Edit")]')
+  when 'destroy'
+    expect( page ).send method, have_xpath('.//a[contains(.,"Remove")]')
+  end
+end
+
 When(/^I go to the users listing$/) do
   find( :xpath, '//a[contains(.,"Administration")]').click
   within( :xpath, '//li/a[contains(.,"Administration")]' ) do

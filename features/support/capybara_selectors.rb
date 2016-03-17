@@ -9,3 +9,7 @@ Capybara.add_selector(:user_row) do
     "and ./td[position()=2 and contains(.,'#{names.last}')] ]"
   end
 end
+
+Capybara.add_selector(:enabled_label) do
+  xpath { |text| ".//label[ contains(.,'#{text}') and not(@disabled) ]" }
+end

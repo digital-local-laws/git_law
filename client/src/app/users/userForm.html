@@ -38,7 +38,7 @@
   <div class="form-group" has-success="">
     <label class="control-label" for="admin">Administrator?</label>
     <div class="btn-group">
-      <label class="btn btn-info" ng-model="user.admin"
+      <label class="btn btn-info" ng-model="user.admin" ng-disabled="!may.authorize"
       ng-repeat="admin in adminOptions" uib-btn-radio="admin[0]">{{admin[1]}}</label>
     </div>
     <span class="help-block" ng-show="userForm.admin.$error.required">Is required.</span>
@@ -47,7 +47,7 @@
   <div class="form-group" has-success="">
     <label class="control-label" for="staff">Staff?</label>
     <div class="btn-group">
-      <label class="btn btn-info" ng-model="user.staff"
+      <label class="btn btn-info" ng-model="user.staff" ng-disabled="!may.authorize"
       ng-repeat="staff in staffOptions" uib-btn-radio="staff[0]">{{staff[1]}}</label>
     </div>
     <span class="help-block" ng-show="userForm.staff.$error.required">Is required.</span>

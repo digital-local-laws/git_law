@@ -7,12 +7,13 @@ Feature: User management
     Given I log in as <role>
     And another user named Al Smith exists
     Then I <create> create users
+    And I <authorize> authorize users
     And I <update> update users
     And I <destroy> destroy users
     Examples:
-      | role  | create  | update  | destroy |
-      | admin | may     | may     | may     |
-      | staff | may     | may     | may not |
+      | role  | create | authorize | update  | destroy |
+      | admin | may    | may       | may     | may     |
+      | staff | may    | may not   | may     | may not |
   @javascript
   Scenario: List users
     Given I log in as admin

@@ -1,9 +1,18 @@
-Then /^I may( not)? (create|update|destroy) users$/ do |negate, action|
+Then /^I may( not)? (create|update|destroy|authorize) users$/ do |negate, action|
   method = ( negate ? :not_to : :to )
   visit('/')
   click_link 'Administration'
   click_link 'Users'
   case action
+  when 'authorize'
+    all(:xpath,'.//a[contains(.,"Edit")]').first.click
+    if negate
+      expect( page ).to have_no_selector(:enabled_label,'Is Administrator')
+      expect( page ).to have_no_selector(:enabled_label,'Is Staff')
+    else
+      expect( page ).to have_selector(:enabled_label,'Is Administrator')
+      expect( page ).to have_selector(:enabled_label,'Is Staff')
+    end
   when 'create'
     expect( page ).send method, have_xpath('//a[contains(.,"Add User")]')
   when 'update'

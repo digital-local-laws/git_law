@@ -6,8 +6,10 @@ angular.module 'client'
       bindToController:
         user: '='
       controllerAs: 'ctrl'
-      controller: ( $scope, $state, User, Flash ) ->
+      controller: ( $scope, $state, User, Flash, pundit ) ->
         ctrl = this
+        pundit { policy: 'user' }, ( permissions ) ->
+          $scope.may = permissions
         $scope.user = ctrl.user
         $scope.errors = { }
         $scope.adminOptions = [

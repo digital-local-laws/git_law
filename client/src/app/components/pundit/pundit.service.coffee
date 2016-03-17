@@ -18,6 +18,8 @@ angular.module 'client'
         adminMenu: (context) ->
           staff context.user
       user:
+        authorize: (context) ->
+          admin context.user
         create: (context) ->
           staff context.user
         update: (context) ->

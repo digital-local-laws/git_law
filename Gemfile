@@ -41,6 +41,7 @@ group :development do
 end
 group :test do
   gem 'codeclimate-test-reporter'
+  gem 'pundit-matchers'
 end
 group :development, :test do
   # gem 'therubyracer'

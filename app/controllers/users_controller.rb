@@ -17,8 +17,7 @@ class UsersController < ApplicationController
     params[:page] ? params[:page].to_i : 1
   end
   expose :user_attributes do
-    params.permit :first_name, :last_name, :admin, :staff, :email, :password,
-      :password_confirmation
+    params.permit( policy( user ).permitted_attributes )
   end
 
   # GET /api/users[/page/:page].json[?q=:q]

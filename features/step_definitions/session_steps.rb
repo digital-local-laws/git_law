@@ -48,6 +48,10 @@ When(/^I log out$/) do
   @current_user = nil
 end
 
+When(/^I search for "([^"]*)"$/) do |search|
+  fill_in 'Search', with: search
+end
+
 Then(/^I should be logged out$/) do
   expect( page ).to have_text "Sign In"
   expect( page ).to have_no_text "Sign Out"

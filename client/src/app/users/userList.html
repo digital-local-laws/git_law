@@ -1,3 +1,10 @@
+<form class="form-inline">
+  <div class="form-group">
+    <label for="userSearch">Search</label>
+    <input class="form-control" id="userSearch" name="userSearch"
+    ng-model="search" placeholder="Name or Email" type="search"/>
+  </div>
+</form>
 <uib-pagination change="setPage(page)" items-per-page="perPage"
   ng-model="page" total-items="totalPages"></uib-pagination>
 <table class="table table-striped" id="users">

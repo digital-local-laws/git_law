@@ -6,22 +6,24 @@ angular.module 'client'
       controllerAs: 'ctrl'
       bindToController:
         may: '='
-        page: '='
         onSetPage: '&'
         onSetSearch: '&'
       controller: ( $scope, $state, User, Flash ) ->
         ctrl = this
         $scope.may = ctrl.may
-        $scope.search = ctrl.search
-        $scope.page = ctrl.page
-        User.query(
-          { q: $scope.search, page: ctrl.page }
+        loadUsers = ( search, page ) -> User.query(
+          { q: search, page: page }
           ( users, response ) ->
             r = response()
             $scope.totalPages = r['x-total']
             $scope.perPage = r['x-per-page']
             $scope.users = users
         )
+        $scope.$watchCollection '[search,page]', ( nVal, oVal ) ->
+          loadUsers( nVal[0], nVal[1] )
+        loadUsers()
+        $scope.setPage = ( page ) ->
+          loadUsers( $scope.search, $scope.page )
         $scope.editUser = ( user ) ->
           $state.go 'user.edit', { userId: user.id }
         $scope.destroyUser = ( user ) ->

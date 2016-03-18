@@ -20,6 +20,21 @@ Feature: User management
     When I go to the users listing
     Then I should see myself in the users listing
   @javascript
+  Scenario Outline: Search for users
+    Given I log in as admin
+    And another user named Al Smith exists
+    And another user named Fiorello Laguardia exists
+    And another user named John Smith exists
+    When I go to the users listing
+    And I search for "<search>"
+    Then I should <al> Al Smith in the users listing
+    And I should <fio> Fiorello Laguardia in the users listing
+    And I should <john> John Smith in the users listing
+    Examples:
+      | search | al      | fio     | john    |
+      | smith  | see     | not see | see     |
+      | fior   | not see | see     | not see |
+  @javascript
   Scenario: Create user
     Given I log in as admin
     When I go to the users listing

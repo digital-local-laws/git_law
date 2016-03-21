@@ -1,7 +1,7 @@
 = GitLaw Platform
 ifdef::env-github[:badges:]
 
-This application is intended to provide for storage, management, and reporting of municipal codes and individual local laws in New York State.
+This application is a proof-of-concept prototype of software intended to provide for storage, management, and reporting of municipal codes and individual local laws in New York State.  It is provided for evaluation purposes only at this time.
 
 ifdef::badges[]
 .*Project health*
@@ -73,6 +73,10 @@ Legislation is marked up in AsciiDoc.
 <5> Acceptance tests (Cucumber)
 <6> Server libraries
 <7> Unit tests (RSpec)
+
+== Contributing
+
+This software is being made available open source to encourage open collaboration with anyone interested to develop a digital platform for local laws that might be useful to New York State and its local governments.  You can contribute by forking the project, making your own feature branches, and submitting pull requests.  Pull requests will be accepted only if they are compatible with the general purpose of the software, accompanied by approriate end-to-end and unit tests, and licensed under the same terms that this software is made available.
 
 == Related Services
 

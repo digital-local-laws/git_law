@@ -17,7 +17,9 @@ class UserPolicy < ApplicationPolicy
 
   def permitted_attributes
     attributes = [ :first_name, :last_name, :email, :password,
-      :password_confirmation ]
+      :password_confirmation, { jurisdiction_memberships_attributes: [
+        :_destroy, :id, :jurisdiction_id, :propose, :adopt
+      ] } ]
     if authorize?
       attributes += [ :admin, :staff ]
     end

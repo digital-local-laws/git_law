@@ -10,7 +10,9 @@ module StepPatterns
       @current_user
     else
       name = attributes_from_user_pattern( user )
-      User.where( first_name: name[:first_name], last_name: name[:last_name] ).first
+      s = User.where( first_name: name[:first_name], last_name: name[:last_name] )
+      expect( s.length ).to eql 1
+      s.first
     end
   end
 

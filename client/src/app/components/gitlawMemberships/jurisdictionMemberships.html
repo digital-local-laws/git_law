@@ -1,0 +1,38 @@
+<table>
+  <thead>
+    <tr>
+      <th>Jurisdiction</th>
+      <th>Propose?</th>
+      <th>Adopt?</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="membership in memberships"
+      ng-hide="membership.destroy">
+      <td>
+        <jurisdiction-picker jurisdiction="membership.jurisdiction"
+        on-change="set($index, 'jurisdiction', jurisdiction)"
+        ></jurisdiction-picker>
+      </td>
+      <td>
+        <button class="btn btn-default" ng-click="toggle($index,'propose')"
+        >{{membership.propose ? 'Yes' : 'No'}}</button>
+      </td>
+      <td>
+        <button class="btn btn-default" ng-click="toggle($index,'adopt')"
+        >{{membership.adopt ? 'Yes' : 'No'}}</button>
+      </td>
+      <td>
+        <button class="btn btn-danger" ng-click="remove($index)">
+          <span class="glyphicon glyphicon-remove"></span>
+          Remove
+        </button>
+      </td>
+    </tr>
+    <tr colspan="4">
+      <td><button class="btn btn-default" ng-click="add()"
+        >Add Membership</button></td>
+    </tr>
+  </tbody>
+</table>

@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
   has_many :jurisdiction_memberships, inverse_of: :user
   has_many :jurisdictions, through: :jurisdiction_memberships
 
+  accepts_nested_attributes_for :jurisdiction_memberships, allow_destroy: true,
+    reject_if: :all_blank
+
   default_scope { order( :last_name, :first_name ) }
 
   scope :name_like, -> (name) {

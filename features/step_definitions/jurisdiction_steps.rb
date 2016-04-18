@@ -1,3 +1,7 @@
+Given(/^a jurisdiction "([^"]*)" exists$/) do |name|
+  create :jurisdiction, name: name
+end
+
 Then /^I may( not)? (create|update|destroy) jurisdictions$/ do |negate, action|
   method = ( negate ? :not_to : :to )
   visit('/')

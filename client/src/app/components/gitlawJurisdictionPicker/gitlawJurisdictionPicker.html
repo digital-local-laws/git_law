@@ -1,0 +1,9 @@
+<ui-select ng-model="selected" on-select="onSelect($item)">
+    <ui-select-match placeholder="Name of Jurisdiction">
+        <span ng-bind="$select.selected.name"></span>
+    </ui-select-match>
+    <ui-select-choices repeat="j in jurisdictions track by jurisdiction.id"
+      refresh="searchJurisdictions($select.search)" refresh-delay="0">
+        <span ng-bind-html="j.name | highlight: $select.search"></span>
+    </ui-select-choices>
+</ui-select>

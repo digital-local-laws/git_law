@@ -1,3 +1,51 @@
+When /^I add a membership for ([A-Z][a-z]+ [A-Z][a-z]+) to (propose|adopt) for "([^"]*)"$/ do |user, privilege, jurisdiction|
+  step 'I go to the users listing'
+  step "I go to edit #{user} in the users listing"
+  within "jurisdiction-memberships" do
+    click_button "Add Membership"
+    within 'tbody > tr:nth-child(1)' do
+      within 'td:nth-child(1)' do
+        find( '.ui-select-match' ).click
+        find( 'input.form-control' ).set( jurisdiction )
+        within 'ul' do
+          find( :xpath, ".//div[contains(.,'#{jurisdiction}')]" ).click
+        end
+      end
+      i =  case(privilege)
+      when 'propose'
+        2
+      when 'adopt'
+        3
+      end
+      within "td:nth-child(#{i})" do
+        click_button 'No'
+      end
+    end
+  end
+  click_button "Update User"
+  expect( page ).to have_text 'User updated'
+end
+
+When /^I remove the membership for ([A-Z][a-z]+ [A-Z][a-z]+) for "([^"]*)"$/ do |user, jurisdiction|
+  step 'I go to the users listing'
+  step "I go to edit #{user} in the users listing"
+  within "jurisdiction-memberships" do
+    within( :xpath, ".//tr[contains(.,'#{jurisdiction}')]" ) do
+      find( :xpath, ".//button[contains(.,'Remove')]" ).click
+    end
+  end
+  click_button "Update User"
+  expect( page ).to have_text 'User updated'
+end
+
+Then(/^([A-Z][a-z]+ [A-Z][a-z]+) may( not)? (propose|adopt) for "([^"]*)"$/) do |name,negate,action,jurisdiction|
+  user = from_user_pattern(name)
+  jurisdiction = Jurisdiction.where(name: jurisdiction).first
+  count = negate ? 0 : 1
+  expect( JurisdictionMembership.where( 'user_id' => user.id,
+    'jurisdiction_id' => jurisdiction.id, action => true ).count ).to eql count
+end
+
 Then /^I may( not)? (create|update|destroy|authorize) users$/ do |negate, action|
   method = ( negate ? :not_to : :to )
   visit('/')
@@ -72,10 +120,14 @@ When(/^I jump to the users listing$/) do
   visit '/#/users'
 end
 
-When(/^I edit ([A-Z][a-z]+ [A-Z][a-z]+) in the users listing$/) do |name|
+When /^I go to edit ([A-Z][a-z]+ [A-Z][a-z]+) in the users listing$/ do |name|
   within( :user_row, name ) do
     find( :xpath, './/a[ contains(.,"Edit") ]' ).click
   end
+end
+
+When(/^I edit ([A-Z][a-z]+ [A-Z][a-z]+) in the users listing$/) do |name|
+  step "I go to edit #{name} in the users listing"
   fill_in 'First Name', with: "Alfred"
   fill_in 'Last Name', with: "Smith"
   fill_in 'Email', with: "asmith@example.com"

@@ -52,6 +52,22 @@ Feature: User management
     And I should not see Al Smythe in the users listing
     And I should see Alfred Smith in the users listing
   @javascript
+  Scenario: Authorize user for jurisdiction
+    Given I log in as admin
+    And another user named Al Smith exists
+    And a jurisdiction "Binghamton" exists
+    When I add a membership for Al Smith to propose for "Binghamton"
+    Then Al Smith may propose for "Binghamton"
+  @javascript
+  Scenario: Unauthorize user for jurisdiction
+    Given I log in as admin
+    And another user named Al Smith exists
+    And a jurisdiction "Binghamton" exists
+    When I add a membership for Al Smith to adopt for "Binghamton"
+    Then Al Smith may adopt for "Binghamton"
+    When I remove the membership for Al Smith for "Binghamton"
+    Then Al Smith may not adopt for "Binghamton"
+  @javascript
   Scenario: Remove user
     Given I log in as admin
     And another user named Al Smith exists

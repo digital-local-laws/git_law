@@ -53,6 +53,8 @@
     <span class="help-block" ng-show="userForm.staff.$error.required">Is required.</span>
     <span class="help-block">Specify whether user should have staff privileges.</span>
   </div>
+  <jurisdiction-memberships memberships="user.jurisdictionMemberships"
+    on-change="setMemberships(memberships)"></jurisdiction-memberships>
 </form>
 <button class="btn btn-primary" ng-click="save(user)"
   ng-disabled="userForm.$invalid" type="button">

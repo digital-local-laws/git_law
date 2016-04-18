@@ -1,5 +1,7 @@
 angular.module 'client', [
   'gitlawFilters'
+  'gitlawJurisdictionPicker'
+  'gitlawMemberships'
   'gitlawModels'
   'gitlawNodeWidgets'
   'ipCookie'

@@ -3,23 +3,23 @@
   "version": "0.0.0",
   "dependencies": {
     "ace": "~1.1.8",
-    "angular": "~1.4.8",
-    "angular-animate": "~1.4.8",
-    "angular-aria": "~1.4.8",
-    "angular-bootstrap": "~0.14.3",
+    "angular": "~1.5.2",
+    "angular-animate": "~1.5.2",
+    "angular-aria": "~1.5.2",
+    "angular-bootstrap": "~1.2.0",
     "angular-bootstrap-show-errors": "~2.3.0",
     "angular-cookie": "~4.0",
-    "angular-cookies": "~1.4.8",
+    "angular-cookies": "~1.5.2",
     "angular-flash-alert": "~2.2.0",
-    "angular-messages": "~1.4.8",
-    "angular-mocks": "~1.4.8",
+    "angular-messages": "~1.5.2",
+    "angular-mocks": "~1.5.2",
     "angular-paginate-anything": "~4.0.2",
-    "angular-resource": "~1.4.8",
-    "angular-sanitize": "~1.4.8",
-    "angular-touch": "~1.4.8",
+    "angular-resource": "~1.5.2",
+    "angular-sanitize": "~1.5.2",
+    "angular-touch": "~1.5.2",
     "angular-ui-ace": "~0.2.3",
     "angular-ui-router": "~0.2.15",
-    "angular-ui-select": "~0.9.5",
+    "angular-ui-select": "~0.16.0",
     "angular-ui-tree": "~2.13.0",
     "angular-ui-utils": "~0.2.1",
     "animate.css": "~3.4.0",
@@ -30,7 +30,7 @@
     "ngUpload": "~0.5.14"
   },
   "devDependencies": {
-    "angular-mocks": "~1.4.8"
+    "angular-mocks": "~1.5.2"
   },
   "overrides": {
     "bootstrap-sass": {
@@ -50,6 +50,6 @@
     }
   },
   "resolutions": {
-    "angular": "~1.4.9"
+    "angular": "~1.5.2"
   }
 }

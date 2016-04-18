@@ -20,7 +20,22 @@ angular.module 'client'
           [ true, 'Is Staff' ]
           [ false, 'Not Staff' ]
         ]
+        $scope.setMemberships = (memberships) ->
+          $scope.user.jurisdictionMemberships = memberships
+        setJurisdictionMembershipsAttributes = () ->
+          $scope.user.jurisdictionMembershipsAttributes = []
+          for membership in $scope.user.jurisdictionMemberships
+            attributes =  {
+              propose: membership.propose
+              adopt: membership.adopt
+            }
+            attributes.jurisdictionId = membership.jurisdiction.id if membership.jurisdiction
+            attributes.id = membership.id if membership.id
+            attributes._destroy = true if membership.destroy
+            $scope.user.jurisdictionMembershipsAttributes.push attributes
         $scope.save = ( user ) ->
+          if $scope.user.jurisdictionMemberships && $scope.user.jurisdictionMemberships.length > 0
+            setJurisdictionMembershipsAttributes()
           onCreate = ( user ) ->
             Flash.create 'success', 'User created'
             $state.go 'users'

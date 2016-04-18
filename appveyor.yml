@@ -30,7 +30,7 @@ install:
   - cinst PhantomJS -y
   - SET PATH=%path%;C:\tools\PhantomJS\
   - phantomjs -v
-  - gem install bundler --quiet --no-ri --no-rdoc
+  # - gem install bundler --quiet --no-ri --no-rdoc
   - bundler --version
   - ps: Install-Product node ''
   - node -v

@@ -36,7 +36,7 @@ install:
   - node -v
   - npm -v
   - npm install -g bower gulp
-  - bundle --deployment
+  - bundle install
 build: off
 test_script:
   - createdb appveyor_ci_test

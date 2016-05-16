@@ -15,6 +15,7 @@ angular.module 'client', [
   'ng-token-auth'
   'ui.ace'
   'ui.bootstrap'
+  'ui.bootstrap.showErrors'
   'ui.router'
   'ui.select'
   'ui.tree'

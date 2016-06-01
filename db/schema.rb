@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20160218142001) do
 
   create_table "jurisdictions", force: :cascade do |t|
     t.string   "name",                                 null: false
+    t.boolean  "executive_review",     default: false, null: false
     t.string   "file_name",                            null: false
     t.boolean  "repo_created",         default: false, null: false
     t.boolean  "working_repo_created", default: false, null: false

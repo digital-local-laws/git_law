@@ -2,6 +2,7 @@ class CreateJurisdictions < ActiveRecord::Migration
   def change
     create_table :jurisdictions do |t|
       t.string :name, null: false
+      t.boolean :executive_review, null: false, default: false
       t.string :file_name, null: false
       t.boolean :repo_created, null: false, default: false
       t.boolean :working_repo_created, null: false, default: false

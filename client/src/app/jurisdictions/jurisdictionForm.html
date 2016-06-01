@@ -1,6 +1,6 @@
 <form name="jurisdictionForm">
   <div class="form-group has-feedback"
-   ng-class="{&#39;has-error&#39;: errors.name ||  jurisdictionForm.name.$invalid, &#39;has-success&#39;: jurisdiction.name  &amp;&amp; !errors.name &amp;&amp; jurisdictionForm.name.$valid }">
+   ng-class="{'has-error': errors.name ||  jurisdictionForm.name.$invalid, 'has-success': jurisdiction.name  &amp;&amp; !errors.name &amp;&amp; jurisdictionForm.name.$valid }">
     <label class="control-label" for="name">Name</label>
     <input class="form-control" id="name" name="name"
     ng-model="jurisdiction.name" ng-required="" type="text" />
@@ -10,13 +10,20 @@
     <span class="help-block" ng-show="jurisdictionForm.name.$error.required">is required<br /></span>
     <span class="help-block" ng-repeat="error in errors.name">{{error}}<br /></span>
   </div>
+  <div class="btn-group" role="group" aria-label="Executive Review">
+    <div class="help-text">
+      Are laws adopted by the legislative body of the jurisdiction subject to review by an elected executive?
+    </div>
+    <label class="btn btn-default" ng-model="jurisdiction.executiveReview" uib-btn-radio="true">Executive Review Required</label>
+    <label class="btn btn-default" ng-model="jurisdiction.executiveReview" uib-btn-radio="false">No Executive Review</label>
+  </div>
 </form>
 <button class="btn btn-primary" ng-click="save(jurisdiction)"
  ng-disabled="jurisdictionForm.$invalid" type="button">
    <span class="glyphicon glyphicon-ok"></span>
    {{jurisdiction.id ? 'Update Jurisdiction Settings' : 'Add Jurisdiction'}}
   </button>
-  <button class="btn btn-default" ng-click="cancel()" type="button">
-    <span class="glyphicon glyphicon-remove"></span>
-    Cancel
-  </button>
+<button class="btn btn-default" ng-click="cancel()" type="button">
+  <span class="glyphicon glyphicon-remove"></span>
+  Cancel
+</button>

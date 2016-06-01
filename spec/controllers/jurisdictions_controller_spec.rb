@@ -68,11 +68,13 @@ RSpec.describe JurisdictionsController, type: :controller do
       token_sign_in staff
       patch :update, default_params.merge( {
         id: jurisdiction.id,
-        name: 'Corning'
+        name: 'Corning',
+        executive_review: true
       } )
       expect( response ).to have_http_status 204
       jurisdiction.reload
       expect( jurisdiction.name ).to eql 'Corning'
+      expect( jurisdiction.executive_review ).to be true
     end
 
     it 'should not update a jurisdiction without authorization' do
@@ -89,7 +91,7 @@ RSpec.describe JurisdictionsController, type: :controller do
 
   describe 'POST /api/jurisdictions' do
     let(:valid_params) {
-      { name: 'Binghamton' }
+      { name: 'Binghamton', executive_review: true }
     }
     it 'should create a jurisdiction with authorization' do
       token_sign_in staff
@@ -97,7 +99,9 @@ RSpec.describe JurisdictionsController, type: :controller do
       post :create, default_params.merge( valid_params )
       expect( response ).to have_http_status 201
       expect( response ).to render_template 'jurisdictions/show'
-      expect( Jurisdiction.where(name: 'Binghamton') ).not_to be_empty
+      jurisdiction = Jurisdiction.where(name: 'Binghamton').first
+      expect( jurisdiction ).not_to be nil
+      expect( jurisdiction.executive_review ).to be true
     end
 
     it 'should not create a jurisdiction without authorization' do

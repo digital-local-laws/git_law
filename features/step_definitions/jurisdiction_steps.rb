@@ -24,16 +24,18 @@ end
 
 When(/^I add(?:ed)? a jurisdiction$/) do
   step %{I go to add a jurisdiction}
-  fill_in 'Name', with: "Tompkins County"
+  fill_in 'Name', with: "Broome County"
+  find(:xpath,'//label[contains(.,"Executive Review Required")]').click
   find(:xpath,'//button[contains(.,"Add Jurisdiction")]').click
 end
 
 Then(/^I should see the jurisdiction was added$/) do
   expect( page ).to have_text "Jurisdiction was added."
+  expect( Jurisdiction.where( name: 'Broome County' ).first.executive_review ).to be true
   click_link "Jurisdictions"
   within(:xpath,'//tbody/tr/td[position()=1]') do
     # TODO - how do we want to identify these jurisdictions?
-    expect(page).to have_text "Tompkins County"
+    expect(page).to have_text "Broome County"
   end
 end
 
@@ -54,6 +56,7 @@ When(/^I edit the jurisdiction settings$/) do
   click_link "Jurisdictions"
   find(:xpath,'//a[contains(.,"Settings")]').click
   fill_in "Name", with: "Tompkins County"
+  find(:xpath,'//label[contains(.,"No Executive Review")]').click
   find(:xpath,'//button[contains(.,"Update Jurisdiction Settings")]').click
 end
 

@@ -69,11 +69,13 @@ RSpec.describe JurisdictionsController, type: :controller do
       patch :update, default_params.merge( {
         id: jurisdiction.id,
         name: 'Corning',
+        legislative_body: 'Corning City Council',
         executive_review: true
       } )
       expect( response ).to have_http_status 204
       jurisdiction.reload
       expect( jurisdiction.name ).to eql 'Corning'
+      expect( jurisdiction.legislative_body ).to eql 'Corning City Council'
       expect( jurisdiction.executive_review ).to be true
     end
 
@@ -91,7 +93,8 @@ RSpec.describe JurisdictionsController, type: :controller do
 
   describe 'POST /api/jurisdictions' do
     let(:valid_params) {
-      { name: 'Binghamton', executive_review: true }
+      { name: 'Binghamton', legislative_body: 'Binghamton City Council',
+        executive_review: true }
     }
     it 'should create a jurisdiction with authorization' do
       token_sign_in staff
@@ -101,6 +104,7 @@ RSpec.describe JurisdictionsController, type: :controller do
       expect( response ).to render_template 'jurisdictions/show'
       jurisdiction = Jurisdiction.where(name: 'Binghamton').first
       expect( jurisdiction ).not_to be nil
+      expect( jurisdiction.legislative_body ).to eql 'Binghamton City Council'
       expect( jurisdiction.executive_review ).to be true
     end
 

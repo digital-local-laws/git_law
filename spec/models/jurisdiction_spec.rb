@@ -17,6 +17,12 @@ RSpec.describe Jurisdiction, type: :model do
       expect( jurisdiction.errors[:executive_review] ).to include "is not included in the list"
     end
 
+    it "should not save without a legislative body" do
+      jurisdiction.legislative_body = nil
+      expect( jurisdiction.save ).to be false
+      expect( jurisdiction.errors[:legislative_body] ).to include "can't be blank"
+    end
+
     it "should not save a duplicate name" do
       jurisdiction = create(:jurisdiction)
       jurisdiction2 = build(:jurisdiction, name: jurisdiction.name)

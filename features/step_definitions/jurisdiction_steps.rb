@@ -25,13 +25,16 @@ end
 When(/^I add(?:ed)? a jurisdiction$/) do
   step %{I go to add a jurisdiction}
   fill_in 'Name', with: "Broome County"
+  fill_in 'Legislative Body', with: "Broome County Legislature"
   find(:xpath,'//label[contains(.,"Executive Review Required")]').click
   find(:xpath,'//button[contains(.,"Add Jurisdiction")]').click
 end
 
 Then(/^I should see the jurisdiction was added$/) do
   expect( page ).to have_text "Jurisdiction was added."
-  expect( Jurisdiction.where( name: 'Broome County' ).first.executive_review ).to be true
+  jurisdiction = Jurisdiction.where( name: 'Broome County' ).first
+  expect( jurisdiction.legislative_body ).to eql 'Broome County Legislature'
+  expect( jurisdiction.executive_review ).to be true
   click_link "Jurisdictions"
   within(:xpath,'//tbody/tr/td[position()=1]') do
     # TODO - how do we want to identify these jurisdictions?
@@ -56,6 +59,7 @@ When(/^I edit the jurisdiction settings$/) do
   click_link "Jurisdictions"
   find(:xpath,'//a[contains(.,"Settings")]').click
   fill_in "Name", with: "Tompkins County"
+  fill_in 'Legislative Body', with: "Tompkins County Legislature"
   find(:xpath,'//label[contains(.,"No Executive Review")]').click
   find(:xpath,'//button[contains(.,"Update Jurisdiction Settings")]').click
 end
@@ -67,7 +71,10 @@ end
 Then(/^the jurisdiction settings should be updated$/) do
   within("tbody") do
     expect( page ).to have_text "Tompkins County"
-    expect( Jurisdiction.first.name ).to eql "Tompkins County"
+    jurisdiction = Jurisdiction.where( name: 'Tompkins County' ).first
+    expect( jurisdiction.name ).to eql "Tompkins County"
+    expect( jurisdiction.legislative_body ).to eql "Tompkins County Legislature"
+    expect( jurisdiction.executive_review ).to be false
   end
 end
 

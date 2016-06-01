@@ -63,6 +63,6 @@ class JurisdictionsController < ApplicationController
 
   def jurisdiction_params
     @jurisdiction_params ||= params.
-      permit(:name,:executive_review)
+      permit(:name,:executive_review,:legislative_body)
   end
 end

@@ -3,7 +3,8 @@ angular.module 'client'
     'ngInject'
     # Enable log
     $logProvider.debugEnabled true
-  .config ( $locationProvider, uiSelectConfig, $authProvider ) ->
+  .config ( $locationProvider, uiSelectConfig, $authProvider,
+  showErrorsConfigProvider ) ->
     # TODO how can we enable HTML5 mode?
     # $locationProvider.html5Mode true
     uiSelectConfig.theme = 'bootstrap'
@@ -14,3 +15,4 @@ angular.module 'client'
         developer: '/auth/developer'
       }
     })
+    showErrorsConfigProvider.showSuccess true

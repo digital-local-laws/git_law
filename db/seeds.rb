@@ -9,6 +9,8 @@ admin = User.new(
   first_name: 'An',
   last_name: 'Administrator',
   email: 'admin@example.com',
+  uid: 'admin@example.com',
+  provider: 'developer',
   admin: true,
   password: 'secretsquirrel',
   password_confirmation: 'secretsquirrel'

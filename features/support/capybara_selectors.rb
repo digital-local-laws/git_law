@@ -13,3 +13,9 @@ end
 Capybara.add_selector(:enabled_label) do
   xpath { |text| ".//label[ contains(.,'#{text}') and not(@disabled) ]" }
 end
+
+Capybara.add_selector(:active_label) do
+  xpath do |text|
+    "//label[contains(concat(' ',@class,' '),' active ') and contains(.,'#{text}')]"
+  end
+end

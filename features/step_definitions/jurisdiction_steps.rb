@@ -32,14 +32,13 @@ end
 
 Then(/^I should see the jurisdiction was added$/) do
   expect( page ).to have_text "Jurisdiction was added."
-  jurisdiction = Jurisdiction.where( name: 'Broome County' ).first
-  expect( jurisdiction.legislative_body ).to eql 'Broome County Legislature'
-  expect( jurisdiction.executive_review ).to be true
   click_link "Jurisdictions"
-  within(:xpath,'//tbody/tr/td[position()=1]') do
-    # TODO - how do we want to identify these jurisdictions?
-    expect(page).to have_text "Broome County"
+  within( :xpath, '//tbody/tr[contains(./td,"Broome County")]' ) do
+    find( :xpath, './/a[contains(.,"Settings")]' ).click
   end
+  expect( find_field('Name').value ).to eql "Broome County"
+  expect( find_field('Legislative Body').value ).to eql "Broome County Legislature"
+  expect( page ).to have_selector( :active_label, "Executive Review Required" )
 end
 
 Then(/^the jurisdiction should( not)? be recorded in the database$/) do |no|
@@ -68,14 +67,17 @@ Then(/^I should see the jurisdiction settings were updated$/) do
   expect( page ).to have_text "Jurisdiction settings were updated."
 end
 
+When /^I go to edit the jurisdiction settings for "([^"]+)"$/ do |name|
+  step %{I click "Settings" for "#{name}"}
+  expect( page ).to have_text "Edit Jurisdiction Settings"
+end
+
 Then(/^the jurisdiction settings should be updated$/) do
-  within("tbody") do
-    expect( page ).to have_text "Tompkins County"
-    jurisdiction = Jurisdiction.where( name: 'Tompkins County' ).first
-    expect( jurisdiction.name ).to eql "Tompkins County"
-    expect( jurisdiction.legislative_body ).to eql "Tompkins County Legislature"
-    expect( jurisdiction.executive_review ).to be false
-  end
+  expect( page ).to have_text 'Jurisdiction settings were updated.'
+  step %{I go to edit the jurisdiction settings for "Tompkins County"}
+  expect( find_field('Name').value ).to eql "Tompkins County"
+  expect( find_field('Legislative Body').value ).to eql "Tompkins County Legislature"
+  expect( page ).to have_selector( :active_label, "No Executive Review" )
 end
 
 Given(/^a jurisdiction exists$/) do

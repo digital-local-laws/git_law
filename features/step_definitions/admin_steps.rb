@@ -8,3 +8,9 @@ Then(/^I may( not)? go to administration$/) do |no|
     end
   end
 end
+
+When /^I click "([^"]+)" for "([^"]+)"$/ do |button, name|
+  within( :xpath, "//tbody/tr[contains(./td,'#{name}')]" ) do
+    find( :xpath, ".//a[contains(.,'#{button}')]" ).click
+  end
+end

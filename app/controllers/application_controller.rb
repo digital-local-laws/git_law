@@ -11,10 +11,6 @@ class ApplicationController < ActionController::API
 
   before_filter :decamelize_params!, :camelize_output!
 
-  decent_configuration do
-    strategy DecentExposure::StrongParametersStrategy
-  end
-
   expose :page do
     params[:page] ? params[:page].to_i : 1
   end

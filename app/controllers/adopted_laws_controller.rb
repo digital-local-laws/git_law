@@ -22,9 +22,7 @@ class AdoptedLawsController < ApplicationController
       AdoptedLaw.all
     end
   end
-  helper_method :proposed_law
-  helper_method :adopted_laws
-  helper_method :jurisdiction
+  helper_method :proposed_law, :adopted_law, :adopted_laws, :jurisdiction
 
   def index
     render status: 200

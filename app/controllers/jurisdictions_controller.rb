@@ -11,7 +11,7 @@ class JurisdictionsController < ApplicationController
       s
     end
   end
-  helper_method :jurisdictions
+  helper_method :jurisdictions, :jurisdiction
 
   def index
     if page == 1 || jurisdictions.any?
@@ -63,6 +63,6 @@ class JurisdictionsController < ApplicationController
 
   def jurisdiction_params
     @jurisdiction_params ||= params.
-      permit(:name,:executive_review,:legislative_body)
+      permit(:name,:executive_review,:legislative_body,:government_type)
   end
 end

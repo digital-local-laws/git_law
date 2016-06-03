@@ -8,6 +8,12 @@ angular.module 'client'
       controllerAs: 'ctrl'
       controller: ( $scope, $state, Jurisdiction, Flash ) ->
         ctrl = this
+        $scope.governmentTypes = [
+          [ 'city', 'City' ]
+          [ 'county', 'County' ]
+          [ 'town', 'Town' ]
+          [ 'village', 'Village' ]
+        ]
         $scope.jurisdiction = angular.copy ctrl.jurisdiction
         $scope.errors = { }
         $scope.save = ( jurisdiction ) ->

@@ -14,6 +14,8 @@ module ProposedLaws
       params[:attributes]
     end
 
+    helper_method :node, :nodes
+
     def index
       if node.exists?
         render 'index', status: 200

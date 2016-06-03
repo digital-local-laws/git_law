@@ -7,6 +7,8 @@ module ProposedLaws
       proposed_law.working_file tree
     end
 
+    helper_method :proposed_law, :working_file
+
     protected
 
     # By default, the tree parameter is just the tree parameter or an empty string

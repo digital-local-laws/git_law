@@ -24,8 +24,9 @@ end
 
 When(/^I add(?:ed)? a jurisdiction$/) do
   step %{I go to add a jurisdiction}
-  fill_in 'Name', with: "Broome County"
+  fill_in 'Name', with: "Broome"
   fill_in 'Legislative Body', with: "Broome County Legislature"
+  select 'County', from: 'Government Type'
   find(:xpath,'//label[contains(.,"Executive Review Required")]').click
   find(:xpath,'//button[contains(.,"Add Jurisdiction")]').click
 end
@@ -33,11 +34,12 @@ end
 Then(/^I should see the jurisdiction was added$/) do
   expect( page ).to have_text "Jurisdiction was added."
   click_link "Jurisdictions"
-  within( :xpath, '//tbody/tr[contains(./td,"Broome County")]' ) do
+  within( :xpath, '//tbody/tr[contains(./td,"Broome")]' ) do
     find( :xpath, './/a[contains(.,"Settings")]' ).click
   end
-  expect( find_field('Name').value ).to eql "Broome County"
+  expect( find_field('Name').value ).to eql "Broome"
   expect( find_field('Legislative Body').value ).to eql "Broome County Legislature"
+  expect( find_field('Government Type').value ).to eql "county"
   expect( page ).to have_selector( :active_label, "Executive Review Required" )
 end
 
@@ -57,8 +59,9 @@ end
 When(/^I edit the jurisdiction settings$/) do
   click_link "Jurisdictions"
   find(:xpath,'//a[contains(.,"Settings")]').click
-  fill_in "Name", with: "Tompkins County"
-  fill_in 'Legislative Body', with: "Tompkins County Legislature"
+  fill_in "Name", with: "Tompkins"
+  fill_in 'Legislative Body', with: "Tompkins Town Council"
+  select "Town", from: "Government Type"
   find(:xpath,'//label[contains(.,"No Executive Review")]').click
   find(:xpath,'//button[contains(.,"Update Jurisdiction Settings")]').click
 end
@@ -74,9 +77,10 @@ end
 
 Then(/^the jurisdiction settings should be updated$/) do
   expect( page ).to have_text 'Jurisdiction settings were updated.'
-  step %{I go to edit the jurisdiction settings for "Tompkins County"}
-  expect( find_field('Name').value ).to eql "Tompkins County"
-  expect( find_field('Legislative Body').value ).to eql "Tompkins County Legislature"
+  step %{I go to edit the jurisdiction settings for "Tompkins"}
+  expect( find_field('Name').value ).to eql "Tompkins"
+  expect( find_field('Legislative Body').value ).to eql "Tompkins Town Council"
+  expect( find_field('Government Type').value ).to eql "town"
   expect( page ).to have_selector( :active_label, "No Executive Review" )
 end
 

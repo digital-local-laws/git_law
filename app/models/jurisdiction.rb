@@ -8,6 +8,7 @@ class Jurisdiction < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   validates :file_name, presence: true, uniqueness: true
   validates :executive_review, inclusion: { in: [ true, false ] }
+  validates :government_type, inclusion: { in: %w( city county town village ) }
   validates :legislative_body, presence: true
 
   before_validation :set_file_name

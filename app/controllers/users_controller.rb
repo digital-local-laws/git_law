@@ -20,6 +20,8 @@ class UsersController < ApplicationController
     params.permit( policy( user ).permitted_attributes )
   end
 
+  helper_method :user, :users
+
   # GET /api/users[/page/:page].json[?q=:q]
   def index
     authorize User, :index?

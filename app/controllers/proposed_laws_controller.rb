@@ -27,8 +27,7 @@ class ProposedLawsController < ApplicationController
       s
     end
   end
-  helper_method :proposed_laws
-  helper_method :jurisdiction
+  helper_method :proposed_laws, :jurisdiction, :proposed_law
 
   def index
     if page == 1 || proposed_laws.any?

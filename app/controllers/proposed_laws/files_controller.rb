@@ -8,6 +8,8 @@ module ProposedLaws
       params[:content]
     end
 
+    helper_method :working_files, :content
+
     def index
       if working_file.exists?
         render status: 200

@@ -23,6 +23,18 @@ RSpec.describe Jurisdiction, type: :model do
       expect( jurisdiction.errors[:legislative_body] ).to include "can't be blank"
     end
 
+    it "should not save without a government type" do
+      jurisdiction.government_type = nil
+      expect( jurisdiction.save ).to be false
+      expect( jurisdiction.errors[:government_type] ).to include "is not included in the list"
+    end
+
+    it "should not save with an invalid government type" do
+      jurisdiction.government_type = 'duchy'
+      expect( jurisdiction.save ).to be false
+      expect( jurisdiction.errors[:government_type] ).to include "is not included in the list"
+    end
+
     it "should not save a duplicate name" do
       jurisdiction = create(:jurisdiction)
       jurisdiction2 = build(:jurisdiction, name: jurisdiction.name)

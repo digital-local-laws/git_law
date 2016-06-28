@@ -54,6 +54,8 @@ RSpec.describe AdoptedLawsController, type: :controller do
   describe 'POST /api/proposed_law/:proposed_law_id/adopted_laws' do
     let(:valid_params) {
       {
+        adopted_on: Time.zone.today.to_s( :db ),
+        referendum_required: false,
         proposed_law_id: proposed_laws[0].id
       }
     }

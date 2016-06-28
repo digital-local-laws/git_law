@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     # Paginated routes
     match "/jurisdictions/page/:page(.:format)", to: "jurisdictions#index", via: :get,
       constraints: { page: /[0-9]+/ }
-    resources :adopted_laws, only: [ :show ]
+    resources :adopted_laws, only: [ :show, :index ]
     resources :proposed_laws, only: [ :index, :show, :update, :destroy ] do
       resource :adopted_law, only: [ :create ]
       member do

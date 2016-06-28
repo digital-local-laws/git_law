@@ -21,6 +21,7 @@ admin.save!
 jurisdiction = Jurisdiction.create!(
   name: 'Ithaca',
   legislative_body: 'Ithaca Common Council',
+  government_type: 'city',
   executive_review: true
 )
 

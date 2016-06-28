@@ -1,20 +1,46 @@
 angular.module 'client'
   .controller 'AdoptLawCtrl', ( $scope, $state, $stateParams, AdoptedLaw,
-    Flash, $log ) ->
+    Flash, $log, $filter ) ->
       $scope.alerts = [ ]
       $scope.errors = { }
-      $scope.certificationOptions = [
-        [ '1', 'Local legislative body only' ]
-        [ '2', 'Local legislative body with approval, no approval, or ' +
-               'repassage after disapproval by elective Chief Executive Officer' ]
-        [ '3', 'Referendum' ]
-        [ '4', 'Permissive referendum and final adoption because no valid ' +
-               'petition was filed requesting referendum' ]
-        [ '5', 'City local law concerning Charter revision proposed by petition' ]
-        [ '6', 'County local law concerning adoption of Charter' ]
-        [ '7', 'Other (write your own certification)' ]
+      # was ... by the executive officer
+      $scope.executiveActionOptions = [
+        [ 'approved', 'approved' ]
+        [ 'none', 'not approved and no longer subject to approval' ]
+        [ 'rejected', 'repassed after disapproval' ]
+      ]
+      # subject to ... referendum
+      $scope.referendumTypeOptions = [
+        [ 'mandatory', 'mandatory' ]
+        [ 'permissive', 'permissive' ]
+        [ 'city charter revision', 'city charter revision', 'sections (36)(37) of Municipal Home Rule Law' ]
+        [ 'county charter adoption', 'county charter adoption', 'subdivisions (5)(7) of section 33 of Municipal Home Rule Law' ]
+      ]
+      # at the ... election
+      $scope.electionTypeOptions = [
+        [ 'general', 'general' ]
+        [ 'special', 'special' ]
+        [ 'annual', 'annual' ]
       ]
       $scope.adoptedLaw = new AdoptedLaw( { proposedLawId: $stateParams.proposedLawId } )
+      $scope.certification = ( adoptedLaw ) ->
+        text = ''
+        if adoptedLaw.executiveAction
+          text += 'Law was ' + $scope.executiveActionOptions[adoptedLaw.executiveAction][1] + ' by elected executive '
+          text += 'on ' + $filter('date')($scope.adoptedLaw.executiveActionDate,'longDate') + '.'
+        if adoptedLaw.referendumRequired && adoptedLaw.referendumType
+          text += ' Law was subject to ' + $scope.referendumTypeOptions[adoptedLaw.referendumType][1] + 'referendum '
+          if $scope.referendumTypeOptions[adoptedLaw.referendumType][2]
+            text += 'pursuant to ' + $scope.referendumTypeOptions[adoptedLaw.referendumType][1] + ' '
+          if adoptedLaw.electionType
+            text += 'and was adopted in a ' + $scope.electionTypeOptions[adoptedLaw.electionType][1] + 'election held '
+          else
+            text += 'and no valid petition was received '
+          if adoptedLaw.referendumDate
+            text += 'on ' + $filter('date')($scope.adoptedLaw.referendumDate,'longDate') + '.'
+        $scope.certificationText = text
+      # $scope.$watchCollection 'adoptedLaw', () ->
+      #   $scope.certification( $scope.adoptedLaw )
       $scope.save = (adoptedLaw) ->
         success = ( adoptedLaw ) ->
           Flash.create 'success', 'Adopted law was submitted.'

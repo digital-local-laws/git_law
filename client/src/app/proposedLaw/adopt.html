@@ -21,14 +21,77 @@
     </span>
   </div>
   <div class="form-group has-feedback" ng-class="{'has-error': errors.title ||  adoptedLawForm.adoptedOn.$invalid, 'has-success':  adoptedLawForm.attributes.adoptedOn &amp;&amp; !errors.adoptedOn &amp;&amp;  adoptedLawForm.adoptedOn.$valid }">
-    <label class="control-label" for="adoptedOn">Adopted On</label><input class="form-control" id="adoptedOn" name="adoptedOn" ng-model="adoptedLaw.adoptedOn" type="text" /><span class="glyphicon glyphicon-ok form-control-feedback" ng-show="adoptedLaw.adoptedOn &amp;&amp; !errors.adoptedOn  &amp;&amp; !adoptedLawForm.adoptedOn.$invalid"></span><span class="glyphicon glyphicon-remove form-control-feedback" ng-show="errors.adoptedOn || adoptedLawForm.adoptedOn.$invalid"></span><span class="help-block">Specify date of final adoption for this law.<br /></span><span class="help-block" ng-repeat="error in errors.adoptedOn">{{error}}<br /></span>
+    <label class="control-label" for="adoptedOn">Finally Adopted On</label>
+    <input class="form-control" id="adoptedOn" name="adoptedOn" ng-model="adoptedLaw.adoptedOn" type="text" />
+    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="adoptedLaw.adoptedOn &amp;&amp; !errors.adoptedOn  &amp;&amp; !adoptedLawForm.adoptedOn.$invalid"></span>
+    <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="errors.adoptedOn || adoptedLawForm.adoptedOn.$invalid"></span>
+    <span class="help-block">Specify date of final adoption for this law.<br /></span>
+    <span class="help-block" ng-repeat="error in errors.adoptedOn">{{error}}<br /></span>
   </div>
-  <div class="form-group" ng-class="{'has-error': adoptedLawForm.certificationType.$invalid, 'has-success': !adoptedLawForm.certificationType.$invalid &amp;&amp;  adoptedLaw.certificationType, 'has-feedback': true}">
-    <label class="control-label" for="title">Titling</label>
-    <div class="btn-group">
-      <label class="btn btn-info" ng-model="adoptedLaw.certificationType" ng-repeat="option in certificationOptions" uib-btn-radio="option[0]">{{option[1]}}</label>
+  <div ng-if="jurisdiction.executiveReview">
+    <div class="btn-group" role="group" aria-label="Executive Officer Action">
+      <div class="help-text">
+        How did the law meet executive approval requirements of the jurisdiction?
+      </div>
+      <label class="btn btn-default" ng-model="adoptedLaw.executiveAction" uib-btn-radio="action[0]" ng-repeat="action in executiveActionOptions">{{action[1]}}</label>
     </div>
-    <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="!adoptedLawForm.certificationType.$invalid &amp;&amp;  adoptedLaw.certificationType"></span><span class="glyphicon glyphicon-remove form-control-feedback" ng-show="adoptedLawForm.certificationType.$invalid"></span><span class="help-block" ng-show="adoptedLawForm.certificationType.$error.required">Is required.</span><span class="help-block">Specify the manner in which final adoption was achieved for this submission.</span>
+    <div class="form-group">
+      <label for="executiveActionDate">Executive Action Date</label>
+      <div class="help-text">
+        On what date was the law approved, repassed after disapproval, or not approved and no longer subject to approval by the executive officer.
+      </div>
+      <input type="text" name="executiveActionDate" id="executiveActionDate" ng-model="adoptedLaw.executiveActionDate" />
+      <span class="help-block" ng-repeat="error in errors.executiveActionDate">{{error}}<br /></span>
+    </div>
+  </div>
+  <div class="btn-group" role="group" aria-label="Referendum Required">
+    <div class="help-text">
+      Was the law subject to a referendum requirement?
+    </div>
+    <label class="btn btn-default" ng-model="adoptedLaw.referendumRequired" uib-btn-radio="true">Subject to referendum</label>
+    <label class="btn btn-default" ng-model="adoptedLaw.referendumRequired" uib-btn-radio="false">Not subject to referendum</label>
+    <span class="help-block" ng-repeat="error in errors.referendumRequired">{{error}}<br /></span>
+  </div>
+  <div ng-if="adoptedLaw.referendumRequired">
+    <div class="btn-group" role="group" aria-label="Referendum Type">
+      <div class="help-text">
+        To what type of referendum was the law subject?
+      </div>
+      <label class="btn btn-default" ng-model="adoptedLaw.referendumType" uib-btn-radio="type[0]" ng-repeat="type in referendumTypeOptions">{{type[0]}}</label>
+      <span class="help-block" ng-repeat="error in errors.referendumType">{{error}}<br /></span>
+    </div>
+    <div class="btn-group" role="group" aria-label="Petition Received" ng-if="adoptedLaw.referendumType == 'permissive'">
+      <div class="help-text">
+        Was a valid petition received that required the permissive referendum to be held?
+      </div>
+      <label class="btn btn-default" ng-model="adoptedLaw.permissivePetition" uib-btn-radio="true">Petition received</label>
+      <label class="btn btn-default" ng-model="adoptedLaw.permissivePetition" uib-btn-radio="false">No petition received</label>
+      <span class="help-block" ng-repeat="error in errors.permissivePetition">{{error}}<br /></span>
+    </div>
+    <div ng-if="adoptedLaw.referendumRequired &amp;&amp; ( adoptedLaw.referendumType != 'permissive' || adoptedLaw.permissivePetition )">
+      <div class="btn-group" role="group" aria-label="Election Type">
+        <div class="help-text">
+          In what type of election was the referendum held?
+        </div>
+        <label class="btn btn-default" ng-model="adoptedLaw.electionType" uib-btn-radio="type[0]" ng-repeat="type in electionTypeOptions">{{type[0]}}</label>
+        <span class="help-block" ng-repeat="error in errors.electionType">{{error}}<br /></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="referendumDate">Referendum Date</label>
+      <div class="help-text" ng-if="adoptedLaw.referendumType != 'permissive' || adoptedLaw.permissivePetition == true">
+        When was the referendum held?
+      </div>
+      <div class="help-text" ng-if="adoptedLaw.referendumType == 'permissive' &amp;&amp; adoptedLaw.permissivePetition == false">
+        When was the law no longer subject to permissive referendum because no valid petition was received?
+      </div>
+      <input type="text" name="referendumDate" id="referendumDate" class="form-control" ng-model="adoptedLaw.referendumDate" />
+      <span class="help-block" ng-repeat="error in errors.referendumDate">{{error}}<br /></span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="certification">Certification</label>
+    <p>{{certificationText}}</p>
   </div>
 </form>
 <button class="btn btn-primary" ng-click="save(adoptedLaw)" ng-disabled="adoptedLawForm.$invalid" type="button"><span class="glyphicon glyphicon-ok"></span>Certify and Submit Adopted Law</button><button class="btn btn-default" ng-click="cancel()" type="button"><span class="glyphicon glyphicon-remove"></span>Cancel</button>

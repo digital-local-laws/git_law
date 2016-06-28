@@ -16,13 +16,8 @@ ActiveRecord::Schema.define(version: 20160603120544) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "adopted_laws", force: :cascade do |t|
-    t.integer  "proposed_law_id", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "adopted_laws", ["proposed_law_id"], name: "index_adopted_laws_on_proposed_law_id", using: :btree
+# Could not dump table "adopted_laws" because of following StandardError
+#   Unknown type 'executive_action' for column 'executive_action'
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false

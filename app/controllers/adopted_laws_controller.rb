@@ -1,5 +1,7 @@
 class AdoptedLawsController < ApplicationController
   before_filter :decamelize_params!, :camelize_output!
+  before_action :authenticate_user!, :authorize_user!, except: [ :index, :show ]
+
   expose :adopted_law do
     if params[:id]
       AdoptedLaw.find params[:id]
@@ -16,16 +18,25 @@ class AdoptedLawsController < ApplicationController
     end
   end
   expose( :unpaginated_adopted_laws ) do
-    if jurisdiction
+    scope = if jurisdiction
       jurisdiction.proposed_laws.all
     else
       AdoptedLaw.all
     end
+    if params[:q]
+      scope = scope.where "proposed_laws.title ILIKE ?", "%#{params[:q]}%"
+    end
+    scope.includes(:proposed_law).references(:proposed_law).
+      order( 'proposed_laws.title ASC' )
   end
   helper_method :proposed_law, :adopted_law, :adopted_laws, :jurisdiction
 
   def index
-    render status: 200
+    if page == 1 || adopted_laws.any?
+      render status: 200
+    else
+      render nothing: true, status: 404
+    end
   end
 
   def show
@@ -43,12 +54,19 @@ class AdoptedLawsController < ApplicationController
 
   private
 
+  def authorize_user!
+    authorize adopted_law
+  end
+
   def adopted_laws
     @adopted_laws ||= paginate unpaginated_adopted_laws
   end
 
   def adopted_law_params
     @adopted_law_params ||= params.
-      permit(:certification_type)
+      permit(
+        :executive_action, :executive_action_date, :referendum_required,
+        :referendum_type, :permissive_petition, :election_type, :adopted_on
+      )
   end
 end

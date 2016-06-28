@@ -87,3 +87,7 @@ end
 Given(/^a jurisdiction exists$/) do
   @jurisdiction = create(:jurisdiction)
 end
+
+Given /^each law proposed for the jurisdiction is( not)? subject to executive review$/ do |negate|
+  @jurisdiction.update_column :executive_review, ( negate.blank? ? true : false  )
+end

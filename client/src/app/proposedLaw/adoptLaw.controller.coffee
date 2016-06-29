@@ -6,7 +6,7 @@ angular.module 'client'
       # was ... by the executive officer
       $scope.executiveActionOptions = [
         [ 'approved', 'approved' ]
-        [ 'none', 'not approved and no longer subject to approval' ]
+        [ 'allowed', 'not approved and no longer subject to approval' ]
         [ 'rejected', 'repassed after disapproval' ]
       ]
       # subject to ... referendum

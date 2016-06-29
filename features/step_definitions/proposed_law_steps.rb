@@ -313,7 +313,7 @@ When(/^I go to adopt the proposed law$/) do
   fill_in 'Finally Adopted On', with: Time.zone.today.to_s(:db)
 end
 
-When /^I certify the proposed law is (not subject|approved|rejected|ignored) (?:to|by) executive review$/ do |action|
+When /^I certify the proposed law is (not subject|approved|rejected|allowed) (?:to|by) executive review$/ do |action|
   if action != 'not subject'
     text = case action
     when 'approved'

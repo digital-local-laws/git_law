@@ -65,7 +65,7 @@ class AdoptedLawsController < ApplicationController
   def adopted_law_params
     @adopted_law_params ||= params.
       permit(
-        :executive_action, :executive_action_date, :referendum_required,
+        :executive_action, :executive_action_on, :referendum_required,
         :referendum_type, :permissive_petition, :election_type, :adopted_on
       )
   end

@@ -7,7 +7,7 @@ FactoryGirl.define do
     factory :executive_adopted_law do
       association :proposed_law, factory: :executive_proposed_law
       executive_action { 'approved' }
-      executive_action_date { Time.zone.today }
+      executive_action_on { Time.zone.today }
     end
 
     factory :mandatory_referendum_adopted_law do

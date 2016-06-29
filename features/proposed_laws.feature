@@ -113,6 +113,8 @@ Feature: Manage local laws
       | executive | executive_action | referendum |
       | is not    | subject to       | no         |
       | is        | approved by      | no         |
+      | is        | allowed by       | no         |
+      | is        | rejected by      | no         |
       | is not    | subject to       | mandatory  |
       | is not    | subject to       | permissive |
       | is not    | subject to       | petition   |

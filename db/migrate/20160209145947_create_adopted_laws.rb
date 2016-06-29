@@ -4,7 +4,7 @@ class CreateAdoptedLaws < ActiveRecord::Migration
       execute <<-SQL
         CREATE TYPE executive_action AS ENUM (
           'approved',
-          'none',
+          'allowed',
           'rejected'
         );
         CREATE TYPE referendum_type AS ENUM (
@@ -22,7 +22,7 @@ class CreateAdoptedLaws < ActiveRecord::Migration
       t.date :adopted_on, null: false
       t.references :proposed_law, null: false, index: true, foreign_key: true
       t.column :executive_action, :executive_action
-      t.date :executive_action_date
+      t.date :executive_action_on
       t.boolean :referendum_required
       t.column :referendum_type, :referendum_type
       t.boolean :permissive_petition

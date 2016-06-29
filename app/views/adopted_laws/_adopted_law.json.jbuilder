@@ -1,7 +1,7 @@
 json.id adopted_law.id
 json.proposed_law_id adopted_law.proposed_law_id
 json.executive_action adopted_law.executive_action
-json.executive_action_date adopted_law.executive_action_date
+json.executive_action_on adopted_law.executive_action_on
 json.referendum_required adopted_law.referendum_required
 json.referendum_type adopted_law.referendum_type
 json.election_type adopted_law.election_type

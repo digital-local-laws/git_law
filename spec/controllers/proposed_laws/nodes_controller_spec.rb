@@ -48,6 +48,31 @@ RSpec.describe ProposedLaws::NodesController, type: :controller do
       expect( results.length ).to eql 5
       expect( results.first['attributes']['title'] ).to eql 'alpha'
     end
+
+    it "should return 404 error if queried node does not exist" do
+      proposed_law_node
+      get :index, default_params.merge( tree_base: 'omega.json' )
+      expect( response ).to have_http_status 404
+    end
+  end
+
+  describe 'GET /api/proposed_laws/:id/node/*tree_base' do
+    render_views
+
+    before(:each) do
+      controller.prepend_view_path 'app/views'
+    end
+
+    it "should display an existing node" do
+      get :show, default_params.merge( tree_base: proposed_law_node.tree_base )
+      expect( response ).to have_http_status 200
+      expect( response ).to render_template 'proposed_laws/nodes/show'
+    end
+
+    it "should return a 404 error if node does not exist" do
+      get :show, default_params.merge( tree_base: 'omega.json' )
+      expect( response ).to have_http_status 404
+    end
   end
 
   describe 'DELETE /api/proposed_laws/:id/node/*tree_base' do
@@ -129,6 +154,15 @@ RSpec.describe ProposedLaws::NodesController, type: :controller do
         n.attributes['title'] == 'City Code'
       end
       expect( list.length ).to eql 1
+    end
+
+    it "should not create a node with invalid attribute" do
+      token_sign_in owner
+      post( :create, default_params.merge( valid_params ).merge(
+        tree_base: proposed_law_node.tree_base
+      ) )
+      expect( response ).to have_http_status 422
+      expect( response ).to render_template 'proposed_laws/nodes/errors'
     end
 
     it 'should not create a node without authorization' do

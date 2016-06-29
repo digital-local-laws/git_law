@@ -1,11 +1,22 @@
 module GitFlow
   class WorkingFile
+    include ActiveModel::Validations
+
     include Comparable
     extend ActiveModel::Callbacks
 
     define_model_callbacks :create, :update, :destroy, :move
 
     after_create :add
+
+    validate :file_must_not_exist, on: :create
+
+    def file_must_not_exist
+      return unless absolute_path
+      if exists?
+        errors.add(:base,'File already exists')
+      end
+    end
 
     # Add the file to the index
     def add
@@ -72,6 +83,7 @@ module GitFlow
 
     # Initialize the file
     def create( directory = false )
+      return false unless valid? :create
       run_callbacks :create do
         if directory
           logger.info "Create directory at #{absolute_path}"
@@ -108,6 +120,7 @@ module GitFlow
     end
 
     def update
+      return false unless valid? :update
       run_callbacks :update do
         logger.info "Update file at #{absolute_path}"
         write_content

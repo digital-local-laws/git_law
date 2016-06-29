@@ -9,8 +9,6 @@ module GitFlow
   # directory that share the name of that metadata file but have a different
   # extension.
   class Node < WorkingFile
-    include ActiveModel::Validations
-
     include GitFlow::Nodes::Assets
     extend GitFlow::Nodes::Attributes::ClassMethods
     include GitFlow::Nodes::Attributes::InstanceMethods

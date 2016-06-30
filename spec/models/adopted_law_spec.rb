@@ -5,9 +5,22 @@ RSpec.describe AdoptedLaw, type: :model do
 
   it 'should save with valid attributes' do
     adopted_law.save!
+    expect( adopted_law.year_adopted ).to eql Time.zone.today.year
+    expect( adopted_law.number_in_year ).to eql 1
   end
 
-  it "should not save without adopted_on date" do
+  it "should assign correct number to a second law in same year for same jurisdiction" do
+    adopted_law.save!
+    second_law = build :adopted_law, proposed_law: build( :proposed_law,
+      jurisdiction: adopted_law.proposed_law.jurisdiction )
+    expect( second_law.year_adopted ).to be nil
+    expect( second_law.number_in_year ).to be nil
+    second_law.save!
+    expect( second_law.year_adopted ).to eql adopted_law.year_adopted
+    expect( second_law.number_in_year ).to eql 2
+  end
+
+  it "should not save without adopted_on date", focus: true do
     adopted_law.adopted_on = nil
     expect( adopted_law.save ).to be false
     expect( adopted_law.errors[:adopted_on] ).to include "can't be blank"

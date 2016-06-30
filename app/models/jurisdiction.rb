@@ -1,6 +1,7 @@
 class Jurisdiction < ActiveRecord::Base
   has_many :proposed_laws, dependent: :restrict_with_error,
     inverse_of: :jurisdiction
+  has_many :adopted_laws, through: :proposed_laws
   has_many :jurisdiction_memberships, dependent: :delete_all,
     inverse_of: :jurisdiction
   has_many :users, through: :jurisdiction_memberships

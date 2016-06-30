@@ -17,6 +17,7 @@ class AdoptedLaw < ActiveRecord::Base
   ]
 
   belongs_to :proposed_law, inverse_of: :adopted_law
+  belongs_to :jurisdiction, inverse_of: :adopted_laws
 
   validates :adopted_on, presence: true
   validates :proposed_law, presence: true
@@ -34,6 +35,26 @@ class AdoptedLaw < ActiveRecord::Base
   validates :referendum_required, inclusion: { in: [ true, false ] }
   validate :adopted_on_must_be_past_or_present,
     :executive_action_on_must_be_before_or_at_adopted_on
+
+  before_create :assign_jurisdiction, :assign_year_adopted,
+    :assign_number_in_year
+
+  def assign_jurisdiction
+    return false unless proposed_law
+    self.jurisdiction = proposed_law.jurisdiction
+  end
+
+  def assign_year_adopted
+    return false unless adopted_on?
+    self.year_adopted = adopted_on.year
+  end
+
+  def assign_number_in_year
+    return false unless year_adopted? && proposed_law
+    max = proposed_law.jurisdiction.adopted_laws.
+      where( year_adopted: year_adopted ).maximum( :number_in_year )
+    self.number_in_year = ( max ? max + 1 : 1 )
+  end
 
   def adopted_on_must_be_past_or_present
     return unless adopted_on?

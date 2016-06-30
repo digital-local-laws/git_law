@@ -1,5 +1,8 @@
 json.id adopted_law.id
+json.jurisdiction_id adopted_law.jurisdiction_id
 json.proposed_law_id adopted_law.proposed_law_id
+json.year_adopted adopted_law.year_adopted
+json.number_in_year adopted_law.number_in_year
 json.executive_action adopted_law.executive_action
 json.executive_action_on adopted_law.executive_action_on
 json.referendum_required adopted_law.referendum_required

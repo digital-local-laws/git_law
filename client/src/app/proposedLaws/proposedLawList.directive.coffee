@@ -8,7 +8,7 @@ angular.module 'client'
         page: '='
         jurisdiction: '='
         onSetPage: '&'
-      controller: ( $scope, pundit, $uibModal, $state, ProposedLaw, Flash ) ->
+      controller: ( $scope, pundit, $state, ProposedLaw, Flash ) ->
         ctrl = this
         ProposedLaw.jurisdictionQuery(
           { jurisdictionId: ctrl.jurisdiction.id, page: ctrl.page },

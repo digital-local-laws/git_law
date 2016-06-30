@@ -145,7 +145,7 @@ angular.module 'client'
         controller: 'AdoptLawCtrl'
       }
       .state 'adoptedLaw', {
-        url: '/adoptedLaw/:adoptedLawId'
+        url: '/adopted-law/:adoptedLawId'
         resolve: {
           adoptedLaw: (AdoptedLaw, $stateParams) ->
             AdoptedLaw.get( {

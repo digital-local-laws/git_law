@@ -30,3 +30,10 @@ Feature: Adopt local laws
       | is not    | subject to       | mandatory  |
       | is not    | subject to       | permissive |
       | is not    | subject to       | petition   |
+  @javascript
+  Scenario: See proposed laws for a jurisdiction
+    Given I log in
+    And a jurisdiction exists
+    And an adopted law exists
+    When I go to the adopted laws listing for the jurisdiction
+    Then I should see the adopted law

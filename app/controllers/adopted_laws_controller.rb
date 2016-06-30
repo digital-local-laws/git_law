@@ -19,7 +19,7 @@ class AdoptedLawsController < ApplicationController
   end
   expose( :unpaginated_adopted_laws ) do
     scope = if jurisdiction
-      jurisdiction.proposed_laws.all
+      jurisdiction.adopted_laws.all
     else
       AdoptedLaw.all
     end

@@ -3,5 +3,5 @@ angular.module 'client'
     $scope.jurisdiction = jurisdiction
     $scope.tabs = [
       [ '.proposedLaws.paginated({page: 1})', 'Proposed Laws' ]
-      [ 'adopted', 'Adopted Laws' ]
+      [ '.adoptedLaws.paginated({page: 1})', 'Adopted Laws' ]
     ]

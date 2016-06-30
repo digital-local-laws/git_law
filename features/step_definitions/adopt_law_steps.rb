@@ -57,3 +57,20 @@ Then(/^I should see the proposed law is adopted$/) do
   expect( page ).to have_text "Adopted law was submitted."
   expect( page ).to have_text "#{Time.zone.today.year}-1. #{@proposed_law.title}"
 end
+
+Given(/^an adopted law exists$/) do
+  step %{a proposed law exists}
+  @adopted_law = create :adopted_law, proposed_law: @proposed_law
+end
+
+When(/^I go to the adopted laws listing for the jurisdiction$/) do
+  visit "/#/jurisdictions/#{@jurisdiction.id}/adopted-laws"
+end
+
+Then(/^I should see the adopted law$/) do
+  within 'tbody > tr:nth-child(1)' do
+    expect( page ).to have_selector :xpath, './/td[.="2016"]'
+    expect( page ).to have_selector :xpath, './/td[.="1"]'
+    expect( page ).to have_selector :xpath, ".//td[.=\"#{@proposed_law.title}\"]"
+  end
+end

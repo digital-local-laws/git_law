@@ -53,6 +53,11 @@ angular.module 'client'
         templateUrl: 'app/jurisdictions/jurisdiction.html'
         controller: 'JurisdictionCtrl'
       }
+      .state 'jurisdiction.adoptedLaws', {
+        url: '/adopted-laws'
+        templateUrl: 'app/adoptedLaws/adoptedLaws.html'
+        controller: 'AdoptedLawsCtrl'
+      }
       .state 'jurisdiction.edit', {
         url: '/edit'
         templateUrl: 'app/jurisdictions/edit.html'

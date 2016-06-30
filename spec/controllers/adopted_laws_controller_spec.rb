@@ -51,6 +51,28 @@ RSpec.describe AdoptedLawsController, type: :controller do
     end
   end
 
+  describe 'GET /api/adopted_laws/:id' do
+    render_views
+
+    before(:each) do
+      controller.prepend_view_path 'app/views'
+    end
+
+    let(:adopted_law) { adopted_laws.first }
+
+    it "should display detail on an adopted law" do
+      get :show, default_params.merge( id: adopted_law.id )
+      expect( response ).to have_http_status 200
+      expect( response ).to render_template 'adopted_laws/show'
+    end
+
+    it "should raise 404 if a non-existent law id is called" do
+      expect( AdoptedLaw.where( id: 1 ) ).to be_empty
+      get :show, default_params.merge( id: 1 )
+      expect( response ).to have_http_status 404
+    end
+  end
+
   describe 'POST /api/proposed_law/:proposed_law_id/adopted_laws' do
     let(:valid_params) {
       {

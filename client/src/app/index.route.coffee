@@ -147,7 +147,7 @@ angular.module 'client'
               adoptedLawId: $stateParams.adoptedLawId
             } ).$promise
         }
-        templateUrl: 'app/adoptedLaw/layout.html'
+        templateUrl: 'app/adoptedLaws/adoptedLaw.html'
         controller: 'AdoptedLawCtrl'
       }
     # Provide additional routes to states

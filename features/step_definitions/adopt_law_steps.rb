@@ -55,4 +55,5 @@ end
 
 Then(/^I should see the proposed law is adopted$/) do
   expect( page ).to have_text "Adopted law was submitted."
+  expect( page ).to have_text "#{Time.zone.today.year}-1. #{@proposed_law.title}"
 end

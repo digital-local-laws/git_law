@@ -153,7 +153,7 @@ Given(/^initialization has completed$/) do
   start = Time.now
   until Capybara.current_session.evaluate_script('window.location.hash;') =~ /\/node\/$/ do
     raise 'Timed out waiting for initialization to complete' if Time.now - start > 10.seconds
-    sleep 1
+    sleep 0.01
   end
 end
 
@@ -291,7 +291,6 @@ When /^I rename the code$/ do
   within( :xpath, "//tr[contains(.,'Tompkins County Code')]" ) do
     find( :xpath, ".//button[contains(.,'Settings')]" ).click
   end
-  sleep 2
   fill_in "Title", with: "Tioga County Code"
   click_button "Update Code Settings"
 end

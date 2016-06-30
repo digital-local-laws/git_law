@@ -1,5 +1,5 @@
 angular.module 'client'
-  .controller 'ProposedLawsCtrl', ( $scope, $uibModal, $stateParams, $state,
+  .controller 'ProposedLawsCtrl', ( $scope, $stateParams, $state,
     ProposedLaw, pundit, $log ) ->
       ctrl = this
       $scope.may = {}

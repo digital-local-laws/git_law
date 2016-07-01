@@ -3,7 +3,7 @@ When(/^I go to adopt the proposed law$/) do
   within(:css, 'h2') do
     find( :xpath, ".//a[contains(.,'Adopt Law')]" ).click
   end
-  fill_in 'Finally Adopted On', with: Time.zone.today.to_s(:db)
+  fill_in 'Finally Adopted On', with: Time.zone.today.to_s(:en_us_short)
 end
 
 When /^I certify the proposed law is (not subject|approved|rejected|allowed) (?:to|by) executive review$/ do |action|
@@ -17,7 +17,7 @@ When /^I certify the proposed law is (not subject|approved|rejected|allowed) (?:
       'not approved and no longer subject to approval'
     end
     find( :xpath, ".//label[starts-with(.,'#{text}')]" ).click
-    fill_in 'Executive Action Date', with: Time.zone.today.to_s(:db)
+    fill_in 'Executive Action Date', with: Time.zone.today.to_s(:en_us_short)
   else
     expect( page ).to have_no_text 'Executive Action Date'
   end

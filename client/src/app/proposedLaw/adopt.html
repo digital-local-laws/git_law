@@ -22,7 +22,7 @@
   </div>
   <div class="form-group has-feedback" ng-class="{'has-error': errors.title ||  adoptedLawForm.adoptedOn.$invalid, 'has-success':  adoptedLawForm.attributes.adoptedOn &amp;&amp; !errors.adoptedOn &amp;&amp;  adoptedLawForm.adoptedOn.$valid }">
     <label class="control-label" for="adoptedOn">Finally Adopted On</label>
-    <input class="form-control" id="adoptedOn" name="adoptedOn" ng-model="adoptedLaw.adoptedOn" type="text" />
+    <input class="form-control" id="adoptedOn" name="adoptedOn" ng-model="adoptedLaw.adoptedOn" uib-datepicker-popup="MM/dd/yyyy" type="text" />
     <span class="glyphicon glyphicon-ok form-control-feedback" ng-show="adoptedLaw.adoptedOn &amp;&amp; !errors.adoptedOn  &amp;&amp; !adoptedLawForm.adoptedOn.$invalid"></span>
     <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="errors.adoptedOn || adoptedLawForm.adoptedOn.$invalid"></span>
     <span class="help-block">Specify date of final adoption for this law.<br /></span>
@@ -40,7 +40,7 @@
       <div class="help-text">
         On what date was the law approved, repassed after disapproval, or not approved and no longer subject to approval by the executive officer.
       </div>
-      <input type="text" name="executiveActionOn" id="executiveActionOn" ng-model="adoptedLaw.executiveActionOn" />
+      <input type="text" name="executiveActionOn" id="executiveActionOn" ng-model="adoptedLaw.executiveActionOn" uib-datepicker-popup="MM/dd/yyyy" />
       <span class="help-block" ng-repeat="error in errors.executiveActionOn">{{error}}<br /></span>
     </div>
   </div>

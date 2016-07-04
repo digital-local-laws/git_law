@@ -4,7 +4,10 @@ RSpec.configure do |config|
     begin
       DatabaseCleaner.strategy = :truncation
       DatabaseCleaner.start
-      FactoryGirl.lint
+      factories_to_lint = FactoryGirl.factories.reject do |factory|
+        factory.name =~ /^gitlab_client_identity_request/
+      end
+      FactoryGirl.lint factories_to_lint
     ensure
       DatabaseCleaner.clean
     end

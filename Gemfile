@@ -27,6 +27,7 @@ gem 'omniauth'
 gem 'ruby-filemagic', require: 'filemagic'
 gem 'octokit'
 gem 'tzinfo-data'
+gem 'rest-client'
 group :development do
   gem 'web-console', '~> 2.0'
 end

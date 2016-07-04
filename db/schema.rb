@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160603120544) do
+ActiveRecord::Schema.define(version: 20160701163746) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,18 @@ ActiveRecord::Schema.define(version: 20160603120544) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "gitlab_client_identities", force: :cascade do |t|
+    t.integer  "user_id",        null: false
+    t.string   "host",           null: false
+    t.integer  "gitlab_user_id", null: false
+    t.string   "access_token",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "gitlab_client_identities", ["user_id", "host", "access_token"], name: "unique_token", unique: true, using: :btree
+  add_index "gitlab_client_identities", ["user_id", "host", "gitlab_user_id"], name: "unique_identity", unique: true, using: :btree
 
   create_table "jurisdiction_memberships", force: :cascade do |t|
     t.integer  "jurisdiction_id"

@@ -8,7 +8,10 @@ Rails.application.routes.draw do
   end
   scope '/api' do
     # Resource routes
-    resources :users, except: [ :new, :edit ]
+    resources :users, except: [ :new, :edit ] do
+      resources :gitlab_client_identities, except: [ :show, :edit, :update, :destroy ]
+    end
+    resources :gitlab_client_identities, only: [ :show, :destroy ]
     resources :jurisdictions, except: [ :new, :edit ] do
       resources :proposed_laws, only: [ :index, :create ]
     end

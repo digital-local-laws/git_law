@@ -1,0 +1,6 @@
+json.id gitlab_client_identity.id
+json.user_id gitlab_client_identity.user_id
+json.host gitlab_client_identity.host
+json.gitlab_user_id gitlab_client_identity.gitlab_user_id
+json.created_at gitlab_client_identity.created_at
+json.updated_at gitlab_client_identity.updated_at

@@ -34,6 +34,7 @@ module GitLaw
     # Disable Rails assets pipeline
     config.assets.enabled = false
     config.generators do |g|
+      g.orm = :active_record
       g.assets = false
     end
     config.active_job.queue_adapter = :delayed_job

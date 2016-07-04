@@ -1,0 +1,1 @@
+json.partial! 'gitlab_client_identities/gitlab_client_identity', gitlab_client_identity: gitlab_client_identity

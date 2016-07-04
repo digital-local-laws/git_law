@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(version: 20160701163746) do
     t.string   "host",           null: false
     t.integer  "gitlab_user_id", null: false
     t.string   "access_token",   null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   add_index "gitlab_client_identities", ["user_id", "host", "access_token"], name: "unique_token", unique: true, using: :btree

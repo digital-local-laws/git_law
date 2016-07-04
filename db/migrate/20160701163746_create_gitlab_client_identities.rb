@@ -6,7 +6,7 @@ class CreateGitlabClientIdentities < ActiveRecord::Migration
       t.integer :gitlab_user_id, null: false
       t.string :access_token, null: false
 
-      t.timestamps, null: false
+      t.timestamps null: false
     end
     add_index :gitlab_client_identities, [ :user_id, :host, :gitlab_user_id ],
       name: 'unique_identity', unique: true

@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160701163746) do
+ActiveRecord::Schema.define(version: 20160705142445) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
 # Could not dump table "adopted_laws" because of following StandardError
-#   Unknown type 'executive_action' for column 'executive_action'
+#   Unknown type 'executive_action_type' for column 'executive_action'
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
@@ -44,12 +44,25 @@ ActiveRecord::Schema.define(version: 20160701163746) do
     t.datetime "updated_at",     null: false
   end
 
-  add_index "gitlab_client_identities", ["user_id", "host", "access_token"], name: "unique_token", unique: true, using: :btree
-  add_index "gitlab_client_identities", ["user_id", "host", "gitlab_user_id"], name: "unique_identity", unique: true, using: :btree
+  add_index "gitlab_client_identities", ["user_id", "host", "access_token"], name: "gitlab_client_identity_access_token", unique: true, using: :btree
+  add_index "gitlab_client_identities", ["user_id", "host", "gitlab_user_id"], name: "gitlab_client_identity_user_id", unique: true, using: :btree
+  add_index "gitlab_client_identities", ["user_id"], name: "index_gitlab_client_identities_on_user_id", using: :btree
+
+  create_table "gitlab_client_identity_requests", force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.string   "host",       null: false
+    t.string   "app_id",     null: false
+    t.string   "app_secret", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "gitlab_client_identity_requests", ["user_id", "host", "app_id"], name: "gitlab_client_identity_request_app_id", unique: true, using: :btree
+  add_index "gitlab_client_identity_requests", ["user_id"], name: "index_gitlab_client_identity_requests_on_user_id", using: :btree
 
   create_table "jurisdiction_memberships", force: :cascade do |t|
-    t.integer  "jurisdiction_id"
-    t.integer  "user_id"
+    t.integer  "jurisdiction_id", null: false
+    t.integer  "user_id",         null: false
     t.boolean  "adopt"
     t.boolean  "propose"
     t.datetime "created_at",      null: false
@@ -114,6 +127,8 @@ ActiveRecord::Schema.define(version: 20160701163746) do
 
   add_foreign_key "adopted_laws", "jurisdictions"
   add_foreign_key "adopted_laws", "proposed_laws"
+  add_foreign_key "gitlab_client_identities", "users"
+  add_foreign_key "gitlab_client_identity_requests", "users"
   add_foreign_key "jurisdiction_memberships", "jurisdictions"
   add_foreign_key "jurisdiction_memberships", "users"
   add_foreign_key "proposed_laws", "jurisdictions"

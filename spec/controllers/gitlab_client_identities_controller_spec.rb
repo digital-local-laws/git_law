@@ -13,13 +13,8 @@ RSpec.describe GitlabClientIdentitiesController, type: :controller do
   let(:gitlab_client_identity) {
     create :gitlab_client_identity, user: owner
   }
-  let(:valid_new_params) {
-    {
-      client_id: 'auser',
-      client_secret: 'noneofyourbusiness',
-      host: 'example.com',
-      user_id: owner.id
-    }
+  let(:gitlab_client_identity_request) {
+    create :gitlab_client_identity_request, user: owner
   }
 
   describe 'GET /api/users/:user_id/gitlab_client_identities' do
@@ -73,52 +68,28 @@ RSpec.describe GitlabClientIdentitiesController, type: :controller do
     end
   end
 
-  describe 'GET /api/user/:user_id/gitlab_client_identities/new' do
-    before(:each) {
-      default_params.merge! valid_new_params
-    }
-
-    it "should return an authorization url with valid parameters" do
-      token_sign_in owner
-      get :new, default_params
-      expect( response ).to have_http_status 200
-      results = JSON.parse( response.body )
-      expect( results["authorization_url"] ).to be_truthy
-    end
-
-    it "should return an error if required parameter is missing" do
-      default_params.delete :client_id
-      token_sign_in owner
-      get :new, default_params
-      expect( response ).to have_http_status 422
-      results = JSON.parse( response.body )
-      expect( results["client_id"] ).to include "can't be blank"
-    end
-
-    it "should return an error for unauthorized user" do
-      token_sign_in user
-      get :new, default_params
-      expect( response ).to have_http_status 401
-    end
-  end
-
-  describe 'POST /api/user/:user_id/gitlab_client_identities' do
+  describe 'POST /api/gitlab_client_identity_requests/:gitlab_client_request_id/gitlab_client_identities' do
     let(:valid_params) {
       {
-        user_id: owner.id,
+        gitlab_client_identity_request_id: gitlab_client_identity_request.id,
         code: 'thetoken'
       }
     }
 
     before(:each) do
-      token_sign_in owner
-      get :new, default_params.merge( valid_new_params )
       Struct.new( "Response", :code, :body )
       response = Struct::Response.new(
         200,
         JSON.generate( "access_token" => "noneofyourbusiness" )
       )
       allow( ::RestClient ).to receive(:post).and_return( response )
+      Struct.new( "User", :id, :username )
+      gitlab_user = Struct::User.new(
+        1,
+        'auser'
+      )
+      allow_any_instance_of( GitlabClientIdentity ).to receive(:gitlab_user).and_return(gitlab_user)
+      token_sign_in owner
     end
 
     it 'should create a gitlab_client_identity with authorization' do

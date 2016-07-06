@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   has_many :proposed_laws, inverse_of: :user, dependent: :restrict_with_error
   has_many :jurisdiction_memberships, inverse_of: :user
   has_many :jurisdictions, through: :jurisdiction_memberships
+  has_many :gitlab_client_identity_requests, inverse_of: :user,
+    dependent: :delete_all
   has_many :gitlab_client_identities, dependent: :delete_all, inverse_of: :user
 
   accepts_nested_attributes_for :jurisdiction_memberships, allow_destroy: true,

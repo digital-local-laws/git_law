@@ -26,6 +26,14 @@ class ApplicationPolicy
     user.admin?
   end
 
+  def staff?
+    user.staff? || user.admin?
+  end
+
+  def admin?
+    user.admin?
+  end
+
   def scope
     Pundit.policy_scope!(user, record.class)
   end

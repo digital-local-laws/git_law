@@ -13,11 +13,28 @@ RSpec.describe GitlabClientIdentity, type: :model do
     expect( identity.errors[:user] ).to include "can't be blank"
   end
 
-  it 'should not save with missing gitlab_user_id' do
-    allow( identity ).to receive(:initialize_gitlab_user_id) { }
-    identity.gitlab_user_id = nil
-    expect( identity.save ).to be false
-    expect( identity.errors[:gitlab_user_id] ).to include "can't be blank"
+  context 'skip initialize_gitlab_user_name' do
+    before(:each) do
+      allow( identity ).to receive(:initialize_gitlab_user_name) { }
+    end
+
+    it "should not save with missing gitlab_user_name" do
+      identity.gitlab_user_name = nil
+      expect( identity.save ).to be false
+      expect( identity.errors[:gitlab_user_name] ).to include "can't be blank"
+    end
+  end
+
+  context 'skip initialize_gitlab_user_id' do
+    before(:each) do
+      allow( identity ).to receive(:initialize_gitlab_user_id) { }
+    end
+
+    it 'should not save with missing gitlab_user_id' do
+      identity.gitlab_user_id = nil
+      expect( identity.save ).to be false
+      expect( identity.errors[:gitlab_user_id] ).to include "can't be blank"
+    end
   end
 
   it 'should not save with missing host' do

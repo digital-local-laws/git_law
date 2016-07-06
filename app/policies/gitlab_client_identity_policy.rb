@@ -1,25 +1,9 @@
-class GitlabClientIdentityPolicy < ApplicationPolicy
-  def be?
-    Pundit.policy( user, record.user ).be?
-  end
-
-  def new?
-    be?
-  end
-
-  def create?
-    be?
-  end
-
+class GitlabClientIdentityPolicy < GitlabClientIdentityRequestPolicy
   def destroy?
-    be? || user.staff? || user.admin?
+    be? || staff?
   end
 
   def index?
-    be? || user.staff? || user.admin?
-  end
-
-  def show?
-    be? || user.staff? || user.admin?
+    be? || staff?
   end
 end

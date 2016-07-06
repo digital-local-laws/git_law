@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160705142445) do
+ActiveRecord::Schema.define(version: 20160701163746) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,16 +36,20 @@ ActiveRecord::Schema.define(version: 20160705142445) do
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "gitlab_client_identities", force: :cascade do |t|
-    t.integer  "user_id",        null: false
-    t.string   "host",           null: false
-    t.integer  "gitlab_user_id", null: false
-    t.string   "access_token",   null: false
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.integer  "user_id",          null: false
+    t.string   "host",             null: false
+    t.string   "gitlab_app_id",    null: false
+    t.integer  "gitlab_user_id",   null: false
+    t.string   "gitlab_user_name", null: false
+    t.string   "access_token",     null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   add_index "gitlab_client_identities", ["user_id", "host", "access_token"], name: "gitlab_client_identity_access_token", unique: true, using: :btree
+  add_index "gitlab_client_identities", ["user_id", "host", "gitlab_app_id"], name: "gitlab_client_identity_app_id", unique: true, using: :btree
   add_index "gitlab_client_identities", ["user_id", "host", "gitlab_user_id"], name: "gitlab_client_identity_user_id", unique: true, using: :btree
+  add_index "gitlab_client_identities", ["user_id", "host", "gitlab_user_name"], name: "gitlab_client_identity_user_name", using: :btree
   add_index "gitlab_client_identities", ["user_id"], name: "index_gitlab_client_identities_on_user_id", using: :btree
 
   create_table "gitlab_client_identity_requests", force: :cascade do |t|

@@ -4,13 +4,19 @@ class CreateGitlabClientIdentities < ActiveRecord::Migration
       t.references :user, null: false, index: true, foreign_key: true,
         on_delete: :cascade
       t.string :host, null: false
+      t.string :gitlab_app_id, null: false
       t.integer :gitlab_user_id, null: false
+      t.string :gitlab_user_name, null: false
       t.string :access_token, null: false
 
       t.timestamps null: false
     end
+    add_index :gitlab_client_identities, [ :user_id, :host, :gitlab_app_id ],
+      name: 'gitlab_client_identity_app_id', unique: true
     add_index :gitlab_client_identities, [ :user_id, :host, :gitlab_user_id ],
       name: 'gitlab_client_identity_user_id', unique: true
+    add_index :gitlab_client_identities, [ :user_id, :host, :gitlab_user_name ],
+      name: 'gitlab_client_identity_user_name'
     add_index :gitlab_client_identities, [ :user_id, :host, :access_token ],
       name: 'gitlab_client_identity_access_token', unique: true
   end

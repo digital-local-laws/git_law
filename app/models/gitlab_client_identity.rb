@@ -35,11 +35,4 @@ class GitlabClientIdentity < ActiveRecord::Base
     return nil unless access_token
     @client = Gitlab.client( endpoint: "https://#{host}/api/v3", auth_token: access_token )
   end
-
-  def build_publication_job( attributes )
-    BuildPublicationJob.perform_later(
-      user,
-      attributes.merge( { "type" => "gitlab", "host" => host } )
-    )
-  end
 end

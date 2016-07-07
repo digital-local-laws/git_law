@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth'
-  get "/user_session(.:format)", to: "user_session#show"
   # This line is required for developer Omniauth callback which uses POST, not GET
   post '/omniauth/:provider/callback', to: 'devise_token_auth/omniauth_callbacks#redirect_callbacks'
   namespace :api do

@@ -1,1 +1,1 @@
-json.errors identity_request.errors
+json.errors gitlab_client_identity.errors.to_hash

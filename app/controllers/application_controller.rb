@@ -25,7 +25,7 @@ class ApplicationController < ActionController::API
   # Alert client that action is not authorized for given credentials
   def unauthorized(exception)
     self.exception = exception
-    render '/unauthorized', status: 401
+    render '/unauthorized', status: 403
   end
 
   # Conditionally convert params from camelCase

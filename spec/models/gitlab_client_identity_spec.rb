@@ -44,9 +44,21 @@ RSpec.describe GitlabClientIdentity, type: :model do
   end
 
   it 'should not save with missing access_token' do
+    allow_any_instance_of( GitlabClientIdentity ).to(
+      receive(:initialize_access_token) { true }
+    )
     identity.access_token = nil
     expect( identity.save ).to be false
     expect( identity.errors[:access_token] ).to include "can't be blank"
+  end
+
+  it "should assign access_token" do
+    identity.access_token = nil
+    allow_any_instance_of( GitlabClientIdentity ).to(
+      receive(:obtain_access_token).and_return( 'noneofyourbusiness' )
+    )
+    identity.save!
+    expect( identity.access_token ).to eql 'noneofyourbusiness'
   end
 
   it 'should not save with a duplicate identity' do

@@ -59,7 +59,7 @@ RSpec.describe GitlabClientIdentitiesController, type: :controller do
     it 'should not delete a gitlab identity without authorization' do
       token_sign_in user
       delete :destroy, default_params.merge( id: gitlab_client_identity.id )
-      expect( response ).to have_http_status 401
+      expect( response ).to have_http_status 403
     end
 
     it 'should not delete a gitlab identity without authentication' do
@@ -69,6 +69,8 @@ RSpec.describe GitlabClientIdentitiesController, type: :controller do
   end
 
   describe 'POST /api/gitlab_client_identity_requests/:gitlab_client_request_id/gitlab_client_identities' do
+    render_views
+
     let(:valid_params) {
       {
         gitlab_client_identity_request_id: gitlab_client_identity_request.id,
@@ -77,19 +79,19 @@ RSpec.describe GitlabClientIdentitiesController, type: :controller do
     }
 
     before(:each) do
-      Struct.new( "Response", :code, :body )
-      response = Struct::Response.new(
-        200,
-        JSON.generate( "access_token" => "noneofyourbusiness" )
-      )
-      allow( ::RestClient ).to receive(:post).and_return( response )
+      controller.prepend_view_path 'app/views'
       Struct.new( "User", :id, :username )
       gitlab_user = Struct::User.new(
         1,
         'auser'
       )
+      allow_any_instance_of( GitlabClientIdentity ).to receive(:obtain_access_token).and_return('noneofyourbusiness')
       allow_any_instance_of( GitlabClientIdentity ).to receive(:gitlab_user).and_return(gitlab_user)
       token_sign_in owner
+    end
+
+    after(:each) do
+      Struct.send(:remove_const,:User)
     end
 
     it 'should create a gitlab_client_identity with authorization' do
@@ -97,6 +99,13 @@ RSpec.describe GitlabClientIdentitiesController, type: :controller do
       post :create, default_params.merge( valid_params )
       expect( response ).to have_http_status 201
       expect( response ).to render_template 'gitlab_client_identities/show'
+    end
+
+    it "should raise an error with invalid parameters", focus: true do
+      valid_params.delete :code
+      post :create, default_params.merge( valid_params )
+      expect( response ).to have_http_status 422
+      expect( JSON.parse( response.body )['errors']['code'] ).to include "can't be blank"
     end
   end
 end

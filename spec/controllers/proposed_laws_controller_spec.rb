@@ -56,7 +56,7 @@ RSpec.describe ProposedLawsController, type: :controller do
     it 'should not delete a user without authorization' do
       token_sign_in user
       delete :destroy, default_params.merge( id: proposed_law.id )
-      expect( response ).to have_http_status 401
+      expect( response ).to have_http_status 403
     end
 
     it 'should not delete a user without authentication' do
@@ -80,7 +80,7 @@ RSpec.describe ProposedLawsController, type: :controller do
     it 'should not update a proposed_law without authorization' do
       token_sign_in user
       patch :update, default_params.merge( { id: proposed_law.id } )
-      expect( response ).to have_http_status 401
+      expect( response ).to have_http_status 403
     end
 
     it 'should not update a proposed_law without authentication' do
@@ -108,7 +108,7 @@ RSpec.describe ProposedLawsController, type: :controller do
     it 'should not create a proposed_law without authorization' do
       token_sign_in user
       post :create, default_params.merge( valid_params )
-      expect( response ).to have_http_status 401
+      expect( response ).to have_http_status 403
     end
 
     it 'should not create a proposed_law without authentication' do

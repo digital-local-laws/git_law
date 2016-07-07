@@ -93,7 +93,7 @@ RSpec.describe ProposedLaws::NodesController, type: :controller do
     it 'should not delete a node without authorization' do
       token_sign_in user
       delete :destroy, default_params
-      expect( response ).to have_http_status 401
+      expect( response ).to have_http_status 403
     end
 
     it 'should not delete a node without authentication' do
@@ -123,7 +123,7 @@ RSpec.describe ProposedLaws::NodesController, type: :controller do
     it 'should not update a node without authorization' do
       token_sign_in user
       patch :update, default_params
-      expect( response ).to have_http_status 401
+      expect( response ).to have_http_status 403
     end
 
     it 'should not update a node without authentication' do
@@ -168,7 +168,7 @@ RSpec.describe ProposedLaws::NodesController, type: :controller do
     it 'should not create a node without authorization' do
       token_sign_in user
       post :create, default_params.merge( valid_params )
-      expect( response ).to have_http_status 401
+      expect( response ).to have_http_status 403
     end
 
     it 'should not create a node without authentication' do

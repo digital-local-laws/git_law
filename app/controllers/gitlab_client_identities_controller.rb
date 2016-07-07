@@ -6,7 +6,11 @@ class GitlabClientIdentitiesController < ApplicationController
   end
 
   expose :gitlab_client_identity do
-    GitlabClientIdentity.find params[:id]
+    if params[:id]
+      GitlabClientIdentity.find params[:id]
+    else
+      identity_request.build_gitlab_client_identity gitlab_client_identity_params
+    end
   end
 
   expose( :unpaginated_gitlab_client_identities ) do
@@ -19,21 +23,17 @@ class GitlabClientIdentitiesController < ApplicationController
   end
 
   expose :new_gitlab_client_identity do
-    if params[:code]
-      identity_request.build_gitlab_client_identity( params['code'] )
-    else
-      user.gitlab_client_identities.build
-    end
+    user.gitlab_client_identities.build
   end
 
   helper_method :gitlab_client_identities
 
   def create
-    authorize new_gitlab_client_identity, :create?
-    if new_gitlab_client_identity.save
+    authorize gitlab_client_identity, :create?
+    if gitlab_client_identity.save
       render 'show', status: 201
     else
-      render json: new_gitlab_client_identity.errors, status: 422
+      render 'errors', status: 422
     end
   end
 
@@ -63,6 +63,10 @@ class GitlabClientIdentitiesController < ApplicationController
     else
       authorize GitlabClientIdentity.new user: user
     end
+  end
+
+  def gitlab_client_identity_params
+    params.permit(:code)
   end
 
   def gitlab_client_identities

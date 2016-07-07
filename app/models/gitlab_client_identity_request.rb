@@ -25,23 +25,7 @@ class GitlabClientIdentityRequest < ActiveRecord::Base
     )
   end
 
-  def build_gitlab_client_identity( code )
-    parameters = {
-      client_id: app_id,
-      client_secret: app_secret,
-      code: code,
-      grant_type: 'authorization_code'
-    }
-    response = RestClient.post( "https://#{host}/oauth/token", parameters )
-    identity = if response.code == 200
-      user.gitlab_client_identities.build(
-        host: host,
-        gitlab_app_id: app_id,
-        access_token: JSON.parse( response.body )['access_token']
-      )
-    else
-      raise "Could not create Gitlab Client Identity"
-    end
-    identity
+  def build_gitlab_client_identity( params )
+    user.gitlab_client_identities.build( { request: self }.merge( params ) )
   end
 end

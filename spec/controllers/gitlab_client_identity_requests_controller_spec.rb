@@ -43,6 +43,11 @@ RSpec.describe GitlabClientIdentityRequestsController, type: :controller do
     it "should return an error for unauthorized user" do
       token_sign_in user
       post :create, default_params
+      expect( response ).to have_http_status 403
+    end
+
+    it "should return an error for unauthenticated user" do
+      post :create, default_params
       expect( response ).to have_http_status 401
     end
   end

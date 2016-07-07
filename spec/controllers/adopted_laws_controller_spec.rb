@@ -94,7 +94,7 @@ RSpec.describe AdoptedLawsController, type: :controller do
     it 'should not create an adopted_law without authorization' do
       token_sign_in user
       post :create, default_params.merge( valid_params )
-      expect( response ).to have_http_status 401
+      expect( response ).to have_http_status 403
     end
 
     it 'should not create an adopted_law without authentication' do

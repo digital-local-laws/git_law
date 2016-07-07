@@ -64,7 +64,7 @@ RSpec.describe UsersController, type: :controller do
     it 'should raise an error for unprivileged user' do
       token_sign_in user
       get :show, { id: admin.id }
-      expect( response ).to have_http_status 401
+      expect( response ).to have_http_status 403
     end
 
     it 'should raise an error for unauthenticated user' do
@@ -96,7 +96,7 @@ RSpec.describe UsersController, type: :controller do
     it 'should raise a 401 status for unprivileged user' do
       token_sign_in user
       post :create, valid_params
-      expect( response ).to have_http_status 401
+      expect( response ).to have_http_status 403
     end
 
     it 'should raise a 401 status for unauthenticated user' do
@@ -116,7 +116,7 @@ RSpec.describe UsersController, type: :controller do
     it 'should not delete a user without authorization' do
       token_sign_in create(:user)
       delete :destroy, user_context.merge( { id: users.first.id } )
-      expect( response ).to have_http_status 401
+      expect( response ).to have_http_status 403
     end
 
     it 'should not delete a user without authentication' do
@@ -143,7 +143,7 @@ RSpec.describe UsersController, type: :controller do
     it 'should not update a user without authorization' do
       token_sign_in user
       patch :update, user_context.merge( { id: users.first.id } )
-      expect( response ).to have_http_status 401
+      expect( response ).to have_http_status 403
     end
 
     it 'should not update a user without authentication' do

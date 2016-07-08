@@ -43,6 +43,12 @@ RSpec.describe GitlabClientIdentity, type: :model do
     expect( identity.errors[:host] ).to include "can't be blank"
   end
 
+  it "should not save with missing gitlab_app_id" do
+    identity.gitlab_app_id = nil
+    expect( identity.save ).to be false
+    expect( identity.errors[:gitlab_app_id] ).to include "can't be blank"
+  end
+
   it 'should not save with missing access_token' do
     allow_any_instance_of( GitlabClientIdentity ).to(
       receive(:initialize_access_token) { true }

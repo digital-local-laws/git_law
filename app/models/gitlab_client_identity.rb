@@ -9,7 +9,7 @@ class GitlabClientIdentity < ActiveRecord::Base
 
   validates :code, :request, presence: true, on: :create
   validates :user, :host, :gitlab_user_id, :gitlab_user_name, :access_token,
-    presence: true
+    :gitlab_app_id, presence: true
   validates :gitlab_user_id, uniqueness: { scope: [ :host, :user_id ] }
   validates :access_token, uniqueness: { scope: [ :host, :user_id ] }
 

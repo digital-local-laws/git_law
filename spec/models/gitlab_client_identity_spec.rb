@@ -82,4 +82,11 @@ RSpec.describe GitlabClientIdentity, type: :model do
     expect( duplicate.save ).to be false
     expect( duplicate.errors[:access_token] ).to include "has already been taken"
   end
+
+  it "should destroy the associated request on create" do
+    request = identity.request
+    expect( GitlabClientIdentityRequest.exists?( request.id ) ).to be true
+    identity.save!
+    expect( GitlabClientIdentityRequest.exists?( request.id ) ).to be false
+  end
 end

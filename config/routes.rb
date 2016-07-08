@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   # This line is required for developer Omniauth callback which uses POST, not GET
-  # get '/auth/:provider/callback', to: 'devise_token_auth/omniauth_callbacks#omniauth_success'
   post '/omniauth/:provider/callback', to: 'devise_token_auth/omniauth_callbacks#redirect_callbacks'
   mount_devise_token_auth_for 'User', at: 'auth',
     skip: [ :sessions, :registrations, :passwords, :confirmations ]

@@ -1,7 +1,3 @@
-Devise.setup do |config|
-  config.email_regexp = /\A[^@\s]+@[^@\s]+\z/
-end
-
 DeviseTokenAuth.setup do |config|
   # By default the authorization headers will change after each request. The
   # client is responsible for keeping track of the changing tokens. Change

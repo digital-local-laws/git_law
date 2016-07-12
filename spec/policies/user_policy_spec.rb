@@ -46,7 +46,25 @@ describe UserPolicy do
     end
   end
 
-  permissions :show?, :create?, :update?, :index? do
+  permissions :show? do
+    it 'should permit an administrator' do
+      expect( described_class ).to permit( admin, user )
+    end
+
+    it 'should permit staff' do
+      expect( described_class ).to permit( staff, user )
+    end
+
+    it 'should not permit owner' do
+      expect( described_class ).to permit( user, user )
+    end
+
+    it 'should not permit unprivileged, non-owner user' do
+      expect( described_class ).not_to permit( user, create(:user) )
+    end
+  end
+
+  permissions :create?, :update?, :index? do
     it 'should permit an administrator' do
       expect( described_class ).to permit( admin, User )
       expect( described_class ).to permit( admin, user )

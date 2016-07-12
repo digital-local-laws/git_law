@@ -12,7 +12,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    user.staff? || user.admin?
+    be? || user.staff? || user.admin?
   end
 
   def permitted_attributes

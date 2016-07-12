@@ -12,7 +12,7 @@ gem 'bcrypt',
 gem 'mongoid', '~> 4.0'
 gem 'pundit'
 gem 'bson_ext'
-# Use special branch with fix-devise-mapping until PR#540 merged in original
+gem 'devise', '~> 4.0.0'
 gem 'devise_token_auth'
 gem 'decent_exposure'
 gem 'kaminari'

@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8">
+      <h2>
+        Gitlab Identities
+      </h2>
+    </div>
+    <div class="col-lg-4">
+      <button class="btn btn-primary" ng-click="newGitlabClientIdentity(user)">
+        <span class="glyphicon glyphicon-plus"></span>
+        Add Gitlab Identity
+      </button>
+    </div>
+  </div>
+  <div class="col-lg-12">
+    <gitlab-client-identity-list may="may" user="user" page="page" on-set-page="setPage(page)"></gitlab-client-identity-list>
+  </div>
+</div>

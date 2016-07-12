@@ -25,6 +25,14 @@ angular.module 'client'
               userId: $stateParams.userId
             } ).$promise
       }
+      .state 'user.clientIdentities', {
+        url: '/client-identities'
+        templateUrl: 'app/clientIdentities/clientIdentities.html'
+      }
+      .state 'user.newGitlabClientIdentity', {
+        url: '/new-gitlab'
+        templateUrl: 'app/gitlabClientIdentities/newGitlabClientIdentity.html'
+      }
       .state 'user.edit', {
         url: '/edit'
         templateUrl: 'app/users/edit.html'

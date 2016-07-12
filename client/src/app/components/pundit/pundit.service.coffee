@@ -17,7 +17,16 @@ angular.module 'client'
       global:
         adminMenu: (context) ->
           staff context.user
+      gitlabClientIdentity:
+        be: (context) ->
+          punditPolicies.user.be context
+        create: (context) ->
+          staff( context.user ) or punditPolicies.user.be( context )
+        destroy: (context) ->
+          staff( context.user ) or punditPolicies.user.be( context )
       user:
+        be: (context) ->
+          context.user.id == context.userId
         authorize: (context) ->
           admin context.user
         create: (context) ->

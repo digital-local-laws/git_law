@@ -17,6 +17,9 @@
       <li ui-sref-active="active">
         <a ui-sref="jurisdictions({page: 1})">Jurisdictions</a>
       </li>
+      <li ui-sref-active="active" ng-if="$root.currentUser">
+        <a ui-sref="user.clientIdentities({userId: $root.currentUser.id})">My Identities</a>
+      </li>
     </ul>
     <form class="navbar-form navbar-right">
       <a class="btn btn-success" ng-hide="$root.currentUser" ui-sref="signin">

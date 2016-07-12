@@ -1,0 +1,46 @@
+<div ng-if="gitlabClientIdentities.length > 0">
+  <uib-pagination change="setPage(page)"
+    items-per-page="perPage" ng-model="page"
+    total-items="totalPages"></uib-pagination>
+  <table class="table table-striped" id="gitlab-client-identities">
+    <thead>
+      <tr>
+        <th>
+          Host
+        </th>
+        <th>
+          Username
+        </th>
+        <th>
+          App
+        </th>
+        <th colspan="1">
+          Controls
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="identity in gitlabClientIdentities">
+        <td>
+          {{identity.host}}
+        </td>
+        <td>
+          {{identity.gitlabUserName}}
+        </td>
+        <td>
+          {{identity.gitlabAppId}}
+        </td>
+        <td>
+          <button class="btn btn-danger" ng-click="destroyGitlabClientIdentity(identity)"
+            ng-if="identity.may.destroy">
+            <span class="glyphicon glyphicon-remove"></span>
+            Remove
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p ng-unless="gitlabClientIdentities.length > 0">
+  No gitlab identities.
+</p>

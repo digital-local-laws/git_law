@@ -1,0 +1,40 @@
+<form name="gitlabClientIdentityRequestForm">
+  <div class="form-group has-feedback" show-errors>
+    <label class="control-label" for="host">Host</label>
+    <input class="form-control" id="host" name="host"
+    ng-model="gitlabClientIdentityRequest.host" ng-required type="text" />
+    <span class="help-block" ng-show="gitlabClientIdentityRequest.host.$error.required">
+      is required<br />
+    </span>
+    <span class="help-block" ng-repeat="error in errors.host">{{error}}<br /></span>
+  </div>
+
+  <div class="form-group has-feedback" show-errors>
+    <label class="control-label" for="appId">App Id</label>
+    <input class="form-control" id="appId" name="appId"
+    ng-model="gitlabClientIdentityRequest.appId" ng-required type="text" />
+    <span class="help-block" ng-show="gitlabClientIdentityRequest.appId.$error.required">
+      is required<br />
+    </span>
+    <span class="help-block" ng-repeat="error in errors.appId">{{error}}<br /></span>
+  </div>
+
+  <div class="form-group has-feedback" show-errors>
+    <label class="control-label" for="appSecret">App Secret</label>
+    <input class="form-control" id="appSecret" name="appSecret"
+    ng-model="gitlabClientIdentityRequest.appSecret" ng-required type="text" />
+    <span class="help-block" ng-show="gitlabClientIdentityRequest.appSecret.$error.required">
+      is required<br />
+    </span>
+    <span class="help-block" ng-repeat="error in errors.appSecret">{{error}}<br /></span>
+  </div>
+
+  <button class="btn btn-primary" ng-click="save(gitlabClientIdentityRequest)"
+  ng-disabled="gitlabClientIdentityRequestForm.$invalid" type="button">
+    <span class="glyphicon glyphicon-ok"></span>
+    Register Identity
+  </button>
+  <button class="btn btn-default" ng-click="cancel()" type="button">
+    <span class="glyphicon glyphicon-remove"></span>Cancel
+  </button>
+</form>

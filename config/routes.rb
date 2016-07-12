@@ -10,7 +10,11 @@ Rails.application.routes.draw do
     # Resource routes
     resources :users, except: [ :new, :edit ] do
       resources :gitlab_client_identity_requests, only: [ :create ]
-      resources :gitlab_client_identities, only: [ :index ]
+      resources :gitlab_client_identities, only: [ :index ] do
+        collection do
+          get '/page/:page(.:format)', to: "gitlab_client_identities#index"
+        end
+      end
     end
     resources :gitlab_client_identity_requests, only: [ :show ] do
       resources :gitlab_client_identities, only: [ :create ]

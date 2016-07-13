@@ -1,6 +1,6 @@
 angular.module 'client'
-  .config ($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) ->
-    'ngInject'
+  .config ($stateProvider, $urlRouterProvider, $locationProvider) ->
+    $locationProvider.html5Mode true
     # Define states of the application and map them to controllers
     $stateProvider
       .state 'home',
@@ -163,6 +163,22 @@ angular.module 'client'
         templateUrl: 'app/adoptedLaws/adoptedLaw.html'
         controller: 'AdoptedLawCtrl'
       }
+    abstractPaths = [
+      [ '/jurisdictions/:jurisdictionId' ]
+    ]
+    # $urlRouterProvider.when '/?goto',
+    #   ( $match, $location, $log ) ->
+        # goto = '/' + $location.search().goto
+        # $log.info 'triggering...'
+        # if params = UrlMatcher('/jurisdictions/:jurisdictionId').exec( goto )
+        #   $log.info 'triggered'
+        #   return '/jurisdictions/' + params.jurisdictionId + '/proposed-laws/page/1'
+        # if params = UrlMatcher('/jurisdictions/:jurisdictionId/proposed-laws').exec( goto )
+        #   return '/jurisdictions/' + params.jurisdictionId +  '/proposed-laws/page/1'
+        # if params = UrlMatcher('/proposed-laws/:proposedLawId').exec( goto )
+        #   return '/proposed-laws/' + params.proposedLawId + '/node/'
+        # $log.info "Triggered"
+        # '/users'
     # Provide additional routes to states
     $urlRouterProvider.when '/jurisdictions/:jurisdictionId',
       ( $match, $state ) ->
@@ -170,16 +186,22 @@ angular.module 'client'
           jurisdictionId: $match.jurisdictionId
           page: 1
         }
-    $urlRouterProvider.when '/jurisdictions/:jurisdictionId/proposed-laws',
+    .when '/jurisdictions/:jurisdictionId/proposed-laws',
       ( $match, $state ) ->
         $state.go 'jurisdiction.proposedLaws', {
           jurisdictionId: $match.jurisdictionId
           page: 1
         }
-    $urlRouterProvider.when '/proposed-laws/:proposedLawId',
+    .when '/proposed-laws/:proposedLawId',
       ( $match, $state ) ->
         $state.go 'proposedLaw.node', {
           proposedLawId: $match.proposedLawId
           treeBase: ''
         }
-    $urlRouterProvider.otherwise '/'
+    .when '/proposed-laws/:proposedLawId/node',
+      ( $match, $state ) ->
+        $state.go 'proposedLaw.node', {
+          proposedLawId: $match.proposedLawId
+          treeBase: ''
+        }
+    .otherwise '/'

@@ -1,4 +1,5 @@
 angular.module 'client'
-  .controller 'MainController', () ->
-    'ngInject'
+  .controller 'MainController', ( $location ) ->
+    if $location.search().goto
+      $location.url $location.search().goto
     return

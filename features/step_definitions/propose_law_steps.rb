@@ -6,7 +6,7 @@ end
 
 Then /^I may( not)? (create) proposed laws for the jurisdiction$/ do |negate, action|
   method = ( negate ? :not_to : :to )
-  visit "/#/jurisdictions/#{@jurisdiction.id}"
+  visit "/jurisdictions/#{@jurisdiction.id}"
   case action
   when 'create'
     expect( page ).send method, have_xpath('//a[contains(.,"Propose a Law")]')
@@ -15,7 +15,7 @@ end
 
 Then /^I may( not)? (update|destroy|adopt) the proposed law$/ do |negate, action|
   method = ( negate ? :not_to : :to )
-  visit "/#/jurisdictions/#{@proposed_law.jurisdiction_id}"
+  visit "/jurisdictions/#{@proposed_law.jurisdiction_id}"
   within( :xpath, "//tr[contains(.,\"#{@proposed_law.title}\")]" ) do
     case action
     when 'update'
@@ -32,7 +32,7 @@ Then /^I may( not)? (update|destroy|adopt) the proposed law$/ do |negate, action
 end
 
 Given(/^I visit the jurisdiction's page$/) do
-  visit "/#/jurisdictions/#{@jurisdiction.id}"
+  visit "/jurisdictions/#{@jurisdiction.id}"
 end
 
 When(/^I propose a law$/) do
@@ -58,7 +58,7 @@ end
 Given(/^I proposed a law$/) do
   step "a proposed law exists"
   step "I log in as owner of the proposed law"
-  visit "/#/proposed-laws/#{@proposed_law.id}/node/"
+  visit "/proposed-laws/#{@proposed_law.id}/node/"
 end
 
 When(/^I remove the proposed law$/) do
@@ -151,7 +151,7 @@ end
 Given(/^initialization has completed$/) do
   step "all jobs have run"
   start = Time.now
-  until Capybara.current_session.evaluate_script('window.location.hash;') =~ /\/node\/$/ do
+  until Capybara.current_session.current_path =~ /\/node\/$/ do
     raise 'Timed out waiting for initialization to complete' if Time.now - start > 10.seconds
     sleep 0.01
   end

@@ -58,10 +58,9 @@ Then(/^I should be logged out$/) do
 end
 
 Then /^I should( not)? be on the home page$/ do |negate|
-  location = Capybara.current_session.evaluate_script 'window.location.hash;'
   if negate
-    expect( location ).not_to eql '/'
+    expect( current_path ).not_to eql '/'
   else
-    expect( location ).to eql '/'
+    expect( current_path ).to eql '/'
   end
 end

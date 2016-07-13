@@ -117,7 +117,7 @@ When(/^I remove ([A-Z][a-z]+ [A-Z][a-z]+) from the users listing$/) do |user|
 end
 
 When(/^I jump to the users listing$/) do
-  visit '/#/users'
+  visit '/users'
 end
 
 When /^I go to edit ([A-Z][a-z]+ [A-Z][a-z]+) in the users listing$/ do |name|

@@ -1,5 +1,5 @@
 When(/^I go to adopt the proposed law$/) do
-  visit "/#/proposed-laws/#{@proposed_law.id}"
+  visit "/proposed-laws/#{@proposed_law.id}"
   within(:css, 'h2') do
     find( :xpath, ".//a[contains(.,'Adopt Law')]" ).click
   end
@@ -64,7 +64,7 @@ Given(/^an adopted law exists$/) do
 end
 
 When(/^I go to the adopted laws listing for the jurisdiction$/) do
-  visit "/#/jurisdictions/#{@jurisdiction.id}/adopted-laws"
+  visit "/jurisdictions/#{@jurisdiction.id}/adopted-laws"
 end
 
 Then(/^I should see the adopted law$/) do

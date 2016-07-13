@@ -50,4 +50,8 @@ Rails.application.routes.draw do
       to: "proposed_laws#index", via: :get, constraints: { jurisdiction_id: /[0-9]+/,
         page: /[0-9]+/ }
   end
+  get '/sign-in', to: redirect { |params,request|
+    request.fullpath.gsub /\/sign-in\?/, '/?goto=sign-in&'
+  }
+  get '/*path' => redirect("/?goto=%{path}")
 end

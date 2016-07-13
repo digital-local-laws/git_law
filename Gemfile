@@ -35,6 +35,7 @@ end
 group :test do
   gem 'codeclimate-test-reporter'
   gem 'pundit-matchers'
+  gem 'webmock'
 end
 group :development, :test do
   # gem 'therubyracer'

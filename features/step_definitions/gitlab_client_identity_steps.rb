@@ -32,6 +32,7 @@ When(/^I add a gitlab client identity$/) do
   fill_in 'Host', with: 'example.com'
   fill_in 'App Id', with: 'auser'
   fill_in 'App Secret', with: 'aa1b1b1sb1bwb1wb1beheeh3eb3eb23heb2'
+  stub_request( :get, 'example.com' )
   click_button 'Register Identity'
 end
 

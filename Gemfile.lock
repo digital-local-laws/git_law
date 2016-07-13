@@ -83,6 +83,8 @@ GEM
     coderay (1.1.1)
     concurrent-ruby (1.0.2)
     connection_pool (2.2.0)
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
     cucumber (2.3.3)
       builder (>= 2.1.2)
       cucumber-core (~> 1.4.0)
@@ -157,6 +159,7 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
+    hashdiff (0.3.0)
     hashie (3.4.3)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
@@ -297,6 +300,7 @@ GEM
     rspec-support (3.4.1)
     ruby-filemagic (0.7.1)
     rubyzip (1.2.0)
+    safe_yaml (1.0.4)
     sawyer (0.7.0)
       addressable (>= 2.3.5, < 2.5)
       faraday (~> 0.8, < 0.10)
@@ -343,6 +347,10 @@ GEM
       binding_of_caller (>= 0.7.2)
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
+    webmock (2.1.0)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
     websocket (1.2.3)
     websocket-driver (0.6.3)
       websocket-extensions (>= 0.1.0)
@@ -399,6 +407,7 @@ DEPENDENCIES
   spring-commands-rspec
   tzinfo-data
   web-console (~> 2.0)
+  webmock
 
 BUNDLED WITH
    1.12.5

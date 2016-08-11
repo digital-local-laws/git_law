@@ -12,7 +12,7 @@ gem 'bcrypt',
 gem 'mongoid', '~> 4.0'
 gem 'pundit'
 gem 'bson_ext'
-gem 'devise', '~> 4.0.0'
+gem 'devise', '~> 4.2'
 gem 'devise_token_auth'
 gem 'decent_exposure'
 gem 'kaminari'

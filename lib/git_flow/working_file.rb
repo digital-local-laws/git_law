@@ -58,14 +58,12 @@ module GitFlow
     end
 
     def is_node?
-      file_name =~ /\.json$/
+      file_name =~ /\.adoc$/
     end
 
     # Instantiates a node object for this file, if it is a node file
     def node
-      if root?
-        git_flow_repo.working_file_node_class.new git_flow_repo, tree
-      elsif is_node?
+      if root? || is_node?
         git_flow_repo.working_file_node_class.new git_flow_repo, tree
       else
         false

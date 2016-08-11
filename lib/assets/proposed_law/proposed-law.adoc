@@ -1,0 +1,12 @@
+---
+structure:
+- label: Section
+  number: 1
+  title: true
+- label: Sub-Section
+  number: a
+  optional: true
+  title: false
+title: Proposed Law
+type: code
+---

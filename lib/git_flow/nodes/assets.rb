@@ -1,24 +1,10 @@
+require 'yaml/front-matter'
+
 module GitFlow
   module Nodes
     # This module includes methods for computing the location of and accessing
     # file assets associated with the node
     module Assets
-
-      # Returns textual content file associated with the node
-      def text_file
-        return @text_file unless @text_file.nil?
-        @text_file = git_flow_repo.working_file tree_text_file
-      end
-
-      # Initialize the text file associated with this node, if applicable
-      def initialize_text_file
-        text_file.create if node_type && node_type["text"] && !text_file.exists?
-      end
-
-      # Remove the text file associated with this node
-      def remove_text_file
-        text_file.destroy if text_file.exists?
-      end
 
       # Get container file in which this node is located
       def container_file
@@ -56,12 +42,12 @@ module GitFlow
 
       # What is the path to the parent node in the git repo?
       def tree_parent_node
-        tree_parent + ".json"
+        tree_parent + ".adoc"
       end
 
       # What is the path to the parent node in the git repo?
       def absolute_parent_node_path
-        absolute_parent_path + ".json"
+        absolute_parent_path + ".adoc"
       end
 
       # What is the path to the parent directory in the git repo?
@@ -85,11 +71,6 @@ module GitFlow
       # In absolute path, where is the working file for the node, without extension?
       def absolute_path_base
         absolute_path.gsub File.extname( absolute_path ), ''
-      end
-
-      # In git repo, where is the content file?
-      def tree_text_file
-        tree_base + ".asc"
       end
 
     end

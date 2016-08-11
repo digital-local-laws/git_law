@@ -26,36 +26,46 @@ module GitFlow
       end
 
       module InstanceMethods
-        JSON_WRITE_OPTIONS = {
-          indent: '  ',
-          space: ' ',
-          object_nl: "\n",
-          array_nl: "\n"
-        }
-
         # Retrieves the attributes of this node
-        # JSON contents of node are parsed and returned as a hash
+        # YAML contents of node are parsed from frontmatter and returned as a hash
         def attributes
           return @attributes unless @attributes.nil?
           @attributes =
           if root?
             { "title" => "/" }
           elsif exists? || content.present?
-            JSON.parse content
+            extract_front_matter
+            attributes
           else
             { }
           end
         end
 
+        # Retrieves text content of this node
+        # YAML frontmatter is removed and returned as string
+        def text
+          return @text unless @text.nil?
+          if exists? || content.present?
+            extract_front_matter
+          else
+            @text = ''
+          end
+          text
+        end
+
+        def text=( t )
+          @text = t
+        end
+
         # Returns attributes sorted
-        # Useful for writing attributes to JSON in predictable order
+        # Useful for writing attributes in predictable order
         def sorted_attributes
           self.class.sorted_attributes attributes
         end
 
         # Returns sorted_attributes as JSON content suitable to write to file
         def attributes_to_content
-          self.content = JSON.generate( sorted_attributes, JSON_WRITE_OPTIONS )
+          self.content = "#{YAML.dump( sorted_attributes )}---\n#{text}"
         end
 
         # Set attribute values from hash
@@ -123,6 +133,12 @@ module GitFlow
           ancestor_nodes.reject(&:root?).reject { |ancestor|
             ancestor.tree == tree
           }.map(&:node_short_title).join(', ')
+        end
+
+        private
+
+        def extract_front_matter
+          @attributes, @text = YAML::FrontMatter.extract content
         end
       end
     end

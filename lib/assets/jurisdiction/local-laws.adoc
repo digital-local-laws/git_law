@@ -1,0 +1,11 @@
+---
+structure:
+- label: Year
+  number: 1
+  title: false
+- label: Number
+  number: 1
+  title: true
+title: Local Laws
+type: code
+---

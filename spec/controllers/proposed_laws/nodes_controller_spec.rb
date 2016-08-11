@@ -5,7 +5,7 @@ RSpec.describe ProposedLaws::NodesController, type: :controller do
 
   let(:proposed_law_node) {
     proposed_law.working_repo
-    node = proposed_law.working_file('city-charter.json').node
+    node = proposed_law.working_file('city-charter.adoc').node
     node.attributes['title'] = 'City Charter'
     expect( node.save ).to be true
     node
@@ -13,12 +13,12 @@ RSpec.describe ProposedLaws::NodesController, type: :controller do
   let(:proposed_law_nodes) {
     proposed_law.working_repo
     nodes = [
-      proposed_law.working_file('gamma.json').node,
-      proposed_law.working_file('beta.json').node,
-      proposed_law.working_file('alpha.json').node
+      proposed_law.working_file('gamma.adoc').node,
+      proposed_law.working_file('beta.adoc').node,
+      proposed_law.working_file('alpha.adoc').node
     ]
     nodes.each do |node|
-      node.attributes['title'] = node.tree.gsub( /\.json$/, '' )
+      node.attributes['title'] = node.tree.gsub( /\.adoc$/, '' )
       expect( node.save ).to be true
     end
     nodes
@@ -51,7 +51,7 @@ RSpec.describe ProposedLaws::NodesController, type: :controller do
 
     it "should return 404 error if queried node does not exist" do
       proposed_law_node
-      get :index, default_params.merge( tree_base: 'omega.json' )
+      get :index, default_params.merge( tree_base: 'omega.adoc' )
       expect( response ).to have_http_status 404
     end
   end
@@ -70,7 +70,7 @@ RSpec.describe ProposedLaws::NodesController, type: :controller do
     end
 
     it "should return a 404 error if node does not exist" do
-      get :show, default_params.merge( tree_base: 'omega.json' )
+      get :show, default_params.merge( tree_base: 'omega.adoc' )
       expect( response ).to have_http_status 404
     end
   end

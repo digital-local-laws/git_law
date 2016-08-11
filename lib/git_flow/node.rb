@@ -5,7 +5,7 @@ require 'git_flow/nodes/relations'
 module GitFlow
 
   # This class represents a node in the structure of a legal document.
-  # A node consists of a metadata JSON file and any other files in the same
+  # A node consists of an ADOC file and any other files in the same
   # directory that share the name of that metadata file but have a different
   # extension.
   class Node < WorkingFile
@@ -14,11 +14,10 @@ module GitFlow
     include GitFlow::Nodes::Attributes::InstanceMethods
     include GitFlow::Nodes::Relations
 
-    before_create :initialize_container_file, :initialize_text_file,
-      :attributes_to_content
+    before_create :initialize_container_file, :attributes_to_content
     before_update :attributes_to_content
     before_destroy :remove_child_nodes
-    after_destroy :remove_text_file, :remove_container_file
+    after_destroy :remove_container_file
 
     # Generate appropriate file_name for a sibling node with new attributes
     # that are different from the present node
@@ -33,7 +32,7 @@ module GitFlow
       name.gsub!( /[^a-z0-9]+/, '-' )
       name.gsub!( /^-/, '' )
       name.gsub!( /-$/, '' )
-      "#{name}.json"
+      "#{name}.adoc"
     end
 
     def <=>(other)
@@ -48,7 +47,7 @@ module GitFlow
       super( git_flow_repo, tree )
     end
 
-    def self.to_reference( tree ); tree.chomp('.json').gsub( /\// , '_' ); end
+    def self.to_reference( tree ); tree.chomp('.adoc').gsub( /\// , '_' ); end
 
     def to_reference; self.class.to_reference tree; end
 
@@ -64,7 +63,7 @@ module GitFlow
       end
       parts += target_parts
       target_tree = parts.join "/"
-      target_node = git_flow_repo.working_file( target_tree + ".json" ).node
+      target_node = git_flow_repo.working_file( target_tree + ".adoc" ).node
       if parts.length > 1
         if target_node.exists?
           [ self.class.to_reference( parts.join('/') ), target_node ]
@@ -87,9 +86,6 @@ module GitFlow
       to_node = move_to_node( to_tree )
       return false unless to_node
       new_file = super( to_tree, force: true )
-      if text_file.exists?
-        text_file.move to_node.text_file.tree, force: true
-      end
       if child_container_file.exists?
         child_container_file.move to_node.child_container_file.tree
       end
@@ -100,7 +96,6 @@ module GitFlow
     def move_to_node( to_tree )
       to_node = git_flow_repo.working_file( to_tree ).node
       return false if to_node.exists?
-      return false if to_node.text_file.exists?
       return false if to_node.child_container_file.exists?
       return false unless to_node.create
       to_node

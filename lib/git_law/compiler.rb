@@ -30,7 +30,7 @@ module GitLaw
 
     # File in which output will be placed
     def out_path
-      @out_path ||= File.join out_base, node.text_file.file_name
+      @out_path ||= File.join out_base, node.file_name
     end
 
     # Close compilation of this node

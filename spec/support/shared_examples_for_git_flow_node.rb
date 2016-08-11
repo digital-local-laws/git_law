@@ -39,7 +39,7 @@ RSpec.shared_examples 'a git flow node repo' do
     it 'should create a root node with basic parameters' do
       expect( node ).to be_a GitFlow::Node
       expect( File.exist? node.absolute_path ).to be true
-      attributes = JSON.parse File.read node.absolute_path
+      attributes, text = YAML::FrontMatter.extract File.read node.absolute_path
       expect( attributes ).to be_a Hash
       expect( attributes["title"] ).to eql "Tompkins County Code"
       expect( node.parent_node.tree ).to eql ''
@@ -96,7 +96,6 @@ RSpec.shared_examples 'a git flow node repo' do
       expect( node.allowed_child_node_types ).to be_empty
       expect( node.node_structure.first["label"] ).to eql "chapter"
       expect( node.node_type["label"] ).to eql "chapter"
-      expect( node.text_file.exists? ).to eql true
     end
 
 
@@ -105,7 +104,7 @@ RSpec.shared_examples 'a git flow node repo' do
       toTree = middle_node.tree.gsub /part\-1/, 'part-2'
       newNode = middle_node.move toTree
       expect( middle_node.exists? ).to be false
-      expect( newNode.tree ).to eql File.join middle_node.tree_parent, 'part-2.json'
+      expect( newNode.tree ).to eql File.join middle_node.tree_parent, 'part-2.adoc'
       expect( File.exist? middle_node.child_container_file.absolute_path ).to be false
       expect( newNode.child_container_file.exists? ).to be true
       expect( File.exist? newNode.child_container_file.absolute_path ).to be true
@@ -113,12 +112,10 @@ RSpec.shared_examples 'a git flow node repo' do
     end
 
     it "should move the node correctly within level" do
-      toTree = node.tree.gsub /\-1\.json/, '-2.json'
+      toTree = node.tree.gsub /\-1\.adoc/, '-2.adoc'
       newNode = node.move toTree
       expect( node.exists? ).to be false
-      expect( newNode.tree ).to eql File.join node.tree_parent, 'chapter-2.json'
-      expect( newNode.text_file.tree ).to match /chapter-2.asc$/
-      expect( File.exist? newNode.text_file.absolute_path ).to be true
+      expect( newNode.tree ).to eql File.join node.tree_parent, 'chapter-2.adoc'
     end
 
     it "should allow leaf to attach directly to root if middle is optional" do
@@ -155,13 +152,13 @@ RSpec.shared_examples 'a git flow node repo' do
       expect( text ).to include ":doctype: book\n"
       expect( text ).to include ":!sectnums:\n"
       expect( text ).to include "\n\n// tag::tompkins-county-code_content[]"
-      expect( text ).to include "\n\ninclude::tompkins-county-code/part-1.asc[]"
+      expect( text ).to include "\n\ninclude::tompkins-county-code/part-1.adoc[]"
       expect( text ).to include "\n\n// end::tompkins-county-code_content[]"
       text = compiled_text middle_node
       expect( text ).to match /^== Part I. General Provisions/
       expect( text ).not_to include ":doctype: book\n"
       expect( text ).not_to include ":!sectnums:\n"
-      expect( text ).to include "\n\ninclude::part-1/chapter-1.asc[]"
+      expect( text ).to include "\n\ninclude::part-1/chapter-1.adoc[]"
       text = compiled_text leaf_node
       expect( text ).to match /^=== Chapter 1. Administrative Provisions/
     end
@@ -190,14 +187,13 @@ RSpec.shared_examples 'a git flow node repo' do
     context "containing references" do
       let(:ref_node) do
         ref_node = repo.working_file( File.join middle_node.tree_base,
-          'chapter-2.json' ).node
+          'chapter-2.adoc' ).node
         ref_node.attributes = {
           "title" => "Reference to Administrative Provisions",
           "number" => "2"
         }
+        ref_node.text = "See <<#{ref_node_text}>>"
         ref_node.save
-        ref_node.text_file.content = "See <<#{ref_node_text}>>"
-        ref_node.text_file.save
         ref_node
       end
 

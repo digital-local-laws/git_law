@@ -83,7 +83,7 @@ module ProposedLaws
       return @to_tree unless @to_tree.nil?
       @to_tree =
       if to_tree_base
-        "#{to_tree_base}.json"
+        "#{to_tree_base}.adoc"
       else
         false
       end
@@ -94,7 +94,7 @@ module ProposedLaws
     end
 
     def tree
-      @tree ||= tree_base && tree_base.present? ? "#{tree_base}.json" : ''
+      @tree ||= tree_base && tree_base.present? ? "#{tree_base}.adoc" : ''
     end
 
     # Move the node, then update the moved node

@@ -30,7 +30,7 @@ RSpec.shared_context 'authorization' do
     create :adopted_law, proposed_law: proposed_law
   }
   let(:proposed_law_working_file) {
-    proposed_law.working_file('code.json')
+    proposed_law.working_file('code.adoc')
   }
   let(:proposed_law_node) {
     proposed_law_working_file.node

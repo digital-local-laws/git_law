@@ -17,7 +17,7 @@ RSpec.shared_context 'a structured git flow node' do
   end
 
   let(:root_node) do
-    node = repo.working_file("tompkins-county-code.json").node
+    node = repo.working_file("tompkins-county-code.adoc").node
     node.attributes["title"] = "Tompkins County Code"
     node.save
     node
@@ -26,7 +26,7 @@ RSpec.shared_context 'a structured git flow node' do
   let(:middle_node) do
     root_node.attributes["structure"] = structure
     root_node.save
-    node = repo.working_file( File.join root_node.tree_base, 'part-1.json' ).node
+    node = repo.working_file( File.join root_node.tree_base, 'part-1.adoc' ).node
     node.attributes = {
       "type" => "part",
       "title" => "General Provisions",
@@ -38,7 +38,7 @@ RSpec.shared_context 'a structured git flow node' do
 
   let (:leaf_node) do
     node = repo.working_file( File.join middle_node.tree_base,
-      'chapter-1.json' ).node
+      'chapter-1.adoc' ).node
     node.attributes = {
       "type" => "chapter",
       "title" => "Administrative Provisions",

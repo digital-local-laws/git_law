@@ -98,6 +98,11 @@ RSpec.shared_examples 'a git flow node repo' do
       expect( node.node_type["label"] ).to eql "chapter"
     end
 
+    it "should permit leaf node text to be set through attributes", focus: true do
+      node.attributes = { 'text' => "Some text for child node." }
+      expect( node.save ).to be true
+      expect( repo.working_file(node.tree).node.text ).to eql "Some text for child node."
+    end
 
     it 'should move the middle child node correctly within same level' do
       node

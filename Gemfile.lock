@@ -111,14 +111,14 @@ GEM
     delayed_job_active_record (4.1.0)
       activerecord (>= 3.0, < 5)
       delayed_job (>= 3.0, < 5)
-    devise (4.2.0)
+    devise (4.0.3)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0, < 5.1)
       responders
       warden (~> 1.2.3)
-    devise_token_auth (0.1.38)
-      devise (> 3.5.2, <= 4.2)
+    devise_token_auth (0.1.37)
+      devise (> 3.5.2, < 4.1)
       rails (< 6)
     diff-lcs (1.2.5)
     docile (1.1.5)
@@ -379,8 +379,8 @@ DEPENDENCIES
   database_cleaner
   decent_exposure
   delayed_job_active_record
-  devise (~> 4.2)
-  devise_token_auth
+  devise (~> 4.0)
+  devise_token_auth (= 0.1.37)
   factory_girl_rails
   git
   gitlab

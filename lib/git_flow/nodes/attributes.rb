@@ -45,7 +45,9 @@ module GitFlow
         # YAML frontmatter is removed and returned as string
         def text
           return @text unless @text.nil?
-          if exists? || content.present?
+          if root?
+            @text = false
+          elsif exists? || content.present?
             extract_front_matter
           else
             @text = ''
@@ -70,6 +72,10 @@ module GitFlow
 
         # Set attribute values from hash
         def attributes=(values)
+          if values['text']
+            text = values.delete 'text'
+            self.text = text
+          end
           attributes.merge! values
           attributes
         end
@@ -79,7 +85,7 @@ module GitFlow
           return @node_type unless @node_type.nil?
           @node_type =
           if root?
-            { title: true }
+            { title: true, text: false }
           elsif attributes["type"]
             allowed_node_types.find { |type| type["label"] == attributes["type"] }
           elsif allowed_node_types.length == 1

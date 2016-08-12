@@ -72,9 +72,9 @@ module GitFlow
 
         # Set attribute values from hash
         def attributes=(values)
+          attributes
           if values['text']
-            text = values.delete 'text'
-            self.text = text
+            self.text = values.delete 'text'
           end
           attributes.merge! values
           attributes

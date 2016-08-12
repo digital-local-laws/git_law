@@ -48,20 +48,8 @@
       </table>
     </uib-tab>
     <uib-tab heading="Text" ng-if="proposedLawNode.nodeType.text">
-      <div class="col-xs-9" ng-if="proposedLawFile">
-        <div class="text-center alert alert-info">
-          <span ng-if="saveInProgress">Saving...</span>
-          <span ng-if="!saveInProgress">Saved.</span>
-        </div>
-        <gl-file-content gl-file="proposedLawFile" gl-on-load="setupEditor"></gl-file-content>
-      </div>
-      <div class="col-xs-9" ng-if="!proposedLawFile">
-        <p>
-          No text content exists for this {{proposedLawNode.nodeType.label}}.
-          <button class="btn btn-link" ng-click="createProposedLawFile()">
-            Click here to add text.
-          </button>
-        </p>
+      <div class="col-xs-9">
+        <gl-file-content gl-file="proposedLawNode" gl-text="proposedLawNode.text" gl-on-change="saveContent(newVal,callback)" gl-on-load="setupEditor(editor)"></gl-file-content>
       </div>
     </uib-tab>
   </uib-tabset>

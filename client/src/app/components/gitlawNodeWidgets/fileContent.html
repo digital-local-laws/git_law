@@ -1,3 +1,10 @@
 <div class="row">
-  <div ng-model="file.content" ui-ace="{mode: editorMode(file), onLoad: onLoad, useWrapMode: true}"></div>
+  <div class="text-center alert alert-info">
+    <span ng-if="saveInProgress">Saving...</span>
+    <span ng-if="!saveInProgress">Saved.</span>
+  </div>
+</div>
+<div class="row">
+  <!-- <div ng-model="text" ui-ace="{mode: editorMode, onLoad: onLoad, useWrapMode: true}"></div> -->
+  <div ng-model="text" ui-ace="{onLoad: onLoad, useWrapMode: true}"></div>
 </div>

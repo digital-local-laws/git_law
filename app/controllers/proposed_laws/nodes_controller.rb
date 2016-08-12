@@ -110,7 +110,9 @@ module ProposedLaws
 
     # Update the node in place
     def update_node
+      logger.info "Attributes received: #{attributes}"
       node.attributes = attributes
+      logger.info "Node has #{node.text}"
       node.update
     end
 

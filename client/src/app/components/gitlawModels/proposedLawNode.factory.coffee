@@ -15,6 +15,13 @@ angular.module 'gitlawModels'
           url: '/api/proposed_laws/:proposedLawId/nodes/:treeBase.:format'
         save:
           method: 'PATCH'
+        saveText:
+          method: 'PATCH'
+          transformRequest: (data) ->
+            angular.toJson(
+              attributes:
+                text: data.text
+            )
         create:
           method: 'POST'
       }

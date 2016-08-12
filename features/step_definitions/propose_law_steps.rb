@@ -159,7 +159,7 @@ end
 
 When(/^I add an? (\w+) to the (\w+) in the code$/) do |child, parent|
   @proposed_law = ProposedLaw.first
-  structure = @proposed_law.working_file('tompkins-county-code.json').node.attributes["structure"]
+  structure = @proposed_law.working_file('tompkins-county-code.adoc').node.attributes["structure"]
   labels = structure.map { |level| level['label'] }
   unless parent == 'root'
     unless labels.include? parent
@@ -200,9 +200,9 @@ When(/^saving has completed$/) do
   end
 end
 
-Then(/^the section should should be changed$/) do
+Then(/^the section should be changed$/) do
   step "saving has completed"
-  expect( @proposed_law.working_file( proposed_law_text_file_tree ).content
+  expect( @proposed_law.working_file( proposed_law_node_tree ).node.text
     ).to include "This is the start of a code."
 end
 
@@ -268,24 +268,6 @@ Given /^the modal has vanished$/ do
   end
 end
 
-Given /^the (\w+) has no text$/ do |label|
-  @proposed_law.working_file( proposed_law_text_file_tree ).destroy
-  expect( @proposed_law.working_file( proposed_law_text_file_tree ).exists? ).to be false
-  click_link "Chapter 1"
-  click_link "Section 1. A new section"
-end
-
-When /^I add text to the (\w+)$/ do |label|
-  click_link "Text"
-  expect( page ).to have_text "No text content exists for this #{label}."
-  click_button "Click here to add text."
-end
-
-Then /^text should be added to the (\w+)$/ do |label|
-  step "saving has completed"
-  expect( @proposed_law.working_file( proposed_law_text_file_tree ).exists? ).to be true
-end
-
 When /^I rename the code$/ do
   click_link @proposed_law.title
   within( :xpath, "//tr[contains(.,'Tompkins County Code')]" ) do
@@ -300,6 +282,6 @@ Then /^the code should be renamed$/ do
     expect( page ).to have_text "Tioga County Code"
     expect( page ).to have_no_text "Tompkins County Code"
   end
-  expect( @proposed_law.working_file('tompkins-county-code.json').exists? ).to be false
-  expect( @proposed_law.working_file('tioga-county-code.json').exists? ).to be true
+  expect( @proposed_law.working_file('tompkins-county-code.adoc').exists? ).to be false
+  expect( @proposed_law.working_file('tioga-county-code.adoc').exists? ).to be true
 end

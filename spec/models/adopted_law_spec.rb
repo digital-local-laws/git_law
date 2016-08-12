@@ -20,7 +20,7 @@ RSpec.describe AdoptedLaw, type: :model do
     expect( second_law.number_in_year ).to eql 2
   end
 
-  it "should not save without adopted_on date", focus: true do
+  it "should not save without adopted_on date" do
     adopted_law.adopted_on = nil
     expect( adopted_law.save ).to be false
     expect( adopted_law.errors[:adopted_on] ).to include "can't be blank"

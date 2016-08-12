@@ -98,7 +98,7 @@ RSpec.shared_examples 'a git flow node repo' do
       expect( node.node_type["label"] ).to eql "chapter"
     end
 
-    it "should permit leaf node text to be set through attributes", focus: true do
+    it "should permit leaf node text to be set through attributes" do
       node.attributes = { 'text' => "Some text for child node." }
       expect( node.save ).to be true
       expect( repo.working_file(node.tree).node.text ).to eql "Some text for child node."
@@ -138,7 +138,7 @@ RSpec.shared_examples 'a git flow node repo' do
     end
   end
 
-  context "root node with children", focus: true do
+  context "root node with children" do
     def compiled_text(node)
       f = File.open node.compile(:node).out_path
       text = f.read

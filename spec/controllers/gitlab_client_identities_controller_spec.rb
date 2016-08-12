@@ -101,7 +101,7 @@ RSpec.describe GitlabClientIdentitiesController, type: :controller do
       expect( response ).to render_template 'gitlab_client_identities/show'
     end
 
-    it "should raise an error with invalid parameters", focus: true do
+    it "should raise an error with invalid parameters" do
       valid_params.delete :code
       post :create, default_params.merge( valid_params )
       expect( response ).to have_http_status 422
